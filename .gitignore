@@ -1,0 +1,67 @@
+### Android ###
+
+*.iml
+.gradle
+/android/local.properties
+/android/.idea/caches
+/android/.idea/libraries
+/android/.idea/modules.xml
+/android/.idea/workspace.xml
+/android/.idea/navEditor.xml
+/android/.idea/assetWizardSettings.xml
+.DS_Store
+/android/build
+/android/captures
+.externalNativeBuild
+.cxx
+secrets.xml
+
+
+
+
+
+
+
+### Arduino ###
+Secrets.h
+
+
+
+
+
+
+
+### Server ###
+HELP.md
+.gradle
+build/
+!server/gradle/wrapper/gradle-wrapper.jar
+!/server/**/src/main/**
+!/server/**/src/test/**
+firebase-secrets.json
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
