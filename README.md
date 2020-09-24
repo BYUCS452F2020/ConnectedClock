@@ -1,4 +1,4 @@
-# Weasleys' Magical Clock
+# Connected Clock
 Create a magical Weasley clock using muggle technology.
 
 In the Harry Potter universe, the Weasley family has a magical clock in their kitchen. Instead of telling time, this clock's hands tell the location of each of the family members. Each hand of the clock has a picture of a family member and the hand points at different labels on the clock face such as Home, Quidditch, School, Lost, and Mortal Peril. While the Weasley family used magic to accomplish this, we muggles could just as well accomplish this project by using technology.
