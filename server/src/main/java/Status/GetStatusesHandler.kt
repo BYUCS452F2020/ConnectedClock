@@ -13,10 +13,10 @@ class GetStatusesHandler : RequestHandler<GetStatusesRequest, GetStatusesRespons
                 val statuses = statusService.getStatuses(request.authToken)
                 return GetStatusesResponse(statuses)
             } catch (e: NotAuthorizedException) {
-
+                return GetStatusesResponse("Not Authorized")
             }
         }
 
-        return GetStatusesResponse(listOf())
+        return GetStatusesResponse("Invalid Request")
     }
 }

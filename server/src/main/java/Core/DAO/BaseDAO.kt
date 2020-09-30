@@ -8,35 +8,60 @@ import java.sql.ResultSet
 open class BaseDAO {
     // https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-rds.html
     protected fun openConnection(): Connection {
-        // TODO: Connect to AWS RDS
         val url = System.getenv("RDS_DB_URL")
         val user = System.getenv("RDS_USERNAME")
         val password = System.getenv("RDS_PASSWORD")
         return DriverManager.getConnection(url, user, password)
     }
 
+    protected fun closeConnection(connection: Connection) {
+        connection.close()
+    }
+
     // https://stackoverflow.com/a/46359673/6634972 Automatically mapping from ResultSet to Java Object
-    protected inline fun <reified T> getQueryResults(resultSet: ResultSet): List<T> {
-        val resultObjectFields = T::class.java.fields
+    protected fun <T> getQueryResults(clazz: Class<T>, resultSet: ResultSet): List<T> {
+        val resultObjectFields = clazz.declaredFields
         val resultList = mutableListOf<T>()
         while (resultSet.next()) {
-            val resultObject = T::class.java.getConstructor().newInstance()
+            val resultObject = clazz.getConstructor().newInstance()
             resultObjectFields.forEach { field ->
                 val columnAnnotation = field.getAnnotation(ColumnAnnotation::class.java)
                 columnAnnotation?.let {
                     val columnName = columnAnnotation.columnName
-                    val columnValue = resultSet.getString(columnName)
-                    field.set(resultObject, field.type.getConstructor().newInstance(columnValue))
+                    val columnValue = resultSet.getObject(columnName)
+
+                    val isFieldPrivate = field.isAccessible
+                    field.isAccessible = true
+                    field.set(resultObject, columnValue)
+                    field.isAccessible = isFieldPrivate
                 }
             }
             resultList.add(resultObject)
         }
-
         return resultList
     }
 
-    protected fun closeConnection(connection: Connection) {
-        // TODO: Close connection to AWS RDS
-        connection.close()
+    protected inline fun <reified T> getSimpleQueryResults(resultSet: ResultSet): List<T> {
+        val resultList = mutableListOf<T>()
+        while (resultSet.next()) {
+            val resultValue = resultSet.getObject(1) as T?
+            resultValue?.let {
+                resultList.add(it)
+            }
+        }
+        return resultList
+    }
+
+    // If our SQL files have multiple statements, they need to be split up and added together as a batch.
+    protected fun executeBatch(connection: Connection, sql: String) {
+        val statements = sql.split(";")
+        val batchStatement = connection.createStatement()
+        statements.forEach {
+            if (!it.isBlank()) {
+                val statement = "$it;"
+                batchStatement.addBatch(statement)
+            }
+        }
+        batchStatement.executeBatch()
     }
 }
