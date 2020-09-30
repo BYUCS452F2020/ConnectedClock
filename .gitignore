@@ -39,6 +39,7 @@ build/
 !/server/**/src/main/**
 !/server/**/src/test/**
 firebase-secrets.json
+secrets.properties
 
 # STS
 .apt_generated
