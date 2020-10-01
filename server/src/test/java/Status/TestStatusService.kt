@@ -30,7 +30,12 @@ class TestStatusService : BaseTest() {
         val validGroupAuthToken = "7af562ed-46bd-429b-8bcd-2d85e76d9a10"
         val validGroupStatuses = statusService.getStatuses(validGroupAuthToken)
         val expectedValidGroupStatuses = listOf(
-            Status("32f85320-92e0-4382-a5ae-d71b562422c5", 12.7, "Mortal Peril", "2bc8f348-fce4-4df6-9795-deff8e721c7a"),
+            Status(
+                "32f85320-92e0-4382-a5ae-d71b562422c5",
+                12.7,
+                "Mortal Peril",
+                "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+            ),
             Status("92a3db1e-99b6-45d1-92e6-2c47720e620e", 42.9, "Home", "2bc8f348-fce4-4df6-9795-deff8e721c7a"),
             Status("ed9ceea8-b059-4e00-b35e-83be6e63c497", 101.0, "School", "2bc8f348-fce4-4df6-9795-deff8e721c7a")
         )
@@ -42,13 +47,11 @@ class TestStatusService : BaseTest() {
 
 
         val invalidAuthToken = ""
-        try {
+        assertThrowsException(
+            "Should have thrown 'NotAuthorizedException' because invalid AuthToken",
+            NotAuthorizedException::class.java
+        ) {
             val invalidStatuses = statusService.getStatuses(invalidAuthToken)
-            assertTrue("Should have thrown 'NotAuthorizedException' because invalid AuthToken", false)
-        }
-        catch(e: NotAuthorizedException) { }
-        catch(e: Exception) {
-            assertTrue("Should have thrown 'NotAuthorizedException', but '$e' was thrown instead", false)
         }
     }
 }

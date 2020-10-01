@@ -1,22 +1,21 @@
 package Status
 
+import Core.Handler.AuthorizedRequest
+import Core.Handler.BaseHandler
+import Core.Handler.BaseResponse
 import Core.NotAuthorizedException
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
 
-class GetStatusesHandler : RequestHandler<GetStatusesRequest, GetStatusesResponse> {
+class GetStatusesHandler : BaseHandler<AuthorizedRequest>() {
 
-    override fun handleRequest(request: GetStatusesRequest?, context: Context?): GetStatusesResponse {
-        request?.let {
-            val statusService = StatusService()
-            try {
-                val statuses = statusService.getStatuses(request.authToken)
-                return GetStatusesResponse(statuses)
-            } catch (e: NotAuthorizedException) {
-                return GetStatusesResponse("Not Authorized")
-            }
+    override fun handleRequest(request: AuthorizedRequest): BaseResponse {
+        val statusService = StatusService()
+        return try {
+            val statuses = statusService.getStatuses(request.authToken)
+            GetStatusesResponse(statuses)
+        } catch (e: NotAuthorizedException) {
+            GetStatusesResponse("Not Authorized")
         }
-
-        return GetStatusesResponse("Invalid Request")
     }
 }

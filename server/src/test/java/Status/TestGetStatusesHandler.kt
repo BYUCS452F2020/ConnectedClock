@@ -1,6 +1,7 @@
 package Status
 
 import BaseTest
+import Core.Handler.AuthorizedRequest
 import org.junit.Test
 import org.junit.Assert.*
 
@@ -9,7 +10,7 @@ class TestGetStatusesHandler : BaseTest() {
     fun testGetStatusesHandler() {
         val getStatusesHandler = GetStatusesHandler()
 
-        val validGetStatusesRequestUserID = GetStatusesRequest("e00f1c88-1d5b-4d32-be07-1018f39a26b2")
+        val validGetStatusesRequestUserID = AuthorizedRequest("e00f1c88-1d5b-4d32-be07-1018f39a26b2")
         val validGetStatusesResponseUserID = getStatusesHandler.handleRequest(validGetStatusesRequestUserID, null)
         val expectedValidGetStatusesResponseUserID = GetStatusesResponse(
             listOf(
@@ -23,7 +24,7 @@ class TestGetStatusesHandler : BaseTest() {
         assertEquals("Should return response with list of statuses for user's group", expectedValidGetStatusesResponseUserID, validGetStatusesResponseUserID)
 
 
-        val validGetStatusesRequestGroupID = GetStatusesRequest("7af562ed-46bd-429b-8bcd-2d85e76d9a10")
+        val validGetStatusesRequestGroupID = AuthorizedRequest("7af562ed-46bd-429b-8bcd-2d85e76d9a10")
         val validGetStatusesResponseGroupID = getStatusesHandler.handleRequest(validGetStatusesRequestGroupID, null)
         val expectedValidGetStatusesResponseGroupID = GetStatusesResponse(
             listOf(
@@ -35,7 +36,7 @@ class TestGetStatusesHandler : BaseTest() {
         assertEquals("Should return response with list of statuses for group", expectedValidGetStatusesResponseGroupID, validGetStatusesResponseGroupID)
 
 
-        val invalidGetStatusesRequest = GetStatusesRequest("invalidauthtoken")
+        val invalidGetStatusesRequest = AuthorizedRequest("invalidauthtoken")
         val invalidGetStatusesResponse = getStatusesHandler.handleRequest(invalidGetStatusesRequest, null)
         val expectedInvalidGetStatusesResponse = GetStatusesResponse("Not Authorized")
         assertEquals("Should return response with list of statuses for user's group", expectedInvalidGetStatusesResponse, invalidGetStatusesResponse)

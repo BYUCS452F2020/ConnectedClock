@@ -1,3 +1,3 @@
 package Core
 
-class NotAuthorizedException: Throwable()
+class NotAuthorizedException: Exception()
