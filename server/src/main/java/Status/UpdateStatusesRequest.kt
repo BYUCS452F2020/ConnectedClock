@@ -2,4 +2,4 @@ package Status
 
 import Core.Handler.AuthorizedRequest
 
-class UpdateStatusesRequest(_authToken: String, val updatedStatuses: List<Status>): AuthorizedRequest(_authToken)
+class UpdateStatusesRequest(_authToken: String = "", var updatedStatuses: List<Status> = listOf()): AuthorizedRequest(_authToken)

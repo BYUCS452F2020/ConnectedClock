@@ -32,10 +32,8 @@ open class BaseDAO {
                     val columnName = columnAnnotation.columnName
                     val columnValue = resultSet.getObject(columnName)
 
-                    val isFieldPrivate = field.isAccessible
                     field.isAccessible = true
                     field.set(resultObject, columnValue)
-                    field.isAccessible = isFieldPrivate
                 }
             }
             resultList.add(resultObject)

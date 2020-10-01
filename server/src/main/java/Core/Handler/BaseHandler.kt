@@ -3,21 +3,24 @@ package Core.Handler
 import Core.NotAuthorizedException
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
+import java.io.PrintWriter
+import java.io.StringWriter
 
-abstract class BaseHandler<I> : RequestHandler<I, BaseResponse> {
-    override fun handleRequest(request: I?, context: Context?): BaseResponse {
-        request?.let {
-            return try {
-                handleRequest(it)
-            } catch (e: NotAuthorizedException) {
-                BaseResponse("Not Authorized")
-            } catch (e: Exception) {
-                BaseResponse("An uncaught exception occurred: '${e}'\n\n${e.message}\n\n${e.stackTrace}")
-            }
+abstract class BaseHandler<T> : RequestHandler<T, BaseResponse> {
+    override fun handleRequest(input: T, context: Context?): BaseResponse? {
+        return try {
+            handle(input)
+        } catch (e: NotAuthorizedException) {
+            BaseResponse("Not Authorized")
+        } catch (e: Exception) {
+            val stringWriter = StringWriter()
+            val printWriter = PrintWriter(stringWriter)
+            e.printStackTrace(printWriter)
+            val stackTrace = stringWriter.toString()
+            BaseResponse("An uncaught exception occurred: '${e}'\n\n${e.message}\n\n${stackTrace}")
         }
-
-        return BaseResponse("Invalid Request")
     }
 
-    abstract fun handleRequest(request: I): BaseResponse
+    abstract fun handle(request: T): BaseResponse
 }
+
