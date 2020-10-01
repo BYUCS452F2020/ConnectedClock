@@ -8,6 +8,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler
 class UpdateStatusesHandler: BaseHandler<UpdateStatusesRequest>() {
 
     override fun handleRequest(request: UpdateStatusesRequest): BaseResponse {
-        TODO("Not yet implemented")
+        val statusService = StatusService()
+        statusService.updateStatuses(request.authToken, request.updatedStatuses)
+        return BaseResponse()
     }
 }

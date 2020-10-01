@@ -11,11 +11,7 @@ class GetStatusesHandler : BaseHandler<AuthorizedRequest>() {
 
     override fun handleRequest(request: AuthorizedRequest): BaseResponse {
         val statusService = StatusService()
-        return try {
-            val statuses = statusService.getStatuses(request.authToken)
-            GetStatusesResponse(statuses)
-        } catch (e: NotAuthorizedException) {
-            GetStatusesResponse("Not Authorized")
-        }
+        val statuses = statusService.getStatuses(request.authToken)
+        return GetStatusesResponse(statuses)
     }
 }

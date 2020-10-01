@@ -11,7 +11,9 @@ open class BaseDAO {
         val url = System.getenv("RDS_DB_URL")
         val user = System.getenv("RDS_USERNAME")
         val password = System.getenv("RDS_PASSWORD")
-        return DriverManager.getConnection(url, user, password)
+        val connection = DriverManager.getConnection(url, user, password)
+        connection.autoCommit = false
+        return connection
     }
 
     protected fun closeConnection(connection: Connection) {

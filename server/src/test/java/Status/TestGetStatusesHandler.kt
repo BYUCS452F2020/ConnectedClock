@@ -2,6 +2,7 @@ package Status
 
 import BaseTest
 import Core.Handler.AuthorizedRequest
+import Core.Handler.BaseResponse
 import org.junit.Test
 import org.junit.Assert.*
 
@@ -38,7 +39,7 @@ class TestGetStatusesHandler : BaseTest() {
 
         val invalidGetStatusesRequest = AuthorizedRequest("invalidauthtoken")
         val invalidGetStatusesResponse = getStatusesHandler.handleRequest(invalidGetStatusesRequest, null)
-        val expectedInvalidGetStatusesResponse = GetStatusesResponse("Not Authorized")
-        assertEquals("Should return response with list of statuses for user's group", expectedInvalidGetStatusesResponse, invalidGetStatusesResponse)
+        val expectedInvalidGetStatusesResponse = BaseResponse("Not Authorized")
+        assertEquals("Should return Not Authorized response because of invalid authToken", expectedInvalidGetStatusesResponse, invalidGetStatusesResponse)
     }
 }

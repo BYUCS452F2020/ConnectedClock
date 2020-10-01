@@ -14,18 +14,53 @@ class StatusDAO : BaseDAO() {
         """
 
     // https://www.mysqltutorial.org/mysql-jdbc-tutorial/
-    public fun getStatuses(groupID: String): List<Status> {
+    fun getStatuses(groupID: String): List<Status> {
         val connection = this.openConnection()
-
-        val statement = connection.prepareStatement(GET_STATUSES_SQL)
-        statement.setString(1, groupID)
-        val resultSet = statement.executeQuery()
-        val statuses = this.getQueryResults<Status>(Status::class.java, resultSet)
-
-        this.closeConnection(connection)
-
-        return statuses
+        try {
+            val statement = connection.prepareStatement(GET_STATUSES_SQL)
+            statement.setString(1, groupID)
+            val resultSet = statement.executeQuery()
+            val statuses = this.getQueryResults<Status>(Status::class.java, resultSet)
+            return statuses
+        }
+        finally {
+            this.closeConnection(connection)
+        }
     }
 
+    private val DELETE_GROUP_STATUSES_SQL = """
+        DELETE
+            FROM Status
+            WHERE groupID = ?;
+    """
+    private val INSERT_GROUP_STATUSES_SQL = """
+        INSERT INTO Status
+            (statusID, clockHandAngle, statusName, groupID) VALUES (?, ?, ?, ?);
+    """
+    fun updateStatuses(groupID: String, updatedStatuses: List<Status>){
+        val connection = this.openConnection()
+        try {
+            val deleteStatement = connection.prepareStatement(DELETE_GROUP_STATUSES_SQL)
+            deleteStatement.setString(1, groupID)
+            deleteStatement.execute()
 
+            val batchInsertStatement = connection.prepareStatement(INSERT_GROUP_STATUSES_SQL)
+            updatedStatuses.forEach {
+                batchInsertStatement.setString(1, it.statusID)
+                batchInsertStatement.setDouble(2, it.clockHandAngle)
+                batchInsertStatement.setString(3, it.statusName)
+                batchInsertStatement.setString(4, it.groupID)
+                batchInsertStatement.addBatch()
+            }
+            batchInsertStatement.executeBatch()
+
+            connection.commit()
+        } catch (e: Exception) {
+            connection.rollback()
+            throw e
+        }
+        finally {
+            this.closeConnection(connection)
+        }
+    }
 }

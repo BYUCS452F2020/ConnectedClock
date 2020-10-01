@@ -31,4 +31,12 @@ test {
     {
         environment secretKey, secrets[secretKey]
     }
+
+    // Uncomment below to run a single test class or method. (Since it takes a long time to run all of them due to all the database calls)
+    filter {
+        // includeTestsMatching "ClassName.MethodName"
+        // includeTestsMatching "ClassName"
+
+//        includeTestsMatching "TestUpdateStatusesHandler.testUpdateStatusesHandler"
+    }
 }

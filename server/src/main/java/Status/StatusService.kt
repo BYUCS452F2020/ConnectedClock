@@ -16,10 +16,17 @@ class StatusService {
         return statusDAO.getStatuses(groupID)
     }
 
-    fun updateStatuses(authToken: String, updatedStatuses: List<Status>): Boolean {
+    fun updateStatuses(authToken: String, updatedStatuses: List<Status>) {
         val authService = AuthorizationService()
         val groupID = authService.getGroupIDFromAuthToken(authToken)
 
-        return true
+        // You can only update statuses in your own group.
+        updatedStatuses.forEach {
+            if (it.groupID != groupID)
+                throw NotAuthorizedException()
+        }
+
+        val statusDAO = StatusDAO()
+        statusDAO.updateStatuses(groupID, updatedStatuses)
     }
 }

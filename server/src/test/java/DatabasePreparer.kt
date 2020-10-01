@@ -8,8 +8,18 @@ class DatabasePreparer: BaseDAO() {
         val createTestDataSQL = DatabasePreparer::class.java.getResource("DatabaseSQL/create_test_data.sql").readText()
 
         val connection = this.openConnection()
-        this.executeBatch(connection, createDatabaseSQL)
-        this.executeBatch(connection, createTestDataSQL)
-        this.closeConnection(connection)
+        connection.autoCommit = false
+        try {
+            this.executeBatch(connection, createDatabaseSQL)
+            this.executeBatch(connection, createTestDataSQL)
+
+            connection.commit()
+        } catch (e:Exception) {
+            connection.rollback()
+            throw e
+        }
+        finally {
+            this.closeConnection(connection)
+        }
     }
 }
