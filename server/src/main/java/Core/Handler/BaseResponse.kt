@@ -14,6 +14,7 @@ open class BaseResponse {
         this.didErrorOccur = true
     }
 
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -30,6 +31,10 @@ open class BaseResponse {
         var result = errorMessage?.hashCode() ?: 0
         result = 31 * result + didErrorOccur.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "BaseResponse(errorMessage=$errorMessage, didErrorOccur=$didErrorOccur)"
     }
 
 

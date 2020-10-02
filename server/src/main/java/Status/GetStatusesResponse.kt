@@ -13,26 +13,30 @@ class GetStatusesResponse: BaseResponse {
     }
 
     constructor(errorMessage: String): super(errorMessage){
-        statuses = listOf()
+        this.statuses = listOf()
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (this.javaClass != other?.javaClass) return false
 
         other as GetStatusesResponse
 
-        if (statuses != other.statuses) return false
-        if (didErrorOccur != other.didErrorOccur) return false
-        if (errorMessage != other.errorMessage) return false
+        if (this.statuses != other.statuses) return false
+        if (this.didErrorOccur != other.didErrorOccur) return false
+        if (this.errorMessage != other.errorMessage) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = statuses.hashCode()
-        result = 31 * result + didErrorOccur.hashCode()
-        result = 31 * result + (errorMessage?.hashCode() ?: 0)
+        var result = this.statuses.hashCode()
+        result = 31 * result + this.didErrorOccur.hashCode()
+        result = 31 * result + (this.errorMessage?.hashCode() ?: 0)
         return result
+    }
+
+    override fun toString(): String {
+        return "GetStatusesResponse(statuses=$statuses, errorMessage=$errorMessage, didErrorOccur=$didErrorOccur)"
     }
 }
