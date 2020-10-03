@@ -83,5 +83,42 @@ class ZoneResources {
             ) /* Wyview Apartments */
         )
         val GROUP_2_GET_ZONES_RESPONSE = GetZonesResponse(GROUP_2_ZONES)
+        val GROUP_2_UPDATED_ZONES = listOf(
+            Zone(
+                "021706f8-8a4f-4408-9180-ef7e4457bf96",
+                123.4567,
+                -543.21,
+                9595.95959595,
+                "92a3db1e-99b6-45d1-92e6-2c47720e620e"
+            ), /* Hospital */
+            Zone(
+                "d6489b2a-c9ba-4b6a-8bd7-912d581402d8",
+                44444.4,
+                2222.2222,
+                333222.0,
+                "ed9ceea8-b059-4e00-b35e-83be6e63c497"
+            ),
+            Zone(
+                "aa1d1cd1-7929-4d3c-b4ec-955d82af1ef6",
+                77777.66,
+                -12345.0,
+                4.0,
+                "32f85320-92e0-4382-a5ae-d71b562422c5"
+            ),
+            Zone(
+                "b6e96957-fc1f-4385-9d50-6652d6f5e061",
+                null,
+                null,
+                null,
+                "ed9ceea8-b059-4e00-b35e-83be6e63c497"
+            ),
+            Zone(
+                "a7a71489-0506-4589-965f-ad8f32a7fc12",
+                40.261547,
+                -111.660352,
+                185.72,
+                "92a3db1e-99b6-45d1-92e6-2c47720e620e"
+            ) /* Wyview Apartments */
+        )
     }
 }

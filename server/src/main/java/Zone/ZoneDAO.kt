@@ -1,6 +1,8 @@
 package Zone
 
 import Core.DAO.BaseDAO
+import java.sql.Connection
+import java.sql.ResultSet
 
 class ZoneDAO: BaseDAO() {
 
@@ -22,6 +24,33 @@ class ZoneDAO: BaseDAO() {
         }
         finally {
             closeConnection(connection)
+        }
+    }
+
+
+    private var DELETE_GROUP_ZONES_SQL = """
+        DELETE z
+            FROM Zone z
+                JOIN Status s ON s.statusID = z.statusID
+            WHERE s.groupID = ?;
+    """
+    fun updateZones(groupID: String, updatedZones: List<Zone>) {
+        val connection = this.openConnection()
+
+        try {
+            val deleteStatement = connection.prepareStatement(DELETE_GROUP_ZONES_SQL)
+            deleteStatement.setString(1, groupID)
+            deleteStatement.execute()
+
+            this.insertObjects(Zone::class.java, connection, "Zone", updatedZones)
+
+            connection.commit()
+        } catch (e: Exception) {
+            connection.rollback()
+            throw e
+        }
+        finally {
+            this.closeConnection(connection)
         }
     }
 }

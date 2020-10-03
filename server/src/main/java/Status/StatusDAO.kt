@@ -33,10 +33,6 @@ class StatusDAO : BaseDAO() {
             FROM Status
             WHERE groupID = ?;
     """
-    private val INSERT_GROUP_STATUSES_SQL = """
-        INSERT INTO Status
-            (statusID, clockHandAngle, statusName, groupID) VALUES (?, ?, ?, ?);
-    """
     fun updateStatuses(groupID: String, updatedStatuses: List<Status>){
         val connection = this.openConnection()
         try {
@@ -44,15 +40,7 @@ class StatusDAO : BaseDAO() {
             deleteStatement.setString(1, groupID)
             deleteStatement.execute()
 
-            val batchInsertStatement = connection.prepareStatement(INSERT_GROUP_STATUSES_SQL)
-            updatedStatuses.forEach {
-                batchInsertStatement.setString(1, it.statusID)
-                batchInsertStatement.setDouble(2, it.clockHandAngle)
-                batchInsertStatement.setString(3, it.statusName)
-                batchInsertStatement.setString(4, it.groupID)
-                batchInsertStatement.addBatch()
-            }
-            batchInsertStatement.executeBatch()
+            this.insertObjects(Status::class.java, connection, "Status", updatedStatuses)
 
             connection.commit()
         } catch (e: Exception) {
