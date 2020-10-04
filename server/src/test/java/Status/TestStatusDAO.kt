@@ -1,6 +1,7 @@
 package Status
 
 import BaseTest
+import Group.GroupTestResources
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
@@ -9,48 +10,26 @@ class TestStatusDAO: BaseTest() {
     @Test
     fun testGetStatuses() {
         val statusDAO = StatusDAO()
-        val statuses = statusDAO.getStatuses("98729fce-0809-43fe-b953-f48b14b07616")
-        val expectedStatuses = listOf(
-            Status("04e3b648-c3dd-41da-a430-1dacde995b7d", 23.2, "Work", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("12a20cb0-9e82-4d88-98f2-faaa9ff8c675", 11.0, "Shopping", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9", 60.0, "Home", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("d32b0786-c6f1-4c70-a31f-a9efed1ef1f6", 75.0, "Away", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("ec488303-1152-4d8d-af55-db9b323be17e", 90.5, "School", "98729fce-0809-43fe-b953-f48b14b07616")
-        )
-        assertEquals("Should only return statuses belonging to group", expectedStatuses, statuses)
+        val group2Statuses = statusDAO.getStatuses(GroupTestResources.GROUP_2_ID)
+        assertEquals("Should only return statuses belonging to group", StatusTestResources.GROUP_2_STATUSES, group2Statuses)
 
-
-        val emptyStatuses = statusDAO.getStatuses("invalidstatus")
+        val emptyStatuses = statusDAO.getStatuses(GroupTestResources.INVALID_GROUP_ID)
         val expectedEmptyStatuses = listOf<Status>()
         assertEquals("A nonexistent groupID should return an empty list of statuses", expectedEmptyStatuses, emptyStatuses)
     }
 
     @Test
     fun testUpdateStatuses() {
-        val groupID = "2bc8f348-fce4-4df6-9795-deff8e721c7a"
-        val otherGroupID = "98729fce-0809-43fe-b953-f48b14b07616"
         val statusDAO = StatusDAO()
-        val newStatuses = listOf(
-        Status("92a3db1e-99b6-45d1-92e6-2c47720e620e", 44.4, "Homies", "2bc8f348-fce4-4df6-9795-deff8e721c7a"),
-        Status("32f85320-92e0-4382-a5ae-d71b562422c5", 12.7, "Mortal Peril", "2bc8f348-fce4-4df6-9795-deff8e721c7a"),
-        Status("95d309b7-039a-4647-8ba6-ff6dd6bb1d99", 55.5, "Visiting Family", "2bc8f348-fce4-4df6-9795-deff8e721c7a"),
-        Status("970c1d21-f97b-4b35-b715-e397845d6e8f", 66.6, "Woods", "2bc8f348-fce4-4df6-9795-deff8e721c7a")
-        )
-        statusDAO.updateStatuses(groupID, newStatuses)
-        val updatedStatuses = statusDAO.getStatuses(groupID)
-        assertEquals("The statuses we get back for this group should be the same as we put in. No more, no less.", newStatuses.sortedBy { it.statusID }, updatedStatuses)
-        val otherStatuses = statusDAO.getStatuses(otherGroupID)
-        val expectedOtherStatuses = listOf(
-            Status("04e3b648-c3dd-41da-a430-1dacde995b7d", 23.2, "Work", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("12a20cb0-9e82-4d88-98f2-faaa9ff8c675", 11.0, "Shopping", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9", 60.0, "Home", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("d32b0786-c6f1-4c70-a31f-a9efed1ef1f6", 75.0, "Away", "98729fce-0809-43fe-b953-f48b14b07616"),
-            Status("ec488303-1152-4d8d-af55-db9b323be17e", 90.5, "School", "98729fce-0809-43fe-b953-f48b14b07616")
-        )
-        assertEquals("Other statuses shouldn't be affected.", expectedOtherStatuses, otherStatuses)
+        statusDAO.updateStatuses(GroupTestResources.GROUP_2_ID, StatusTestResources.GROUP_2_UPDATED_STATUSES)
+        val group2UpdatedStatuses = statusDAO.getStatuses(GroupTestResources.GROUP_2_ID)
+        assertEquals("The statuses we get back for this group should be the same as we put in. No more, no less.", StatusTestResources.GROUP_2_UPDATED_STATUSES.sortedBy { it.statusID }, group2UpdatedStatuses)
 
-        statusDAO.updateStatuses(groupID, listOf())
-        val emptyStatuses = statusDAO.getStatuses(groupID)
+        val group1Statuses = statusDAO.getStatuses(GroupTestResources.GROUP_1_ID)
+        assertEquals("Other statuses shouldn't be affected.", StatusTestResources.GROUP_1_STATUSES, group1Statuses)
+
+        statusDAO.updateStatuses(GroupTestResources.GROUP_2_ID, listOf())
+        val emptyStatuses = statusDAO.getStatuses(GroupTestResources.GROUP_2_ID)
         assertEquals("All the statuses for this group should've been deleted.", listOf<Status>(), emptyStatuses)
     }
 }

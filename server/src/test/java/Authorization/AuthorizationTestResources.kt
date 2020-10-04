@@ -3,7 +3,7 @@ package Authorization
 import Core.Handler.AuthorizedRequest
 import Core.Handler.BaseResponse
 
-class AuthorizationResources {
+class AuthorizationTestResources {
     companion object {
         val GROUP_1_GROUP_AUTHTOKEN = "663feea8-e1e0-4cf3-89ff-ed4905ec4c7c"
         val GROUP_1_GROUP_AUTHTOKEN_REQUEST = AuthorizedRequest(GROUP_1_GROUP_AUTHTOKEN)

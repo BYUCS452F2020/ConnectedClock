@@ -49,6 +49,6 @@ test {
         // includeTestsMatching "ClassName.MethodName"
         // includeTestsMatching "ClassName"
 
-        includeTestsMatching "TestZoneDAO.testUpdateZones"
+//        includeTestsMatching "TestUpdateZonesHandler"
     }
 }
