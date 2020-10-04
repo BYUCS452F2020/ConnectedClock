@@ -4,8 +4,9 @@ import core.dao.BaseDAO
 
 class WhereaboutDAO: BaseDAO() {
     private val GET_WHEREABOUTS_SQL = """
-        SELECT userID, username, clockHandIndex, currentZoneID
-            FROM User
+        SELECT userID, username, clockHandIndex, z.statusID AS statusID
+            FROM User u
+                LEFT JOIN Zone z ON u.currentZoneID = z.zoneID
         WHERE groupID = ?;
     """
     fun getWhereabouts(groupID: String): List<Whereabout> {
