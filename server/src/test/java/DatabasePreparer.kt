@@ -1,5 +1,4 @@
-import Core.DAO.BaseDAO
-import java.sql.Connection
+import core.dao.BaseDAO
 
 class DatabasePreparer: BaseDAO() {
     // https://stackoverflow.com/a/42740416/6634972
