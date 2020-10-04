@@ -4,7 +4,7 @@ import Core.DAO.BaseDAO
 import java.sql.Connection
 import java.sql.ResultSet
 
-class ZoneDAO: BaseDAO() {
+class ZoneDAO : BaseDAO() {
 
     private var GET_ZONES_SQL = """
         SELECT *
@@ -13,6 +13,7 @@ class ZoneDAO: BaseDAO() {
             WHERE groupID = ?
             ORDER BY zoneID;
     """
+
     fun getZones(groupID: String): List<Zone> {
         val connection = openConnection()
         try {
@@ -21,8 +22,7 @@ class ZoneDAO: BaseDAO() {
             val resultSet = statement.executeQuery()
             val zones = this.getQueryResults<Zone>(Zone::class.java, resultSet)
             return zones
-        }
-        finally {
+        } finally {
             closeConnection(connection)
         }
     }
@@ -34,6 +34,7 @@ class ZoneDAO: BaseDAO() {
                 JOIN Status s ON s.statusID = z.statusID
             WHERE s.groupID = ?;
     """
+
     fun updateZones(groupID: String, updatedZones: List<Zone>) {
         val connection = this.openConnection()
 
@@ -48,9 +49,28 @@ class ZoneDAO: BaseDAO() {
         } catch (e: Exception) {
             connection.rollback()
             throw e
+        } finally {
+            this.closeConnection(connection)
+        }
+    }
+
+    private val GET_ZONES_GROUP_ID_SQL = """
+        SELECT s.groupID
+            FROM Zone z
+                JOIN Status s ON s.statusID = z.statusID
+            WHERE z.zoneID IN ?;
+    """
+
+    fun getZonesGroupID(zoneIDs: List<String>): List<String> {
+        val connection = this.openConnection()
+        try {
+            val preparedStatement = connection.prepareStatement(GET_ZONES_GROUP_ID_SQL)
+            preparedStatement.setObject(1, zoneIDs)
+            val resultSet = preparedStatement.executeQuery()
+            return this.getSimpleQueryResults<String>(resultSet)
         }
         finally {
-            this.closeConnection(connection)
+            connection.close()
         }
     }
 }
