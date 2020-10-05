@@ -40,7 +40,7 @@ class StatusDAO : BaseDAO() {
             deleteStatement.setString(1, groupID)
             deleteStatement.execute()
 
-            this.insertObjects(Status::class.java, connection, "status", updatedStatuses)
+            this.insertObjects(Status::class.java, connection, "Status", updatedStatuses)
 
             connection.commit()
         } catch (e: Exception) {
