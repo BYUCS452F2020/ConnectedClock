@@ -5,11 +5,12 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS ClockGroup;
 
 
-/* Create Group Table
-TODO: Obviously, you still need to add a bunch to this, I just put in the basic attributes I needed for authorization.
+/* Create ClockGroup Table
 */
 CREATE TABLE ClockGroup (
-	groupID CHAR(36) NOT NULL PRIMARY KEY
+	groupID CHAR(36) NOT NULL PRIMARY KEY,
+	groupName VARCHAR(50) NULL,
+	groupPassword VARCHAR(20) NULL
     );
 
 

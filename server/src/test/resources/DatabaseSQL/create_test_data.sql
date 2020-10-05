@@ -1,4 +1,4 @@
-/* Group Table Test Data */
+/* ClockGroup Table Test Data */
 INSERT INTO ClockGroup (groupID) VALUES ("98729fce-0809-43fe-b953-f48b14b07616");
 INSERT INTO ClockGroup (groupID) VALUES ("2bc8f348-fce4-4df6-9795-deff8e721c7a");
 
