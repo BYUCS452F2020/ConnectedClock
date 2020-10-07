@@ -1,4 +1,4 @@
-package ClockGroup
+package clockGroup
 
 import core.dao.ColumnAnnotation
 
