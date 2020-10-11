@@ -15,10 +15,11 @@ ClockHands::ClockHands(unsigned int handCount, unsigned int* pins) {
 }
 
 int ClockHands::GetServoAngleFromHandAngle(int handAngle) {
-  handAngle = handAngle % FULL_CIRCLE;
-  if (handAngle < 0) {
+  while (handAngle < 0) {
     handAngle = FULL_CIRCLE + handAngle;
   }
+  
+  handAngle = handAngle % FULL_CIRCLE;
 
   int servoAngle = handAngle * HAND_ANGLE_TO_SERVO_ANGLE;
   return servoAngle;
