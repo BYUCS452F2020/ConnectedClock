@@ -1,17 +1,5 @@
 #include "JsonConverter.h"
 
-//StaticJsonDocument<JsonConverter::JSON_BUFFER_SIZE> JsonConverter::GetJsonDoc(String input) {
-//  StaticJsonDocument<JSON_BUFFER_SIZE> doc;
-//  Serial.println("inpt");
-//  Serial.println(input);
-//  DeserializationError error = deserializeJson(doc, input);
-//  if (error) {
-//    Serial.print(F("jsonparseerror "));
-//    Serial.println(error.c_str());
-//  }
-//  return doc;
-//}
-
 Whereabout* JsonConverter::JsonToWhereabouts(String input, unsigned char& whereaboutCount) {
   StaticJsonDocument<JSON_BUFFER_SIZE> doc;
   DeserializationError error = deserializeJson(doc, input);
@@ -24,16 +12,15 @@ Whereabout* JsonConverter::JsonToWhereabouts(String input, unsigned char& wherea
 
   JsonArray jsonWhereabouts = jsonObject[F("w")];
   whereaboutCount = jsonWhereabouts.size();
-  Serial.print("cnt ");
-  Serial.println(whereaboutCount);
   if (whereaboutCount > 0) {
    Whereabout* whereabouts = new Whereabout[whereaboutCount];
    int i = 0;
     for (JsonObject whereaboutJson : jsonWhereabouts) {
-      Serial.println((long)whereaboutJson[F("sid")]);
-      Serial.println((int)whereaboutJson[F("chi")]);
-      whereabouts[i].CurrentStatusID = whereaboutJson[F("sid")];
-      whereabouts[i].ClockHandIndex = whereaboutJson[F("chi")];
+      whereabouts[i].CurrentStatusID = (long)whereaboutJson[F("sid")];
+      whereabouts[i].ClockHandIndex = (unsigned char)whereaboutJson[F("chi")];
+      Serial.println(whereabouts[i].CurrentStatusID);
+      Serial.println(whereabouts[i].ClockHandIndex);
+      i++;
     }
     
     doc.clear();

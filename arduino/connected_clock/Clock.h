@@ -14,9 +14,9 @@ private:
   unsigned char statusCount;
   String authToken;
   const unsigned char RX_PIN = 2;
-  const unsigned char TX_PIN = 3;
+  const unsigned char TX_PIN = 4;
   static const unsigned char CLOCK_HAND_COUNT = 2;
-  const unsigned char CLOCK_HAND_PINS[Clock::CLOCK_HAND_COUNT] = {10, 11};
+  const unsigned char CLOCK_HAND_PINS[Clock::CLOCK_HAND_COUNT] = {5, 6};
 
   void InitServerConnection();
   int StatusIDToClockHandAngle(long statusID);

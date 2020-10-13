@@ -11,6 +11,7 @@ class Servo;
 class ClockHands {
 private:
   Servo** servos;
+  unsigned char* pins;
   unsigned char handCount;
   const int FULL_CIRCLE = 360;
   const float HAND_ANGLE_TO_SERVO_ANGLE = 0.5f;
@@ -27,6 +28,9 @@ public:
   // range [0, 360] where 0 and 360 point at 12o'clock.
   // Hand is the index of which hand to move.
   void SetHandAngle(unsigned char hand, int angle);
+
+  void DetachAll();
+  void AttachAll();
 };
 
 #endif

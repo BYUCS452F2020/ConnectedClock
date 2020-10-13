@@ -23,8 +23,8 @@ private:
 public: 
   static const unsigned int BUFFER_SIZE = 200;
   static const unsigned int PORT = 80;
-  static const unsigned long WAIT_TIMEOUT_MS = 10000;
-  static const unsigned long READ_TIMEOUT_MS = 10000;
+  static const unsigned long WAIT_TIMEOUT_MS = 5000;
+  static const unsigned long READ_TIMEOUT_MS = 5000;
   
   
   Wifi(unsigned char rxPin, unsigned char txPin, String wifiNetwork, String wifiPassword);

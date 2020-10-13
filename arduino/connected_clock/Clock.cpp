@@ -10,7 +10,7 @@ Clock::Clock() {
     Secrets::GetWifiNetworkName(), 
     Secrets::GetWifiNetworkPassword());
 
-    this->InitServerConnection();
+  this->InitServerConnection();
   this->clockHands = new ClockHands(this->CLOCK_HAND_COUNT, this->CLOCK_HAND_PINS);
 }
 
@@ -27,24 +27,30 @@ void Clock::InitServerConnection() {
 }
 
 void Clock::Update() {
+  // We must detach then reattach the servos any time we use the network because for some reason using the ESP8266 interferes with PWM on the servo pins, causing them to go haywire.
+  this->clockHands->DetachAll();
+  String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
+  String responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallWhereabouts/"), authTokenJson);
+  this->clockHands->AttachAll();
+  
+  unsigned char whereaboutCount = 0;
+  Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
   for (int i = 0; i < 2; i++) {
-    this->clockHands->SetHandAngle(0, 0);
+    Serial.println(whereabouts[i].ClockHandIndex);
   }
-//  String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
-//  String responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallWhereabouts/"), authTokenJson);
-//  unsigned char whereaboutCount = 0;
-//  Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
-//  Serial.print("CNT ");
-//  Serial.println(whereaboutCount);
-//  for (unsigned char i = 0; i < whereaboutCount; i++) {
-//    int clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
-//    this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
-//    Serial.print(F("Servo "));
-//    Serial.print(String((int)whereabouts[i].ClockHandIndex));
-//    Serial.print(F(" to "));
-//    Serial.println(String((int)clockHandAngle));
-//  }
-//  delete whereabouts;
+  Serial.print("CNT ");
+  Serial.println(whereaboutCount);
+  
+  for (unsigned char i = 0; i < whereaboutCount; i++) {
+    int clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
+    this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
+    
+    Serial.print(F("Servo "));
+    Serial.print((int)whereabouts[i].ClockHandIndex);
+    Serial.print(F(" to "));
+    Serial.println(String((int)clockHandAngle));
+  }
+  delete whereabouts;
 }
 
 int Clock::StatusIDToClockHandAngle(long statusID) {

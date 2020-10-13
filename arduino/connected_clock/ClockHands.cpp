@@ -6,6 +6,7 @@ ClockHands::ClockHands(unsigned char handCount, unsigned char* pins) {
   Serial.println(F("Init Hands..."));
   this->servos = new Servo*[handCount];
   this->handCount = handCount;
+  this->pins = pins;
 
   for (unsigned char i = 0; i < handCount; i++) {
     this->servos[i] = new Servo();
@@ -13,8 +14,22 @@ ClockHands::ClockHands(unsigned char handCount, unsigned char* pins) {
     Serial.print(i);
     Serial.print(F(" pin "));
     Serial.print(pins[i]);
-    this->servos[i]->attach(pins[i]);
-    this->SetHandAngle(i, 0);
+//    this->servos[i]->attach(pins[i]);
+//    this->SetHandAngle(i, 0);
+  }
+  this->AttachAll();
+}
+
+void ClockHands::AttachAll() {
+  for (int i = 0; i < this->handCount; i++  ) {
+    this->servos[i]->attach(this->pins[i]);
+  }
+}
+
+
+void ClockHands::DetachAll() {
+  for (int i = 0; i < this->handCount; i++) {
+    this->servos[i]->detach();
   }
 }
 
@@ -30,8 +45,6 @@ int ClockHands::GetServoAngleFromHandAngle(int handAngle) {
 }
 
 void ClockHands::SetHandAngle(unsigned char hand, int angle) {
-  angle = 0;
-  hand = 0;
   int servoAngle = this->GetServoAngleFromHandAngle(angle);
   this->servos[hand]->write(angle);
   Serial.print(F("Servo "));

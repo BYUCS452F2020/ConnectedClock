@@ -9,7 +9,6 @@
 class JsonConverter {
 private:
   static const int JSON_BUFFER_SIZE = 300;
-//  static StaticJsonDocument<JSON_BUFFER_SIZE> GetJsonDoc(String input);
   
 public:
   
