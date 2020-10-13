@@ -11,7 +11,7 @@ Clock::Clock() {
     Secrets::GetWifiNetworkPassword());
 
     this->InitServerConnection();
-//  this->clockHands = new ClockHands(this->CLOCK_HAND_COUNT, this->CLOCK_HAND_PINS);
+  this->clockHands = new ClockHands(this->CLOCK_HAND_COUNT, this->CLOCK_HAND_PINS);
 }
 
 void Clock::InitServerConnection() {
@@ -22,33 +22,34 @@ void Clock::InitServerConnection() {
 //  delete responseBody;
   
   String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
-  char* responseBody2 = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetStatuses/"), authTokenJson);
-  Serial.println(responseBody2);
-  this->statuses = JsonConverter::JsonToStatuses(responseBody2, this->statusCount);
-  delete responseBody2;
+  String statusBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallStatuses/"), authTokenJson);
+  this->statuses = JsonConverter::JsonToStatuses(statusBody, this->statusCount);
 }
 
 void Clock::Update() {
-  String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
-  char* responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetWhereabouts/"), authTokenJson);
-  Serial.println(responseBody);
-  unsigned char whereaboutCount = 0;
-  Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
-  delete responseBody;
-
-  for (unsigned char i = 0; i < whereaboutCount; i++) {
-    float clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
-    //this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
-    Serial.print(F("Servo "));
-    Serial.print(String(whereabouts[i].ClockHandIndex));
-    Serial.print(F(" to "));
-    Serial.println(String(clockHandAngle));
+  for (int i = 0; i < 2; i++) {
+    this->clockHands->SetHandAngle(0, 0);
   }
+//  String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
+//  String responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallWhereabouts/"), authTokenJson);
+//  unsigned char whereaboutCount = 0;
+//  Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
+//  Serial.print("CNT ");
+//  Serial.println(whereaboutCount);
+//  for (unsigned char i = 0; i < whereaboutCount; i++) {
+//    int clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
+//    this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
+//    Serial.print(F("Servo "));
+//    Serial.print(String((int)whereabouts[i].ClockHandIndex));
+//    Serial.print(F(" to "));
+//    Serial.println(String((int)clockHandAngle));
+//  }
+//  delete whereabouts;
 }
 
-float Clock::StatusIDToClockHandAngle(char* statusID) {
+int Clock::StatusIDToClockHandAngle(long statusID) {
   for (unsigned char i = 0; i < this->statusCount; i++) {
-    if (strcmp(this->statuses[i].StatusID, statusID) == 0) {
+    if (this->statuses[i].StatusID == statusID) {
       return this->statuses[i].ClockHandAngle;
     }
   }

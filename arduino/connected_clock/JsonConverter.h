@@ -8,14 +8,14 @@
 
 class JsonConverter {
 private:
-  static const int JSON_BUFFER_SIZE = 500;
-  static JsonObject GetJsonObject(char* input);
+  static const int JSON_BUFFER_SIZE = 300;
+//  static StaticJsonDocument<JSON_BUFFER_SIZE> GetJsonDoc(String input);
   
 public:
   
-  static Whereabout* JsonToWhereabouts(char* response, unsigned char& whereaboutCount);
-  static Status* JsonToStatuses(char* input, unsigned char& statusCount);
-  static String JsonToAuthToken(char* input);
+  static Whereabout* JsonToWhereabouts(String input, unsigned char& whereaboutCount);
+  static Status* JsonToStatuses(String input, unsigned char& statusCount);
+  static String JsonToAuthToken(String input);
   static String GroupNameGroupPasswordToJson(String groupName, String groupPassword);
   static String AuthTokenToJson(String authToken);
 };

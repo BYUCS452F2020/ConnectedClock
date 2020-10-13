@@ -19,8 +19,7 @@ private:
   const unsigned char CLOCK_HAND_PINS[Clock::CLOCK_HAND_COUNT] = {10, 11};
 
   void InitServerConnection();
-  Whereabout* ExtractWhereaboutsFromResponse(char* response, int& whereaboutCount);
-  float StatusIDToClockHandAngle(char* statusID);
+  int StatusIDToClockHandAngle(long statusID);
 public:
   Clock();
   void Update();

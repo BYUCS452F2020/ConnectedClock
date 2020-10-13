@@ -2,8 +2,8 @@
 #define STATUS_H
 
 struct Status {
-  char StatusID[36];
-  float ClockHandAngle;
+  long StatusID;
+  int ClockHandAngle;
 //  char StatusName[20];
 };
 

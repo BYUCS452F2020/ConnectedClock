@@ -80,12 +80,11 @@ void Wifi::ConnectToNetwork(String wifiNetwork, String wifiPassword) {
 }
 
 
-char* Wifi::SendNetworkRequest(String server, String requestType, String request, String requestBody) {
-  char* response = nullptr;
+String Wifi::SendNetworkRequest(String server, String requestType, String request, String requestBody) {
   if (client.connect(server.c_str(), Wifi::PORT)) {
     Serial.println(F("Connected to server"));
     this->SendRequest(server, requestType, request, requestBody); 
-    response = this->GetResponse();
+    return this->GetResponse();
   }
   else
   {
@@ -93,7 +92,7 @@ char* Wifi::SendNetworkRequest(String server, String requestType, String request
     Serial.println(F("Server connect failed"));
   }
   
-  return response;
+  return F("");
 }
 
 void Wifi::SendRequest(String host, String requestType, String request, String requestBody) {
@@ -134,7 +133,6 @@ int Wifi::ReadContentLength() {
 }
 
 void Wifi::ReadUntilBody() {
-  Serial.println(F("Reading till body"));
   String preBodyLine = this->ReadUntil(1, F("\r"));
 }
 
@@ -142,7 +140,6 @@ String Wifi::ReadUntil(char minLength, String subString) {
   bool subStringFound = false;
   while (client.available() && !subStringFound) {
     String line = client.readStringUntil('\n');
-    Serial.println(line);
     if (line.length() >= minLength && line.substring(0, subString.length()) == subString) {
       return line;
     }
@@ -150,31 +147,29 @@ String Wifi::ReadUntil(char minLength, String subString) {
   return F("");
 }
 
-char* Wifi::GetResponse()
+String Wifi::GetResponse()
 {
   bool didReceiveResponse = this->WaitForResponse();
   if (didReceiveResponse) {
     int contentLength = this->ReadContentLength();
     this->ReadUntilBody();
     if (contentLength > 0) {
-      Serial.println(contentLength);
-      char* bodyReadBuffer = new char[contentLength];
-      Serial.println(F("Readbody"));
+      char* bodyReadBuffer = new char[contentLength + 1] {0};
       for (unsigned int i = 0; i < contentLength; i++) {
-        Serial.println(i  );
         bodyReadBuffer[i] = client.read();
       }
-      Serial.println(F("Buffer"));
-      Serial.println(bodyReadBuffer);
       String body = String(bodyReadBuffer);
-      Serial.println(body);
       delete bodyReadBuffer;
+      client.stop();
+      Serial.println(F("RSPNSE BDY"));
+      Serial.println(body);
+      return body;
     }
   }
   else {
     Serial.println(F("Response Timeout!"));
+    client.stop();
   }
 
-  client.stop();
-  return nullptr;
+  return F("");
 }

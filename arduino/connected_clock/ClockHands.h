@@ -21,12 +21,12 @@ private:
   int GetServoAngleFromHandAngle(int servoAngle);
   
 public:
-  ClockHands(unsigned int handCount, unsigned int* pins);
+  ClockHands(unsigned char handCount, unsigned char* pins);
 
   // Moves a clock hand to the specified angle. Angle is in the 
   // range [0, 360] where 0 and 360 point at 12o'clock.
   // Hand is the index of which hand to move.
-  void SetHandAngle(unsigned int hand, int angle);
+  void SetHandAngle(unsigned char hand, int angle);
 };
 
 #endif

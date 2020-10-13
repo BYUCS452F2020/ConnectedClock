@@ -2,7 +2,7 @@
 #include <Servo.h>
 #include <Arduino.h>
 
-ClockHands::ClockHands(unsigned int handCount, unsigned int* pins) {
+ClockHands::ClockHands(unsigned char handCount, unsigned char* pins) {
   Serial.println(F("Init Hands..."));
   this->servos = new Servo*[handCount];
   this->handCount = handCount;
@@ -29,14 +29,15 @@ int ClockHands::GetServoAngleFromHandAngle(int handAngle) {
   return servoAngle;
 }
 
-void ClockHands::SetHandAngle(unsigned int hand, int angle) {
-
+void ClockHands::SetHandAngle(unsigned char hand, int angle) {
+  angle = 0;
+  hand = 0;
   int servoAngle = this->GetServoAngleFromHandAngle(angle);
-  this->servos[hand]->write(servoAngle);
+  this->servos[hand]->write(angle);
   Serial.print(F("Servo "));
-  Serial.print(hand);
+  Serial.print((int)hand);
   Serial.print(F(" handAngle "));
-  Serial.print(angle);
+  Serial.print((int)angle);
   Serial.print(F(" servoAngle "));
-  Serial.println(servoAngle);
+  Serial.println((int)servoAngle);
 }
