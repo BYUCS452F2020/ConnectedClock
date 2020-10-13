@@ -10,10 +10,9 @@ private:
   SoftwareSerial* esp8266;
   WiFiEspClient client;
   
-  char* ConvertStringToCharArray(String string, int* stringSize);
   void EnsureWifiShieldPresent();
   void ConnectToNetwork(String wifiNetwork, String wifiPassword);
-  void SendRequest(char* ip, String requestType, String request, String requestBody);
+  void SendRequest(String host, String requestType, String request, String requestBody);
   char* GetResponse();
   char* ExtractBodyFromResponse(char* response, int responseSize);
   

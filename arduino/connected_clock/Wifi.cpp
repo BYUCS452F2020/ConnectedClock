@@ -69,37 +69,21 @@ void Wifi::EnsureWifiShieldPresent() {
 }
 
 void Wifi::ConnectToNetwork(String wifiNetwork, String wifiPassword) {
-  char* ssid = this->ConvertStringToCharArray(wifiNetwork, nullptr);
-  char* pass = this->ConvertStringToCharArray(wifiPassword, nullptr);
-
   int status = WL_IDLE_STATUS;
   while ( status != WL_CONNECTED) {
     Serial.print(F("Connecting to Wifi "));
     Serial.println(wifiNetwork);
-    status = WiFi.begin(ssid, pass);
+    status = WiFi.begin(wifiNetwork.c_str(), wifiPassword.c_str());
   }
-  delete ssid;
-  delete pass;
   Serial.println(F("Wifi connected"));
-}
-
-char* Wifi::ConvertStringToCharArray(String string, int* stringSize) {
-  int sSize = string.length() + 1;
-  if (stringSize != nullptr) {
-    (*stringSize) = sSize;
-  }
-  char* charArray = new char[sSize];
-  strcpy(charArray, string.c_str());
-  return charArray;
 }
 
 
 char* Wifi::SendNetworkRequest(String server, String requestType, String request, String requestBody) {
-  char* ip = this->ConvertStringToCharArray(server, nullptr);  
   char* response = nullptr;
-  if (client.connect(ip, Wifi::PORT)) {
+  if (client.connect(server.c_str(), Wifi::PORT)) {
     Serial.println(F("Connected to server"));
-    this->SendRequest(ip, requestType, request, requestBody); 
+    this->SendRequest(server, requestType, request, requestBody); 
     response = this->GetResponse();
   }
   else
@@ -108,30 +92,31 @@ char* Wifi::SendNetworkRequest(String server, String requestType, String request
     Serial.println(F("Server connect failed"));
   }
   
-  delete ip;
   return response;
 }
 
-void Wifi::SendRequest(char* ip, String requestType, String request, String requestBody) {
-    int requestSize;
-    char* rqstBody = this->ConvertStringToCharArray(requestBody, &requestSize);
-    char* rqst = this->ConvertStringToCharArray(requestType + String(" ") + request + String(" HTTP/1.1"), nullptr);
-    client.println(rqst);
-    client.print(F("Host: "));
-    client.println(ip);
-    client.println(F("Connection: keep-alive"));
-    client.println(F("Content-Type: application/json"));
-    client.print(F("Content-Length: "));
-    client.println(String(requestSize));
-    client.println();
-    client.println(requestBody);
-
-    Serial.print(F("Content-Length: "));
-    Serial.println(String(requestSize));
-    Serial.println();
-    Serial.println(requestBody);
-    delete rqst;
-    delete rqstBody;;
+void Wifi::SendRequest(String host, String requestType, String request, String requestBody) {
+    String httpRequest = 
+            requestType + " " + request + " HTTP/1.1" +
+            "\r\nHost: " + host + 
+            "\r\nConnection: keep-alive" + 
+            "\r\nContent-Type: application/json" + 
+            "\r\nContent-Length: " + String(requestBody.length()) + 
+            "\r\n\r\n" + 
+            requestBody + 
+            "\r\n";
+    client.println(httpRequest);
+    Serial.println(httpRequest);
+//    Serial.print(httpRequest);
+//    client.println(fullRequest);
+//    client.print(F("Host: "));
+//    client.println(host);
+//    client.println(F("Connection: keep-alive"));
+//    client.println(F("Content-Type: application/json"));
+//    client.print(F("Content-Length: "));
+//    client.println(requestBody.length());
+//    client.println();
+//    client.println(requestBody);
 }
 
 char* Wifi::GetResponse()
