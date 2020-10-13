@@ -4,7 +4,7 @@
 struct Whereabout {
 //  char UserID[36];
 //  char Username[20];
-  short ClockHandIndex;
+  char ClockHandIndex;
   char CurrentStatusID[36];
 };
 

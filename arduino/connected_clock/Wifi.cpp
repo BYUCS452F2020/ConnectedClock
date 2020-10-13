@@ -42,7 +42,7 @@
 #include "Wifi.h"
 #include "Arduino.h"
 
-const long Wifi::ESP8266_BAUD_RATE = 9600;
+const int Wifi::ESP8266_BAUD_RATE = 9600;
 
 
 Wifi::Wifi(unsigned char rxPin, unsigned char txPin, String wifiNetwork, String wifiPassword) {
@@ -55,6 +55,7 @@ Wifi::Wifi(unsigned char rxPin, unsigned char txPin, String wifiNetwork, String 
   Serial.println(Wifi::ESP8266_BAUD_RATE);
   this->esp8266->begin(Wifi::ESP8266_BAUD_RATE);
 
+  client.setTimeout(Wifi::READ_TIMEOUT_MS);
   WiFi.init(this->esp8266);
   this->EnsureWifiShieldPresent();
   this->ConnectToNetwork(wifiNetwork, wifiPassword);
@@ -97,73 +98,83 @@ char* Wifi::SendNetworkRequest(String server, String requestType, String request
 
 void Wifi::SendRequest(String host, String requestType, String request, String requestBody) {
     String httpRequest = 
-            requestType + " " + request + " HTTP/1.1" +
-            "\r\nHost: " + host + 
-            "\r\nConnection: keep-alive" + 
-            "\r\nContent-Type: application/json" + 
-            "\r\nContent-Length: " + String(requestBody.length()) + 
-            "\r\n\r\n" + 
+            requestType + F(" ") + request + F(" HTTP/1.0") +
+            F("\r\nHost: ") + host + 
+            F("\r\nConnection: keep-alive") + 
+            F("\r\nContent-Type: application/json") + 
+            F("\r\nContent-Length: ") + String(requestBody.length()) + 
+            F("\r\n\r\n") + 
             requestBody + 
-            "\r\n";
+            F("\r\n");
     client.println(httpRequest);
+    Serial.println(F("REQUEST"));
     Serial.println(httpRequest);
-//    Serial.print(httpRequest);
-//    client.println(fullRequest);
-//    client.print(F("Host: "));
-//    client.println(host);
-//    client.println(F("Connection: keep-alive"));
-//    client.println(F("Content-Type: application/json"));
-//    client.print(F("Content-Length: "));
-//    client.println(requestBody.length());
-//    client.println();
-//    client.println(requestBody);
+    Serial.println();
+}
+
+bool Wifi::WaitForResponse() {
+  unsigned long start_time = millis();
+  while (client.available() == 0) {
+    if (millis() - start_time > Wifi::WAIT_TIMEOUT_MS) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+int Wifi::ReadContentLength() {
+  String contentLengthLine = this->ReadUntil(16, F("Content-Length:"));
+  if (contentLengthLine.length() > 0) {
+    String contentLengthValue = contentLengthLine.substring(16);
+    int contentLength = contentLengthValue.toInt();
+    return contentLength;
+  }
+  return -1;
+}
+
+void Wifi::ReadUntilBody() {
+  Serial.println(F("Reading till body"));
+  String preBodyLine = this->ReadUntil(1, F("\r"));
+}
+
+String Wifi::ReadUntil(char minLength, String subString) {
+  bool subStringFound = false;
+  while (client.available() && !subStringFound) {
+    String line = client.readStringUntil('\n');
+    Serial.println(line);
+    if (line.length() >= minLength && line.substring(0, subString.length()) == subString) {
+      return line;
+    }
+  }
+  return F("");
 }
 
 char* Wifi::GetResponse()
 {
-  const int READ_SIZE = 32;
-//  char* readBuffer = new char[Wifi::BUFFER_SIZE];
-  int responseSize = 0;
-  while (client.connected()) {
-      Serial.println("isconnected " + String(client.connected()));
-      Serial.println("isavailable " + String(client.available()));
-    while (client.available()) {
-      char val = client.read();
-      Serial.print(val);
+  bool didReceiveResponse = this->WaitForResponse();
+  if (didReceiveResponse) {
+    int contentLength = this->ReadContentLength();
+    this->ReadUntilBody();
+    if (contentLength > 0) {
+      Serial.println(contentLength);
+      char* bodyReadBuffer = new char[contentLength];
+      Serial.println(F("Readbody"));
+      for (unsigned int i = 0; i < contentLength; i++) {
+        Serial.println(i  );
+        bodyReadBuffer[i] = client.read();
+      }
+      Serial.println(F("Buffer"));
+      Serial.println(bodyReadBuffer);
+      String body = String(bodyReadBuffer);
+      Serial.println(body);
+      delete bodyReadBuffer;
     }
   }
-//  while (client.connected() && client.available() && responseSize < Wifi::BUFFER_SIZE - 1) {
-//    Serial.print("#");
-
-//    readBuffer[responseSize] = val;
-//    responseSize++;
-
-    
-//    Serial.println("#15");
-//    while(client.available() && responseSize + READ_SIZE < Wifi::BUFFER_SIZE) {
-//      Serial.println("#16");
-//      responseSize += client.read(readBuffer + responseSize, READ_SIZE);
-//      Serial.println("#17");
-//      Serial.println("Read " + String(responseSize) + " bytes");
-//  }
-  Serial.println("#18");
-  client.stop();
-  Serial.println();
-  char* responseBody = nullptr;
-//  char* responseBody = this->ExtractBodyFromResponse(readBuffer, responseSize);
-//  delete readBuffer;
-  return responseBody;
-}
-
-char* Wifi::ExtractBodyFromResponse(char* response, int responseSize) {
-  char* body = nullptr;
-  char* bodyStartPtr = strstr(&(response[0]), "\r\n\r\n");
-  if (bodyStartPtr > 0) {
-    int bodyStartIndex = (bodyStartPtr + 5) - &(response[0]);
-    int bodySize = responseSize - bodyStartIndex;
-    body = new char[bodySize + 1] {0};
-    memcpy(body, bodyStartPtr, bodySize); 
+  else {
+    Serial.println(F("Response Timeout!"));
   }
-  Serial.write(body);
-  return body;
+
+  client.stop();
+  return nullptr;
 }

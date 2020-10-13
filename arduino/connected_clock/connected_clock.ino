@@ -13,7 +13,6 @@ Clock* clock;
 
 void setup() {
   Serial.begin(USB_BAUD_RATE);
-
   clock = new Clock();
   //setupSleep();
 }

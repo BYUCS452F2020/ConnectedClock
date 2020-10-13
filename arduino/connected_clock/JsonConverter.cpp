@@ -30,7 +30,6 @@ Status* JsonConverter::JsonToStatuses(char* input, unsigned char& statusCount) {
   for (unsigned char i = 0; i < statusCount; i++) {
     strcpy(statuses[i].StatusID, jsonObject[F("statuses")][i][F("statusID")]);
     statuses[i].ClockHandAngle = jsonObject[F("statuses")][i][F("clockHandAngle")];
-//    strcpy(statuses[i].StatusName, jsonObject[F("statuses")][i][F("statusName")]);
   }
 //  JsonConverter::doc.clear();
 
@@ -39,10 +38,7 @@ Status* JsonConverter::JsonToStatuses(char* input, unsigned char& statusCount) {
 
 String JsonConverter::JsonToAuthToken(char* input) {
   JsonObject jsonObject = JsonConverter::GetJsonObject(input);
-  char* authTokenArray = new char[36];
-  strcpy(authTokenArray, jsonObject[F("authToken")]);
-  String authToken(authTokenArray);
-//  JsonConverter::doc.clear();
+  String authToken = String((char*)jsonObject[F("authToken")]);
   return authToken;
 }
 
