@@ -3,13 +3,15 @@
 #include "JsonConverter.h"
 
 Clock::Clock() {
+  Serial.println(F("Init Clock"));
   this->wifi = new Wifi(
     this->RX_PIN, 
     this->TX_PIN, 
     Secrets::GetWifiNetworkName(), 
     Secrets::GetWifiNetworkPassword());
 
-  this->clockHands = new ClockHands(this->CLOCK_HAND_COUNT, this->CLOCK_HAND_PINS);
+    this->InitServerConnection();
+//  this->clockHands = new ClockHands(this->CLOCK_HAND_COUNT, this->CLOCK_HAND_PINS);
 }
 
 void Clock::InitServerConnection() {
@@ -20,26 +22,32 @@ void Clock::InitServerConnection() {
 //  delete responseBody;
   
   String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
-  char* responseBody2 = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), String("POST"), String("/GetStatuses/"), authTokenJson);
+  char* responseBody2 = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetStatuses/"), authTokenJson);
+  Serial.println(responseBody2);
   this->statuses = JsonConverter::JsonToStatuses(responseBody2, this->statusCount);
   delete responseBody2;
 }
 
 void Clock::Update() {
   String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
-  char* responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), String("GET"), String("/GetWhereabouts/"), authTokenJson);
-  int whereaboutCount = 0;
+  char* responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetWhereabouts/"), authTokenJson);
+  Serial.println(responseBody);
+  unsigned char whereaboutCount = 0;
   Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
   delete responseBody;
 
-  for (int i = 0; i < whereaboutCount; i++) {
-    double clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
-    this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
+  for (unsigned char i = 0; i < whereaboutCount; i++) {
+    float clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
+    //this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
+    Serial.print(F("Servo "));
+    Serial.print(String(whereabouts[i].ClockHandIndex));
+    Serial.print(F(" to "));
+    Serial.println(String(clockHandAngle));
   }
 }
 
-double Clock::StatusIDToClockHandAngle(char* statusID) {
-  for (int i = 0; i < this->statusCount; i++) {
+float Clock::StatusIDToClockHandAngle(char* statusID) {
+  for (unsigned char i = 0; i < this->statusCount; i++) {
     if (strcmp(this->statuses[i].StatusID, statusID) == 0) {
       return this->statuses[i].ClockHandAngle;
     }

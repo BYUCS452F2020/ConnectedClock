@@ -11,7 +11,7 @@ class Servo;
 class ClockHands {
 private:
   Servo** servos;
-  unsigned int handCount;
+  unsigned char handCount;
   const int FULL_CIRCLE = 360;
   const float HAND_ANGLE_TO_SERVO_ANGLE = 0.5f;
 

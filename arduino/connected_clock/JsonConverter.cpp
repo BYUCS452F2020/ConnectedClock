@@ -7,15 +7,15 @@ JsonObject JsonConverter::GetJsonObject(char* input) {
   return jsonObject;
 }
 
-Whereabout* JsonConverter::JsonToWhereabouts(char* input, int& whereaboutCount) {
+Whereabout* JsonConverter::JsonToWhereabouts(char* input, unsigned char& whereaboutCount) {
   JsonObject jsonObject = JsonConverter::GetJsonObject(input);
-  whereaboutCount = jsonObject["whereabouts"].size();
+  whereaboutCount = jsonObject[F("whereabouts")].size();
   Whereabout* whereabouts = new Whereabout[whereaboutCount];
-  for (int i = 0; i < whereaboutCount; i++) {
-    strcpy(whereabouts[i].UserID, jsonObject["whereabouts"][i]["userID"]);
-    strcpy(whereabouts[i].Username, jsonObject["whereabouts"][i]["username"]);
-    whereabouts[i].ClockHandIndex = jsonObject["whereabouts"][i]["clockHandIndex"];
-    strcpy(whereabouts[i].CurrentStatusID, jsonObject["whereabouts"][i]["currentStatusID"]);
+  for (unsigned char i = 0; i < whereaboutCount; i++) {
+//    strcpy(whereabouts[i].UserID, jsonObject[F("whereabouts")][i][F("userID")]);
+//    strcpy(whereabouts[i].Username, jsonObject[F("whereabouts")][i][F("username")]);
+    whereabouts[i].ClockHandIndex = jsonObject[F("whereabouts")][i][F("clockHandIndex")];
+    strcpy(whereabouts[i].CurrentStatusID, jsonObject[F("whereabouts")][i][F("currentStatusID")]);
   }
 //  JsonConverter::doc.clear();
 
@@ -23,14 +23,14 @@ Whereabout* JsonConverter::JsonToWhereabouts(char* input, int& whereaboutCount) 
 }
 
 
-Status* JsonConverter::JsonToStatuses(char* input, int& statusCount) {
+Status* JsonConverter::JsonToStatuses(char* input, unsigned char& statusCount) {
   JsonObject jsonObject = JsonConverter::GetJsonObject(input);
-  statusCount = jsonObject["statuses"].size();
+  statusCount = jsonObject[F("statuses")].size();
   Status* statuses = new Status[statusCount];
-  for (int i = 0; i < statusCount; i++) {
-    strcpy(statuses[i].StatusID, jsonObject["statuses"][i]["statusID"]);
-    statuses[i].ClockHandAngle = jsonObject["statuses"][i]["clockHandAngle"];
-    strcpy(statuses[i].StatusName, jsonObject["statuses"][i]["statusName"]);
+  for (unsigned char i = 0; i < statusCount; i++) {
+    strcpy(statuses[i].StatusID, jsonObject[F("statuses")][i][F("statusID")]);
+    statuses[i].ClockHandAngle = jsonObject[F("statuses")][i][F("clockHandAngle")];
+//    strcpy(statuses[i].StatusName, jsonObject[F("statuses")][i][F("statusName")]);
   }
 //  JsonConverter::doc.clear();
 
@@ -40,18 +40,18 @@ Status* JsonConverter::JsonToStatuses(char* input, int& statusCount) {
 String JsonConverter::JsonToAuthToken(char* input) {
   JsonObject jsonObject = JsonConverter::GetJsonObject(input);
   char* authTokenArray = new char[36];
-  strcpy(authTokenArray, jsonObject["authToken"]);
+  strcpy(authTokenArray, jsonObject[F("authToken")]);
   String authToken(authTokenArray);
 //  JsonConverter::doc.clear();
   return authToken;
 }
 
 String JsonConverter::GroupNameGroupPasswordToJson(String groupName, String groupPassword) {
-  String loginJson = String("{ \"groupName\": \"") + groupName + String("\", \"groupPassword\": \"") + groupPassword + String("\" }");
+  String loginJson = String(F("{ \"groupName\": \"")) + groupName + String(F("\", \"groupPassword\": \"")) + groupPassword + String(F("\" }"));
   return loginJson;
 }
 
 String JsonConverter::AuthTokenToJson(String authToken) {
-  String authTokenJson = String("{ \"authToken\": \"") + authToken + String("\" }");
+  String authTokenJson = String(F("{ \"authToken\": \"")) + authToken + String(F("\" }"));
   return authTokenJson;
 }

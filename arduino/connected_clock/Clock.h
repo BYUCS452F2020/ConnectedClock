@@ -11,16 +11,16 @@ private:
   Wifi* wifi;
   ClockHands* clockHands;
   Status* statuses;
-  int statusCount;
+  unsigned char statusCount;
   String authToken;
-  const int RX_PIN = 2;
-  const int TX_PIN = 3;
-  static const int CLOCK_HAND_COUNT = 2;
-  const int CLOCK_HAND_PINS[Clock::CLOCK_HAND_COUNT] = {10, 11};
+  const unsigned char RX_PIN = 2;
+  const unsigned char TX_PIN = 3;
+  static const unsigned char CLOCK_HAND_COUNT = 2;
+  const unsigned char CLOCK_HAND_PINS[Clock::CLOCK_HAND_COUNT] = {10, 11};
 
   void InitServerConnection();
   Whereabout* ExtractWhereaboutsFromResponse(char* response, int& whereaboutCount);
-  double StatusIDToClockHandAngle(char* statusID);
+  float StatusIDToClockHandAngle(char* statusID);
 public:
   Clock();
   void Update();

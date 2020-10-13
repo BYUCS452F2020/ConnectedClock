@@ -45,10 +45,14 @@
 const long Wifi::ESP8266_BAUD_RATE = 9600;
 
 
-Wifi::Wifi(int rxPin, int txPin, String wifiNetwork, String wifiPassword) {
-  Serial.println("ESP8266 RX: pin " + String(rxPin) + " TX: pin " + String(txPin));
+Wifi::Wifi(unsigned char rxPin, unsigned char txPin, String wifiNetwork, String wifiPassword) {
+  Serial.print(F("RX "));
+  Serial.print(rxPin);
+  Serial.print(F(" TX "));
+  Serial.println(txPin);
   this->esp8266 = new SoftwareSerial(rxPin, txPin);
-  Serial.println("ESP8266 baud rate is " + String(Wifi::ESP8266_BAUD_RATE));
+  Serial.print(F("ESP Baud "));
+  Serial.println(Wifi::ESP8266_BAUD_RATE);
   this->esp8266->begin(Wifi::ESP8266_BAUD_RATE);
 
   WiFi.init(this->esp8266);
@@ -58,7 +62,7 @@ Wifi::Wifi(int rxPin, int txPin, String wifiNetwork, String wifiPassword) {
 
 void Wifi::EnsureWifiShieldPresent() {
   if (WiFi.status() == WL_NO_SHIELD) {
-    Serial.println("WiFi shield not present");
+    Serial.println(F("Wifi missing"));
     // don't continue
     while (true);
   }  
@@ -70,13 +74,13 @@ void Wifi::ConnectToNetwork(String wifiNetwork, String wifiPassword) {
 
   int status = WL_IDLE_STATUS;
   while ( status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to WPA SSID: ");
+    Serial.print(F("Connecting to Wifi "));
     Serial.println(wifiNetwork);
     status = WiFi.begin(ssid, pass);
   }
   delete ssid;
   delete pass;
-  Serial.println("You're connected to the network");
+  Serial.println(F("Wifi connected"));
 }
 
 char* Wifi::ConvertStringToCharArray(String string, int* stringSize) {
@@ -93,10 +97,15 @@ char* Wifi::ConvertStringToCharArray(String string, int* stringSize) {
 char* Wifi::SendNetworkRequest(String server, String requestType, String request, String requestBody) {
   char* ip = this->ConvertStringToCharArray(server, nullptr);  
   char* response = nullptr;
-
-  if (client.connect(ip, 80)) {
+  if (client.connect(ip, Wifi::PORT)) {
+    Serial.println(F("Connected to server"));
     this->SendRequest(ip, requestType, request, requestBody); 
     response = this->GetResponse();
+  }
+  else
+  {
+
+    Serial.println(F("Server connect failed"));
   }
   
   delete ip;
@@ -105,40 +114,59 @@ char* Wifi::SendNetworkRequest(String server, String requestType, String request
 
 void Wifi::SendRequest(char* ip, String requestType, String request, String requestBody) {
     int requestSize;
-    char* rqstBody = this->ConvertStringToCharArray(requestBody, requestSize);
+    char* rqstBody = this->ConvertStringToCharArray(requestBody, &requestSize);
     char* rqst = this->ConvertStringToCharArray(requestType + String(" ") + request + String(" HTTP/1.1"), nullptr);
-    Serial.println("Connected to server");
     client.println(rqst);
-    client.print("Host: ");
+    client.print(F("Host: "));
     client.println(ip);
-    client.println("Connection: close");
-    client.println("Content-Type: application/json");
-    client.print("Content-Length: ");
-    client.println(requestSize);
-    client.println();
+    client.println(F("Connection: keep-alive"));
+    client.println(F("Content-Type: application/json"));
+    client.print(F("Content-Length: "));
+    client.println(String(requestSize));
     client.println();
     client.println(requestBody);
-    client.println();
+
+    Serial.print(F("Content-Length: "));
+    Serial.println(String(requestSize));
+    Serial.println();
+    Serial.println(requestBody);
     delete rqst;
-    delete rqstBody;
+    delete rqstBody;;
 }
 
 char* Wifi::GetResponse()
 {
   const int READ_SIZE = 32;
-  char* readBuffer = new char[Wifi::BUFFER_SIZE];
+//  char* readBuffer = new char[Wifi::BUFFER_SIZE];
   int responseSize = 0;
   while (client.connected()) {
-    while(client.available() && responseSize + READ_SIZE < BUFFER_SIZE) {
-      responseSize += client.read(readBuffer + responseSize, READ_SIZE);
-      Serial.println("Read " + String(responseSize) + " bytes");
+      Serial.println("isconnected " + String(client.connected()));
+      Serial.println("isavailable " + String(client.available()));
+    while (client.available()) {
+      char val = client.read();
+      Serial.print(val);
     }
   }
+//  while (client.connected() && client.available() && responseSize < Wifi::BUFFER_SIZE - 1) {
+//    Serial.print("#");
+
+//    readBuffer[responseSize] = val;
+//    responseSize++;
+
+    
+//    Serial.println("#15");
+//    while(client.available() && responseSize + READ_SIZE < Wifi::BUFFER_SIZE) {
+//      Serial.println("#16");
+//      responseSize += client.read(readBuffer + responseSize, READ_SIZE);
+//      Serial.println("#17");
+//      Serial.println("Read " + String(responseSize) + " bytes");
+//  }
+  Serial.println("#18");
   client.stop();
   Serial.println();
-
-  char* responseBody = this->ExtractBodyFromResponse(readBuffer, responseSize);
-  delete readBuffer;
+  char* responseBody = nullptr;
+//  char* responseBody = this->ExtractBodyFromResponse(readBuffer, responseSize);
+//  delete readBuffer;
   return responseBody;
 }
 

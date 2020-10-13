@@ -3,8 +3,8 @@
 
 struct Status {
   char StatusID[36];
-  double ClockHandAngle;
-  char StatusName[20];
+  float ClockHandAngle;
+//  char StatusName[20];
 };
 
 #endif

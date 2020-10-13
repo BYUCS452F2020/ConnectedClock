@@ -13,8 +13,8 @@ private:
   
 public:
   
-  static Whereabout* JsonToWhereabouts(char* response, int& whereaboutCount);
-  static Status* JsonToStatuses(char* input, int& statusCount);
+  static Whereabout* JsonToWhereabouts(char* response, unsigned char& whereaboutCount);
+  static Status* JsonToStatuses(char* input, unsigned char& statusCount);
   static String JsonToAuthToken(char* input);
   static String GroupNameGroupPasswordToJson(String groupName, String groupPassword);
   static String AuthTokenToJson(String authToken);

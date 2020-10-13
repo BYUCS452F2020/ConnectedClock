@@ -18,9 +18,10 @@ private:
   char* ExtractBodyFromResponse(char* response, int responseSize);
   
 public: 
-  static const int BUFFER_SIZE = 500;
+  static const unsigned int BUFFER_SIZE = 200;
+  static const unsigned int PORT = 80;
   
-  Wifi(int rxPin, int txPin, String wifiNetwork, String wifiPassword);
+  Wifi(unsigned char rxPin, unsigned char txPin, String wifiNetwork, String wifiPassword);
   char* SendNetworkRequest(String server, String requestType, String request, String requestBody);
 };
 
