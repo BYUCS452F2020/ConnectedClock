@@ -33,60 +33,143 @@
 //
 // ESP8266 AT command reference:
 // https://room-15.github.io/blog/2015/03/26/esp8266-at-command-reference/
+//
+//
+// Since we're using the WifiEsp library, it actually simplifies a lot of the wifi interaction. See the following link for more info:
+// http://yaab-arduino.blogspot.com/p/wifiesp.html
 
 
 #include "Wifi.h"
 #include "Arduino.h"
 
-const long Wifi::ESP8266_BAUD_RATE = 9600;
+const int Wifi::ESP8266_BAUD_RATE = 9600;
 
 
-Wifi::Wifi(int rxPin, int txPin, String wifiNetwork, String wifiPassword) {
-  Serial.println("ESP8266 RX: pin " + String(rxPin) + " TX: pin " + String(txPin));
+Wifi::Wifi(unsigned char rxPin, unsigned char txPin, String wifiNetwork, String wifiPassword) {
+  Serial.print(F("RX "));
+  Serial.print(rxPin);
+  Serial.print(F(" TX "));
+  Serial.println(txPin);
   this->esp8266 = new SoftwareSerial(rxPin, txPin);
-  Serial.println("ESP8266 baud rate is " + String(Wifi::ESP8266_BAUD_RATE));
+  Serial.print(F("ESP Baud "));
+  Serial.println(Wifi::ESP8266_BAUD_RATE);
   this->esp8266->begin(Wifi::ESP8266_BAUD_RATE);
 
-  this->Command("AT+RST\r\n", 2000); // Reset Wifi
-  this->Command("AT+CWMODE=1\r\n",1000); // Set as Wifi Client
-  this->Command("AT+CIPMUX=0\r\n",1000); // Only allow a single client at a time
-  this->Command("AT+CWJAP=\"" + wifiNetwork + "\",\"" + wifiPassword + "\"\r\n", 6000); // Connect to Wifi Network
-  this->Command("AT+CIFSR\r\n",2000); // get ip address // I DON'T THINK I NEED THIS...
+  client.setTimeout(Wifi::READ_TIMEOUT_MS);
+  WiFi.init(this->esp8266);
+  this->EnsureWifiShieldPresent();
+  this->ConnectToNetwork(wifiNetwork, wifiPassword);
 }
 
-void Wifi::Command(String command, const int timeout)
-{
-    //Serial.println(command.c_str());
-    this->esp8266->print(command); // send the read character to the esp8266
-    long int time = millis();
+void Wifi::EnsureWifiShieldPresent() {
+  if (WiFi.status() == WL_NO_SHIELD) {
+    Serial.println(F("Wifi missing"));
+    // don't continue
+    while (true);
+  }  
+}
 
-    while( (time+timeout) > millis())
-    {
-      while(this->esp8266->available())
-      {
-        // The esp has data so display its output to the serial window 
-        Serial.write(this->esp8266->read());
-      }  
+void Wifi::ConnectToNetwork(String wifiNetwork, String wifiPassword) {
+  int status = WL_IDLE_STATUS;
+  while ( status != WL_CONNECTED) {
+    Serial.print(F("Connecting to Wifi "));
+    Serial.println(wifiNetwork);
+    status = WiFi.begin(wifiNetwork.c_str(), wifiPassword.c_str());
+  }
+  Serial.println(F("Wifi connected"));
+}
+
+
+String Wifi::SendNetworkRequest(String server, String requestType, String request, String requestBody) {
+  if (client.connect(server.c_str(), Wifi::PORT)) {
+    Serial.println(F("Connected to server"));
+    this->SendRequest(server, requestType, request, requestBody); 
+    return this->GetResponse();
+  }
+  else
+  {
+
+    Serial.println(F("Server connect failed"));
+  }
+  
+  return F("");
+}
+
+void Wifi::SendRequest(String host, String requestType, String request, String requestBody) {
+    String httpRequest = 
+            requestType + F(" ") + request + F(" HTTP/1.0") +
+            F("\r\nHost: ") + host + 
+            F("\r\nConnection: keep-alive") + 
+            F("\r\nContent-Type: application/json") + 
+            F("\r\nContent-Length: ") + String(requestBody.length()) + 
+            F("\r\n\r\n") + 
+            requestBody + 
+            F("\r\n");
+    client.println(httpRequest);
+    Serial.println(F("REQUEST"));
+    Serial.println(httpRequest);
+    Serial.println();
+}
+
+bool Wifi::WaitForResponse() {
+  unsigned long start_time = millis();
+  while (client.available() == 0) {
+    if (millis() - start_time > Wifi::WAIT_TIMEOUT_MS) {
+      return false;
     }
+  }
+
+  return true;
 }
 
-void Wifi::SendData(String server, String data) {
-  int dataLength = data.length();
-  this->Command("AT+CIPSTART=\"TCP\",\"" + server + "\",80\r\n", 1000);
-  this->Command("AT+CIPSEND=" + String(dataLength + 9) + "\r\n", 500);
-  this->Command(data + " HTTP/1.1\r\n", 500);
+int Wifi::ReadContentLength() {
+  String contentLengthLine = this->ReadUntil(16, F("Content-Length:"));
+  if (contentLengthLine.length() > 0) {
+    String contentLengthValue = contentLengthLine.substring(16);
+    int contentLength = contentLengthValue.toInt();
+    return contentLength;
+  }
+  return -1;
+}
 
-//
-//  int readDataSize = this->esp8266->available();
-//  if (readDataSize > 0) {
-//    char* readData = new char[readDataSize];
-//    for (int i = 0; i < readDataSize; i++) {
-//      readData[i] = this->esp8266->read();
-//    }
-//
-//    
-//  } 
-//
-//  this->esp8266->find("+IPD,");
-  this->Command("AT+CIPCLOSE", 1000);
+void Wifi::ReadUntilBody() {
+  String preBodyLine = this->ReadUntil(1, F("\r"));
+}
+
+String Wifi::ReadUntil(char minLength, String subString) {
+  bool subStringFound = false;
+  while (client.available() && !subStringFound) {
+    String line = client.readStringUntil('\n');
+    if (line.length() >= minLength && line.substring(0, subString.length()) == subString) {
+      return line;
+    }
+  }
+  return F("");
+}
+
+String Wifi::GetResponse()
+{
+  bool didReceiveResponse = this->WaitForResponse();
+  if (didReceiveResponse) {
+    int contentLength = this->ReadContentLength();
+    this->ReadUntilBody();
+    if (contentLength > 0) {
+      char* bodyReadBuffer = new char[contentLength + 1] {0};
+      for (unsigned int i = 0; i < contentLength; i++) {
+        bodyReadBuffer[i] = client.read();
+      }
+      String body = String(bodyReadBuffer);
+      delete bodyReadBuffer;
+      client.stop();
+      Serial.println(F("RSPNSE BDY"));
+      Serial.println(body);
+      return body;
+    }
+  }
+  else {
+    Serial.println(F("Response Timeout!"));
+    client.stop();
+  }
+
+  return F("");
 }

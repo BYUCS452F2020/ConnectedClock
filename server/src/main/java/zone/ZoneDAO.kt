@@ -41,7 +41,7 @@ class ZoneDAO : BaseDAO() {
             deleteStatement.setString(1, groupID)
             deleteStatement.execute()
 
-            this.insertObjects(Zone::class.java, connection, "zone", updatedZones)
+            this.insertObjects(Zone::class.java, connection, "Zone", updatedZones)
 
             connection.commit()
         } catch (e: Exception) {

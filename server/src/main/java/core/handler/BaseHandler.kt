@@ -17,7 +17,7 @@ abstract class BaseHandler<T> : RequestHandler<T, BaseResponse> {
             val printWriter = PrintWriter(stringWriter)
             e.printStackTrace(printWriter)
             val stackTrace = stringWriter.toString()
-            BaseResponse("An uncaught exception occurred: '${e}'\n\n${e.message}\n\n${stackTrace}")
+            BaseResponse("An uncaught exception occurred: '${e}'")
         }
     }
 

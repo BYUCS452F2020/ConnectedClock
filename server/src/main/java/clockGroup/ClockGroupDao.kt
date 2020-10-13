@@ -8,6 +8,7 @@ class ClockGroupDao : BaseDAO() {
         val connection = openConnection()
         try {
             super.insertObject(ClockGroup::class.java, connection, "ClockGroup", singleGroup)
+            connection.commit()
         } finally {
             closeConnection(connection)
         }
@@ -49,6 +50,7 @@ class ClockGroupDao : BaseDAO() {
             updateStatement.setString(1, groupID)
             updateStatement.setString(2, userID)
             updateStatement.execute()
+            connection.commit()
         } finally {
             closeConnection(connection)
         }
@@ -136,6 +138,7 @@ class ClockGroupDao : BaseDAO() {
             val deleteStatement = connection.prepareStatement(DELETE_GROUP_SQL)
             deleteStatement.setString(1, groupID)
             deleteStatement.execute()
+            connection.commit()
         } finally {
             this.closeConnection(connection)
         }
