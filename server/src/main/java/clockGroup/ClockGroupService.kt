@@ -22,11 +22,18 @@ class ClockGroupService {
         clockGroupDao.createNewGroup(clockGroup)
     }
 
-    fun getGroup(authToken: String): ClockGroup{
+    fun getGroup(authToken: String, groupPassword: String): ClockGroup{
         val clockGroupDao = ClockGroupDao()
         val userID = clockGroupDao.getUserIDByAuthToken(authToken)
+        if (userID == ""){
+            throw NotAuthorizedException()
+        }
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
-        return clockGroupDao.getClockGroup(groupID)
+        val clockGroup = clockGroupDao.getClockGroup(groupID)
+        if (clockGroup.groupPassword != groupPassword){
+            throw NotAuthorizedException()
+        }
+        return clockGroup
     }
 
     fun addMemberToGroup (authToken: String, userNameToAdd: String, password: String) {

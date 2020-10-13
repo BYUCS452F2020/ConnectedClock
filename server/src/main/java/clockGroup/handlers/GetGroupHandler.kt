@@ -10,10 +10,7 @@ import core.handler.BaseResponse
 class GetGroupHandler: BaseHandler<GetGroupRequest>() {
     override fun handle(request: GetGroupRequest): BaseResponse {
         val clockGroupService = ClockGroupService()
-        val clockGroup = clockGroupService.getGroup(request.authToken)
-        if (clockGroup.groupPassword != request.groupPassword){
-            throw NotAuthorizedException()
-        }
+        val clockGroup = clockGroupService.getGroup(request.authToken, request.groupPassword)
         return GetClockGroupResponse(clockGroup)
     }
 }

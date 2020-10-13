@@ -15,7 +15,7 @@ class ClockGroupDao : BaseDAO() {
 
     // find user by authToken
     private val GET_USER_BY_AUTH_SQL = """
-        SELECT AuthToken.groupID
+        SELECT AuthToken.userID
             FROM AuthToken
             WHERE authToken=?;
     """
@@ -26,6 +26,9 @@ class ClockGroupDao : BaseDAO() {
             preparedStatement.setString(1, authToken)
             val resultSet = preparedStatement.executeQuery()
             val results = this.getSimpleQueryResults<String>(resultSet)
+            if (results.size == 0){
+                return ""
+            }
             return results[0]
         } finally {
             this.closeConnection(connection)
@@ -66,7 +69,14 @@ class ClockGroupDao : BaseDAO() {
             val resultSet = getStatement.executeQuery()
             val clockGroups = this.getQueryResults(ClockGroup::class.java, resultSet)
             // only one group will be returned at a time
-            return clockGroups[0]
+            if (clockGroups.size == 0){
+                // return an empty group out
+                return ClockGroup(groupID = groupID, groupPassword = "", groupName = "")
+            }
+            else {
+                return clockGroups[0]
+            }
+
         } finally {
             closeConnection(connection)
         }
@@ -85,6 +95,9 @@ class ClockGroupDao : BaseDAO() {
             preparedStatement.setString(1, userID)
             val resultSet = preparedStatement.executeQuery()
             val results = this.getSimpleQueryResults<String>(resultSet)
+            if (results.size == 0){
+                return ""
+            }
             return results[0]
         } finally {
             this.closeConnection(connection)
@@ -104,13 +117,15 @@ class ClockGroupDao : BaseDAO() {
             preparedStatement.setString(1, userName)
             val resultSet = preparedStatement.executeQuery()
             val results = this.getSimpleQueryResults<String>(resultSet)
+            if (results.size == 0){
+                return ""
+            }
             return results[0]
         } finally {
             this.closeConnection(connection)
         }
     }
 
-    // find userID by userName
     private val DELETE_GROUP_SQL = """
         DELETE FROM ClockGroup
         WHERE ClockGroup.groupID=?;

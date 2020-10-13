@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS Zone;
 DROP TABLE IF EXISTS Status;
 DROP TABLE IF EXISTS AuthToken;
 DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS clockGroup;
+DROP TABLE IF EXISTS ClockGroup;
 
 
 /* Create clockGroup Table
@@ -21,6 +21,7 @@ TODO: Obviously, you still need to add a bunch to this, I just put in the basic 
 CREATE TABLE User (
 	userID CHAR(36) NOT NULL PRIMARY KEY,
     groupID CHAR(36) NULL,
+    userName CHAR(20) NOT NULL,
     FOREIGN KEY (groupID) REFERENCES ClockGroup(groupID) ON DELETE CASCADE
     );
 
