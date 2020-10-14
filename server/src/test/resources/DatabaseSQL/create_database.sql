@@ -5,11 +5,12 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS ClockGroup;
 
 
-/* Create Group Table
-TODO: Obviously, you still need to add a bunch to this, I just put in the basic attributes I needed for authorization.
+/* Create clockGroup Table
 */
 CREATE TABLE ClockGroup (
-	groupID CHAR(36) NOT NULL PRIMARY KEY
+	groupID CHAR(36) NOT NULL PRIMARY KEY,
+	groupName VARCHAR(50) NULL,
+	groupPassword VARCHAR(20) NULL
     );
 
 
@@ -19,7 +20,8 @@ TODO: Obviously, you still need to add a bunch to this, I just put in the basic 
 */
 CREATE TABLE User (
 	userID CHAR(36) NOT NULL PRIMARY KEY,
-    groupID CHAR(36),
+    groupID CHAR(36) NULL,
+    userName CHAR(20) NOT NULL,
     FOREIGN KEY (groupID) REFERENCES ClockGroup(groupID) ON DELETE CASCADE
     );
 
@@ -32,7 +34,7 @@ CREATE TABLE AuthToken (
     userID CHAR(36) NULL,
     groupID CHAR(36) NULL,
     FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE,
-    FOREIGN KEY (groupID) references ClockGroup(groupID) ON DELETE CASCADE
+    FOREIGN KEY (groupID) REFERENCES ClockGroup(groupID) ON DELETE CASCADE
 );
 
     
