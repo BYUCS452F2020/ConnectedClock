@@ -1,11 +1,14 @@
 package clockGroup
 
+import authorization.AuthorizationService
 import core.NotAuthorizedException
 import java.util.*
 
 class ClockGroupService {
+    private val authorizationService = AuthorizationService()
 
     fun createGroup(authToken: String, groupName: String, groupPassword: String){
+
         val clockGroupDao = ClockGroupDao()
         // generate a unique group id for the group, an create clockGroup Object
         val groupID = UUID.randomUUID().toString()
@@ -15,19 +18,16 @@ class ClockGroupService {
         clockGroup.groupName = groupName
         clockGroup.groupPassword = groupPassword
         // get the userID
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
-        // update groupID in User table
-        clockGroupDao.updateGroupInUser(groupID, userID)
+        val userID = authorizationService.getUserIDFromAuthToken(authToken)
         // insert group info in the group table
         clockGroupDao.createNewGroup(clockGroup)
+        // update groupID in User table
+        clockGroupDao.updateGroupInUser(groupID, userID)
     }
 
     fun getGroup(authToken: String, groupPassword: String): ClockGroup{
         val clockGroupDao = ClockGroupDao()
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
-        if (userID == ""){
-            throw NotAuthorizedException()
-        }
+        val userID = authorizationService.getUserIDFromAuthToken(authToken)
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         val clockGroup = clockGroupDao.getClockGroup(groupID)
         if (clockGroup.groupPassword != groupPassword){
@@ -39,7 +39,7 @@ class ClockGroupService {
     fun addMemberToGroup (authToken: String, userNameToAdd: String, password: String) {
         val clockGroupDao = ClockGroupDao()
         // get the current User ID
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
+        val userID = authorizationService.getUserIDFromAuthToken(authToken)
         // get the groupID
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         // get the userID need to be add
@@ -58,14 +58,13 @@ class ClockGroupService {
     fun deleteMemberFromGroup (authToken: String) {
         val clockGroupDao = ClockGroupDao()
         // get the current User ID
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
-        // set the string to "" empty
+        val userID = authorizationService.getUserIDFromAuthToken(authToken)
         clockGroupDao.updateGroupInUser("", userID)
     }
 
     fun deleteGroup(authToken: String, password: String) {
         val clockGroupDao = ClockGroupDao()
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
+        val userID = authorizationService.getUserIDFromAuthToken(authToken)
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         val storedPassWord = clockGroupDao.getClockGroup(groupID).groupPassword
         if (password == storedPassWord) {
@@ -74,5 +73,14 @@ class ClockGroupService {
         } else {
             throw NotAuthorizedException()
         }
+    }
+
+    // TODO testing
+    fun loginGroup(groupName: String, groupPassword: String): String {
+        val clockGroupDao = ClockGroupDao()
+        val newAuthToken = UUID.randomUUID().toString()
+        val groupId = clockGroupDao.getGroupIDViaGroupName(groupName)
+        clockGroupDao.setAuthTokenTable(newAuthToken, groupId)
+        return newAuthToken
     }
 }

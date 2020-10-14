@@ -1,6 +1,7 @@
 package group
 
 import BaseTest
+import authorization.AuthorizationService
 import clockGroup.ClockGroup
 import clockGroup.ClockGroupDao
 import org.junit.Assert
@@ -9,7 +10,6 @@ import org.junit.Test
 
 class GroupDAOTests: BaseTest() {
     var clockGroupDao = ClockGroupDao()
-
     // tests for getClockGroup function
     @Test
     fun getGroup_Success_Test(){
@@ -27,21 +27,6 @@ class GroupDAOTests: BaseTest() {
         Assert.assertEquals(groupID, clockGroup.groupID)
         Assert.assertEquals("", clockGroup.groupName)
         Assert.assertEquals("", clockGroup.groupPassword)
-    }
-
-    // tests for getUserIDByAuthToken
-    @Test
-    fun getUserIDByAuthToken_Success_Test(){
-        val authToken = "e00f1c88-1d5b-4d32-be07-1018f39a26b2"
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
-        Assert.assertEquals("3ea0f56f-7864-4d49-a5ed-5f741a7969c8", userID)
-    }
-
-    @Test
-    fun getUserIDByAuthToken_Fail_NotExist_Test(){
-        val authToken = "notExit"
-        val userID = clockGroupDao.getUserIDByAuthToken(authToken)
-        Assert.assertEquals( "", userID)
     }
 
     // tests for getGroupIDViaUser

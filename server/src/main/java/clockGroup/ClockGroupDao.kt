@@ -14,28 +14,6 @@ class ClockGroupDao : BaseDAO() {
         }
     }
 
-    // find user by authToken
-    private val GET_USER_BY_AUTH_SQL = """
-        SELECT AuthToken.userID
-            FROM AuthToken
-            WHERE authToken=?;
-    """
-    fun getUserIDByAuthToken(authToken: String): String{
-        val connection = this.openConnection()
-        try {
-            val preparedStatement = connection.prepareStatement(GET_USER_BY_AUTH_SQL)
-            preparedStatement.setString(1, authToken)
-            val resultSet = preparedStatement.executeQuery()
-            val results = this.getSimpleQueryResults<String>(resultSet)
-            if (results.size == 0){
-                return ""
-            }
-            return results[0]
-        } finally {
-            this.closeConnection(connection)
-        }
-    }
-
     // update the User table for group Info
     private val UPDATE_USER_SQL =
         """
@@ -138,6 +116,48 @@ class ClockGroupDao : BaseDAO() {
             val deleteStatement = connection.prepareStatement(DELETE_GROUP_SQL)
             deleteStatement.setString(1, groupID)
             deleteStatement.execute()
+            connection.commit()
+        } finally {
+            this.closeConnection(connection)
+        }
+    }
+
+    // find groupId by groupName
+    private val GET_GROUPID_BY_GROUPNAME_SQL = """
+        SELECT groupID
+            FROM ClockGroup
+            WHERE groupName=?;
+    """
+    fun getGroupIDViaGroupName(groupName: String): String{
+        val connection = this.openConnection()
+        try {
+            val preparedStatement = connection.prepareStatement(GET_GROUPID_BY_GROUPNAME_SQL)
+            preparedStatement.setString(1, groupName)
+            val resultSet = preparedStatement.executeQuery()
+            val results = this.getSimpleQueryResults<String>(resultSet)
+            if (results.size == 0){
+                return ""
+            }
+            return results[0]
+        } finally {
+            this.closeConnection(connection)
+        }
+    }
+
+    // set authToken table
+    private val SET_AUTHTOKEN_SQL =
+        """
+        INSERT INTO table_name (authToken, userID, groupID)
+        VALUES (?, ?, ?);
+        """
+    fun setAuthTokenTable(authToken: String, groupID: String) {
+        val connection = this.openConnection()
+        try {
+            val updateStatement = connection.prepareStatement(SET_AUTHTOKEN_SQL)
+            updateStatement.setString(1, authToken)
+            updateStatement.setString(2, null)
+            updateStatement.setString(3, groupID)
+            updateStatement.execute()
             connection.commit()
         } finally {
             this.closeConnection(connection)

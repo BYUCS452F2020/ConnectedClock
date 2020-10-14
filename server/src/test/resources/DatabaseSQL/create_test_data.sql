@@ -1,4 +1,6 @@
 /* clockGroup Table Test Data */
+-- this is a null group means a person does not have a group
+INSERT INTO ClockGroup (groupID) VALUES ("");
 INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("98729fce-0809-43fe-b953-f48b14b07616", "test group", "pass");
 INSERT INTO ClockGroup (groupID) VALUES ("2bc8f348-fce4-4df6-9795-deff8e721c7a");
 INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("eec3b172-0c9e-11eb-adc1-0242ac120002", "Fun Group", "funpassword");
