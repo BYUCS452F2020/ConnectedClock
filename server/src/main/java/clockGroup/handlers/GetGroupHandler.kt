@@ -1,9 +1,8 @@
 package clockGroup.handlers
 
 import clockGroup.ClockGroupService
-import clockGroup.GetClockGroupResponse
+import clockGroup.responses.GetClockGroupResponse
 import clockGroup.requests.GetGroupRequest
-import core.NotAuthorizedException
 import core.handler.BaseHandler
 import core.handler.BaseResponse
 

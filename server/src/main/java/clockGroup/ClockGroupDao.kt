@@ -147,7 +147,7 @@ class ClockGroupDao : BaseDAO() {
     // set authToken table
     private val SET_AUTHTOKEN_SQL =
         """
-        INSERT INTO table_name (authToken, userID, groupID)
+        INSERT INTO AuthToken (authToken, userID, groupID)
         VALUES (?, ?, ?);
         """
     fun setAuthTokenTable(authToken: String, groupID: String) {

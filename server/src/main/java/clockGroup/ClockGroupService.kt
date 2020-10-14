@@ -75,11 +75,17 @@ class ClockGroupService {
         }
     }
 
-    // TODO testing
     fun loginGroup(groupName: String, groupPassword: String): String {
         val clockGroupDao = ClockGroupDao()
         val newAuthToken = UUID.randomUUID().toString()
         val groupId = clockGroupDao.getGroupIDViaGroupName(groupName)
+        if (groupId == ""){
+            throw NotAuthorizedException()
+        }
+        val password = clockGroupDao.getClockGroup(groupId).groupPassword
+        if (password != groupPassword){
+            throw NotAuthorizedException()
+        }
         clockGroupDao.setAuthTokenTable(newAuthToken, groupId)
         return newAuthToken
     }

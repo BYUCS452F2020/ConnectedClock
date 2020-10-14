@@ -1,7 +1,7 @@
 package clockGroup.handlers
 
 import clockGroup.ClockGroupService
-import clockGroup.LoginGroupResponse
+import clockGroup.responses.LoginGroupResponse
 import clockGroup.requests.LoginGroupRequest
 import core.handler.BaseHandler
 import core.handler.BaseResponse

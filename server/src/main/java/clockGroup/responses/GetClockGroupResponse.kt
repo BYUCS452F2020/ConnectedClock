@@ -1,4 +1,5 @@
-package clockGroup
+package clockGroup.responses
+import clockGroup.ClockGroup
 import core.handler.BaseResponse
 
 class GetClockGroupResponse: BaseResponse {

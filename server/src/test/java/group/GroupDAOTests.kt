@@ -4,6 +4,7 @@ import BaseTest
 import authorization.AuthorizationService
 import clockGroup.ClockGroup
 import clockGroup.ClockGroupDao
+import core.NotAuthorizedException
 import org.junit.Assert
 import org.junit.Test
 
@@ -90,7 +91,7 @@ class GroupDAOTests: BaseTest() {
         Assert.assertEquals(newGroupID, new_result)
     }
 
-    // tests for deleteGroup, need test that it was deleted on all other place as well
+    // tests for deleteGroup
     @Test
     fun deleteGroup_Success_Test(){
         val groupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
@@ -104,5 +105,35 @@ class GroupDAOTests: BaseTest() {
         Assert.assertEquals(groupID, emptyResult.groupID)
         Assert.assertEquals("", emptyResult.groupName)
         Assert.assertEquals("", emptyResult.groupPassword)
+    }
+
+    // tests for getGroupIDViaGroupName function
+    @Test
+    fun getGroupIDViaGroupName_Success_Test(){
+        val groupName = "test group"
+        val groupID = clockGroupDao.getGroupIDViaGroupName(groupName)
+        Assert.assertEquals("98729fce-0809-43fe-b953-f48b14b07616", groupID)
+    }
+
+    @Test
+    fun getGroupIDViaGroupName_Fail_InvalidGroupName_Test(){
+        val groupName = "wrong group name"
+        val groupID = clockGroupDao.getGroupIDViaGroupName(groupName)
+        Assert.assertEquals("", groupID)
+    }
+
+    // tests for setAuthTokenTable function
+    @Test
+    fun setAuthTokenTable_Success_Test(){
+        val authService = AuthorizationService()
+        val authToken = "newly generated auth token"
+        val groupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
+        clockGroupDao.setAuthTokenTable(authToken, groupID)
+        val result = authService.getGroupIDFromAuthToken(authToken)
+        Assert.assertEquals(groupID, result)
+        assertThrowsException("Thrown 'NotAuthorizedException' because userID is ont stored in", NotAuthorizedException::class.java
+        ) {
+            authService.getUserIDFromAuthToken(authToken)
+        }
     }
 }

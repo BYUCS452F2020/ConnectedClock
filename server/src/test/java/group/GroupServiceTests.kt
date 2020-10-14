@@ -29,11 +29,9 @@ class GroupServiceTests: BaseTest() {
     fun getGroup_Fail_WrongAuthToken_Test(){
         val authToken = "wrongAuthToken"
         val password = "pass"
-        try {
+        assertThrowsException("Thrown 'NotAuthorizedException' for wrong authToken", NotAuthorizedException::class.java
+        ) {
             groupService.getGroup(authToken, password)
-        }
-        catch (e: NotAuthorizedException){
-            Assert.assertNotNull(e)
         }
     }
 
@@ -41,11 +39,9 @@ class GroupServiceTests: BaseTest() {
     fun getGroup_Fail_WrongPassWord_Test(){
         val authToken = "e00f1c88-1d5b-4d32-be07-1018f39a26b2"
         val password = "wrong"
-        try {
+        assertThrowsException("Thrown 'NotAuthorizedException' for wrong password", NotAuthorizedException::class.java
+        ) {
             groupService.getGroup(authToken, password)
-        }
-        catch (e: NotAuthorizedException){
-            Assert.assertNotNull(e)
         }
     }
 
@@ -66,11 +62,9 @@ class GroupServiceTests: BaseTest() {
         val authToken = "wrong auth token"
         val groupName = "test name"
         val groupPassword = "test pass"
-        try {
+        assertThrowsException("Thrown 'NotAuthorizedException' for invalid authToken", NotAuthorizedException::class.java
+        ) {
             groupService.createGroup(authToken, groupName, groupPassword)
-        }
-        catch (e: NotAuthorizedException){
-            Assert.assertNotNull(e)
         }
     }
 
@@ -92,11 +86,9 @@ class GroupServiceTests: BaseTest() {
         val authToken = "e00f1c88-1d5b-4d32-be07-1018f39a26b2"
         val userNameToAdd = "test3"
         val groupPassword = "wrong pass"
-        try {
+        assertThrowsException("Thrown 'NotAuthorizedException' for invalid password", NotAuthorizedException::class.java
+        ) {
             groupService.addMemberToGroup(authToken, userNameToAdd, groupPassword)
-        }
-        catch (e: NotAuthorizedException){
-            Assert.assertNotNull(e)
         }
     }
 
@@ -106,11 +98,9 @@ class GroupServiceTests: BaseTest() {
         val authToken = "wrongAuth"
         val userNameToAdd = "test3"
         val groupPassword = "pass"
-        try {
+        assertThrowsException("Thrown 'NotAuthorizedException' for invalid authToken", NotAuthorizedException::class.java
+        ) {
             groupService.addMemberToGroup(authToken, userNameToAdd, groupPassword)
-        }
-        catch (e: NotAuthorizedException){
-            Assert.assertNotNull(e)
         }
     }
 
@@ -143,12 +133,46 @@ class GroupServiceTests: BaseTest() {
     @Test
     fun deleteGroup_Fail_WrongPassWord_Test(){
         val authToken = "e00f1c88-1d5b-4d32-be07-1018f39a26b2"
-        val groupPassword = "pass"
-        try {
+        val groupPassword = "wrong pass"
+        assertThrowsException("Thrown 'NotAuthorizedException' for wrong password", NotAuthorizedException::class.java
+        ) {
             groupService.deleteGroup(authToken, groupPassword)
         }
-        catch (e: NotAuthorizedException){
-            Assert.assertNotNull(e)
+    }
+
+    // tests for loginGroup
+    @Test
+    fun loginGroup_Success_Test(){
+        val authService = AuthorizationService()
+        val password = "pass"
+        val groupName = "test group"
+        val authToken = groupService.loginGroup(groupName, password)
+        val groupID = authService.getGroupIDFromAuthToken(authToken)
+        Assert.assertNotNull(groupID)
+        Assert.assertNotEquals("", groupID)
+        assertThrowsException("Thrown 'NotAuthorizedException' for user not stored in Auth table", NotAuthorizedException::class.java
+        ) {
+            authService.getUserIDFromAuthToken(authToken)
+        }
+    }
+
+    @Test
+    fun loginGroup_Fail_InvalidGroupName_Test(){
+        val password = "pass"
+        val groupName = "wrong test group"
+        assertThrowsException("Thrown 'NotAuthorizedException' for wrong groupName", NotAuthorizedException::class.java
+        ) {
+            groupService.loginGroup(groupName, password)
+        }
+    }
+
+    @Test
+    fun loginGroup_Fail_InvalidPassword_Test(){
+        val password = "wrong pass"
+        val groupName = "wrong test group"
+        assertThrowsException("Thrown 'NotAuthorizedException' for wrong password", NotAuthorizedException::class.java
+        ) {
+            groupService.loginGroup(groupName, password)
         }
     }
 
