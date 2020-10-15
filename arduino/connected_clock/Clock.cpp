@@ -5,9 +5,9 @@
 Clock::Clock() {
   Serial.println(F("Init Clock"));
   this->wifi = new Wifi(
-    this->RX_PIN, 
-    this->TX_PIN, 
-    Secrets::GetWifiNetworkName(), 
+    this->RX_PIN,
+    this->TX_PIN,
+    Secrets::GetWifiNetworkName(),
     Secrets::GetWifiNetworkPassword());
 
   this->InitServerConnection();
@@ -15,12 +15,12 @@ Clock::Clock() {
 }
 
 void Clock::InitServerConnection() {
-//  String loginJson = JsonConverter::GroupNameGroupPasswordToJson(Secrets::GetClockGroupName(), Secrets::GetClockGroupPassword());
-//  char* responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), String("POST"), String("/LoginGroup/"), loginJson);
-//  this->authToken = JsonConverter::JsonToAuthToken(responseBody);
+  //  String loginJson = JsonConverter::GroupNameGroupPasswordToJson(Secrets::GetClockGroupName(), Secrets::GetClockGroupPassword());
+  //  char* responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), String("POST"), String("/LoginGroup/"), loginJson);
+  //  this->authToken = JsonConverter::JsonToAuthToken(responseBody);
   this->authToken = Secrets::GetAuthToken();
-//  delete responseBody;
-  
+  //  delete responseBody;
+
   String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
   String statusBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallStatuses/"), authTokenJson);
   this->statuses = JsonConverter::JsonToStatuses(statusBody, this->statusCount);
@@ -32,23 +32,17 @@ void Clock::Update() {
   String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
   String responseBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallWhereabouts/"), authTokenJson);
   this->clockHands->AttachAll();
-  
+
   unsigned char whereaboutCount = 0;
   Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
   for (int i = 0; i < 2; i++) {
     Serial.println(whereabouts[i].ClockHandIndex);
   }
-  Serial.print("CNT ");
-  Serial.println(whereaboutCount);
-  
+
   for (unsigned char i = 0; i < whereaboutCount; i++) {
     int clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
-    this->clockHands->SetHandAngle(whereabouts[i].ClockHandIndex, clockHandAngle);
-    
-    Serial.print(F("Servo "));
-    Serial.print((int)whereabouts[i].ClockHandIndex);
-    Serial.print(F(" to "));
-    Serial.println(String((int)clockHandAngle));
+    this->clockHands->TransitionHandTo(whereabouts[i].ClockHandIndex, clockHandAngle);
+    delay(DELAY_BETWEEN_MOVING_HANDS_MS);
   }
   delete whereabouts;
 }

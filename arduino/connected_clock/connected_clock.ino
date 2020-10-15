@@ -14,6 +14,9 @@ Clock* clock;
 void setup() {
   Serial.begin(USB_BAUD_RATE);
   clock = new Clock();
+  Serial.println(F("Pause to fix hands"));
+  delay(5000);
+
   //setupSleep();
 }
 

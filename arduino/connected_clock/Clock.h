@@ -16,6 +16,7 @@ private:
   const unsigned char RX_PIN = 2;
   const unsigned char TX_PIN = 4;
   static const unsigned char CLOCK_HAND_COUNT = 2;
+  const unsigned int DELAY_BETWEEN_MOVING_HANDS_MS = 3000;
   const unsigned char CLOCK_HAND_PINS[Clock::CLOCK_HAND_COUNT] = {5, 6};
 
   void InitServerConnection();
