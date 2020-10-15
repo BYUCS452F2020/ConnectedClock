@@ -49,6 +49,6 @@ test {
         // includeTestsMatching "ClassName.MethodName"
         // includeTestsMatching "ClassName"
 
-//        includeTestsMatching "TestUpdateZonesHandler"
+//        includeTestsMatching "user.*"
     }
 }

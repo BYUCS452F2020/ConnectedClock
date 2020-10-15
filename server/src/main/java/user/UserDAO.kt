@@ -41,6 +41,30 @@ class UserDAO : BaseDAO() {
         }
     }
 
+    private var GET_USER_BY_USERID = """
+        SELECT *
+            FROM User
+            WHERE userID = ?;
+    """
+
+    fun getUser(userID: String): User? {
+        val connection = openConnection()
+        try {
+            val statement = connection.prepareStatement(GET_USER_BY_USERID)
+            statement.setString(1, userID)
+            val resultSet = statement.executeQuery()
+            val users = this.getQueryResults(User::class.java, resultSet)
+
+            return if (users.isNotEmpty()) {
+                users[0]
+            } else {
+                null
+            }
+        } finally {
+            connection.close()
+        }
+    }
+
     private var GET_USER_BY_USERNAME_AND_PASSWORD_SQL = """
         Select *
             From User u

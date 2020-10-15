@@ -8,5 +8,5 @@ data class User(
         @ColumnAnnotation("userName") var userName: String = "",
         @ColumnAnnotation("password") var password: String = "",
         @ColumnAnnotation("clockHandIndex") var clockHandIndex: Int = 0,
-        @ColumnAnnotation("currentZoneID") var currentZoneID: String = ""
+        @ColumnAnnotation("currentZoneID") var currentZoneID: String? = null
 )

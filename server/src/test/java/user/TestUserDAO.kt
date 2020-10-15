@@ -1,45 +1,49 @@
 package user
 
 import BaseTest
+import authorization.AuthorizationTestResources
 import org.junit.Assert.*
 import org.junit.Test
 import user.requests.CreateUserRequest
 import user.requests.LoginUserRequest
 import user.requests.LogoutUserRequest
 import user.requests.UpdateUserRequest
+import zone.ZoneTestResources
 
 class TestUserDAO : BaseTest() {
 
     @Test
     fun testCreateUser() {
         val userDAO = UserDAO()
-        val testUser = User("TEST_USER_ID", "98729fce-0809-43fe-b953-f48b14b07616","TEST_USER_NAME",
-            "TEST_PASSWORD", 5, "TEST_ZONE_ID")
-        val request = CreateUserRequest(testUser)
+        val request = CreateUserRequest(UserTestResources.GROUP_1_NEW_USER_1)
         val response = userDAO.createUser(request)
 
         assertFalse(response.didErrorOccur)
         assertNull(response.errorMessage)
 
-        val testUser2 = User("TEST_USER_ID", "BAD_GROUP_ID","TEST_USER_NAME",
-            "TEST_PASSWORD", 5, "TEST_ZONE_ID")
-        val request2 = CreateUserRequest(testUser2)
+        val request2 = CreateUserRequest(UserTestResources.GROUP_1_NEW_USER_BAD_GROUP)
         val response2 = userDAO.createUser(request2)
 
         assertTrue(response2.didErrorOccur)
         assertNotNull(response2.errorMessage)
+
+        val request3 = CreateUserRequest(UserTestResources.GROUP_1_NEW_USER_2)
+        val response3 = userDAO.createUser(request3)
+
+        assertFalse(response3.didErrorOccur)
+        assertNull(response3.errorMessage)
     }
 
     @Test
     fun testUpdateUser() {
         val userDAO = UserDAO()
-        val request = UpdateUserRequest("e00f1c88-1d5b-4d32-be07-1018f39a26b2", "Ginger4Life", "WhyHarry")
+        val request = UpdateUserRequest(AuthorizationTestResources.GROUP_1_USER_AUTHTOKEN, UserTestResources.GROUP_1_USER_1_PASSWORD, UserTestResources.GROUP_1_USER_1_NEW_PASSWORD)
         val response = userDAO.updateUser(request)
 
         assertFalse(response.didErrorOccur)
         assertNull(response.errorMessage)
 
-        val request2 = UpdateUserRequest("BAD TOKEN", "Ginger4Life", "WhyHarry")
+        val request2 = UpdateUserRequest(AuthorizationTestResources.INVALID_AUTHTOKEN, UserTestResources.GROUP_1_USER_1_PASSWORD, UserTestResources.GROUP_1_USER_1_NEW_PASSWORD)
         val response2 = userDAO.updateUser(request2)
 
         assertTrue(response2.didErrorOccur)
@@ -49,21 +53,21 @@ class TestUserDAO : BaseTest() {
     @Test
     fun testLoginUser() {
         val userDAO = UserDAO()
-        val request = LoginUserRequest("Ron", "Ginger4Life")
+        val request = LoginUserRequest(UserTestResources.GROUP_1_USER_1_USERNAME, UserTestResources.GROUP_1_USER_1_PASSWORD)
         val response = userDAO.loginUser(request)
 
         assertFalse(response.didErrorOccur)
         assertNull(response.errorMessage)
         assertNotNull(response.authToken)
 
-        val request2 = LoginUserRequest("Ron", "BAD PASSWORD")
+        val request2 = LoginUserRequest(UserTestResources.GROUP_1_USER_1_USERNAME, UserTestResources.INVALID_PASSWORD)
         val response2 = userDAO.loginUser(request2)
 
         assertTrue(response2.didErrorOccur)
         assertNotNull(response2.errorMessage)
         assertNull(response2.authToken)
 
-        val request3 = LoginUserRequest("BAD_USER_NAME", "Ginger4Life")
+        val request3 = LoginUserRequest(UserTestResources.INVALID_USERNAME, UserTestResources.GROUP_1_USER_1_PASSWORD)
         val response3 = userDAO.loginUser(request3)
 
         assertTrue(response3.didErrorOccur)
@@ -74,13 +78,13 @@ class TestUserDAO : BaseTest() {
     @Test
     fun testLogoutUser() {
         val userDAO = UserDAO()
-        val request = LogoutUserRequest("e00f1c88-1d5b-4d32-be07-1018f39a26b2")
+        val request = LogoutUserRequest(AuthorizationTestResources.GROUP_1_USER_AUTHTOKEN)
         val response = userDAO.logoutUser(request)
 
         assertFalse(response.didErrorOccur)
         assertNull(response.errorMessage)
 
-        val request2 = LogoutUserRequest("BAD_TOKEN")
+        val request2 = LogoutUserRequest(AuthorizationTestResources.INVALID_AUTHTOKEN)
         val response2 = userDAO.logoutUser(request2)
 
         assertFalse(response2.didErrorOccur)

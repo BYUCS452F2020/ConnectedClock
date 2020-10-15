@@ -34,7 +34,7 @@ class WhereaboutDAO: BaseDAO() {
             preparedStatement.setString(1, currentZoneID)
             preparedStatement.setString(2, userID)
             preparedStatement.execute()
-
+            connection.commit()
         } finally {
             connection.close()
         }
