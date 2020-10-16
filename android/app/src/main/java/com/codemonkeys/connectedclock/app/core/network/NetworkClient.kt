@@ -1,4 +1,4 @@
-package com.codemonkeys.connectedclock.core.network
+package com.codemonkeys.connectedclock.app.core.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

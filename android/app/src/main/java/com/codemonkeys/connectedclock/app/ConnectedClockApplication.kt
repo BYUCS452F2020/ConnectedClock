@@ -1,4 +1,4 @@
-package com.codemonkeys.connectedclock
+package com.codemonkeys.connectedclock.app
 
 import dagger.hilt.android.HiltAndroidApp
 

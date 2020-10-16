@@ -1,7 +1,8 @@
-package com.codemonkeys.connectedclock
+package com.codemonkeys.connectedclock.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.codemonkeys.connectedclock.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
