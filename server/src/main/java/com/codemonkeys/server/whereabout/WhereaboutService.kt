@@ -21,7 +21,7 @@ class WhereaboutService : IWhereaboutService {
         val userID = authService.getUserIDFromAuthToken(authToken)
         val groupID = authService.getUserIDFromAuthToken(authToken)
 
-        // We don't want to allow the com.codemonkeys.server.user to report being in a com.codemonkeys.server.zone that is in a different group
+        // We don't want to allow the user to report being in a zone that is in a different group
         currentZoneID?.let {
             val zoneDAO = ZoneDAO()
             val currentZoneGroupID = zoneDAO.getZonesGroupID(listOf(currentZoneID)).firstOrNull()

@@ -51,7 +51,7 @@ class AuthorizationDAO : BaseDAO() {
             FROM AuthToken
             WHERE authToken = ?;
     """
-    // If the authToken belongs to a User, returns the userID of that com.codemonkeys.server.user.
+    // If the authToken belongs to a User, returns the userID of that user.
     // If the authToken belongs to either a Group or nobody, returns null.
     fun getUserIDFromAuthToken(authToken: String): String? {
         val connection = this.openConnection()
@@ -72,7 +72,7 @@ class AuthorizationDAO : BaseDAO() {
             WHERE authToken = ?;
     """
     // If the authToken belongs to a Group, returns the Group's groupID.
-    // If the authToken belongs to a User, returns the groupID that the com.codemonkeys.server.user belongs to.
+    // If the authToken belongs to a User, returns the groupID that the user belongs to.
     // If the authToken belongs to neither, returns null.
     fun getGroupIDFromAuthToken(authToken: String): String? {
         val connection = this.openConnection()

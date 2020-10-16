@@ -7,7 +7,7 @@ import com.codemonkeys.shared.status.Status
 
 class ServerStatusService : IStatusService {
     override fun getStatuses(authToken: String): List<Status> {
-        // Any time we use an authToken, we need to either get the com.codemonkeys.server.user associated with the authToken
+        // Any time we use an authToken, we need to either get the user associated with the authToken
         // or the group associated with it.
         // If we aren't authorized, an exception is thrown and our Handler can deal with it.
         val authService = AuthorizationService()

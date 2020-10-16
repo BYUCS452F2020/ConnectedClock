@@ -12,7 +12,7 @@ class ServerClockGroupService : IClockGroupService {
     override fun createGroup(authToken: String, groupName: String, groupPassword: String){
 
         val clockGroupDao = ClockGroupDao()
-        // generate a unique group id for the group, an create com.codemonkeys.com.codemonkeys.server.clockGroup Object
+        // generate a unique group id for the group, and create clockGroup Object
         val groupID = UUID.randomUUID().toString()
         // create a ClockGroup Object
         val clockGroup = ClockGroup()
@@ -49,7 +49,7 @@ class ServerClockGroupService : IClockGroupService {
         // compare the passWord
         val storedPassWord = clockGroupDao.getClockGroup(groupID).groupPassword
         if (password == storedPassWord) {
-            // update in com.codemonkeys.server.user table
+            // update in user table
             clockGroupDao.updateGroupInUser(groupID, userToAddID)
         } else {
             throw NotAuthorizedException()
@@ -70,7 +70,7 @@ class ServerClockGroupService : IClockGroupService {
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         val storedPassWord = clockGroupDao.getClockGroup(groupID).groupPassword
         if (password == storedPassWord) {
-            // update in com.codemonkeys.server.user table
+            // update in user table
             clockGroupDao.deleteGroup(groupID)
         } else {
             throw NotAuthorizedException()

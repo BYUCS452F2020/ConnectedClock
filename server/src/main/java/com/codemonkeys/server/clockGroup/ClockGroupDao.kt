@@ -67,7 +67,7 @@ class ClockGroupDao : BaseDAO() {
         }
     }
 
-    // find groupID by com.codemonkeys.server.user
+    // find groupID by user
     private val GET_GROUP_BY_USER_SQL = """
         SELECT User.groupID
             FROM User

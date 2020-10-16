@@ -16,7 +16,7 @@ import java.util.UUID
 class UserDAO : BaseDAO() {
 
     fun createUser(request: CreateUserRequest): CreateUserResponse {
-        // Insert com.codemonkeys.server.user into the database
+        // Insert user into the database
         val connection = this.openConnection()
         try {
             this.insertObject(User::class.java, connection, "User", request.user)
@@ -26,13 +26,13 @@ class UserDAO : BaseDAO() {
             connection.rollback()
             return CreateUserResponse(
                 null,
-                "Error inserting com.codemonkeys.server.user"
+                "Error inserting user"
             )
         } finally {
             this.closeConnection(connection)
         }
 
-        // Insert authtoken for com.codemonkeys.server.user into the database
+        // Insert authtoken for user into the database
         val authToken = UUID.randomUUID().toString()
         val authorizationDAO = AuthorizationDAO()
         val success = authorizationDAO.insertAuthToken(authToken, request.user.userID, null)
@@ -105,13 +105,13 @@ class UserDAO : BaseDAO() {
             } else {
                 return LoginUserResponse(
                     null,
-                    "Incorrect com.codemonkeys.server.user information"
+                    "Incorrect user information"
                 )
             }
         } catch (e: Exception) {
             return LoginUserResponse(
                 null,
-                "Incorrect com.codemonkeys.server.user information"
+                "Incorrect user information"
             )
         } finally {
             closeConnection(connection)
@@ -125,7 +125,7 @@ class UserDAO : BaseDAO() {
         return if (success) {
             LogoutUserResponse()
         } else {
-            LogoutUserResponse("Error logging out com.codemonkeys.server.user")
+            LogoutUserResponse("Error logging out user")
         }
     }
 
@@ -150,7 +150,7 @@ class UserDAO : BaseDAO() {
             connection.commit()
             UpdateUserResponse()
         } catch (e: Exception) {
-            UpdateUserResponse("Error updating com.codemonkeys.server.user")
+            UpdateUserResponse("Error updating user")
         } finally {
             closeConnection(connection)
         }

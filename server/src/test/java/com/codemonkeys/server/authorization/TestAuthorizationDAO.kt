@@ -30,7 +30,7 @@ class TestAuthorizationDAO: BaseTest() {
         // User's AuthToken
         val usersGroupID = authorizationDAO.getGroupIDFromAuthToken("e00f1c88-1d5b-4d32-be07-1018f39a26b2")
         val expectedUsersGroupID = "98729fce-0809-43fe-b953-f48b14b07616"
-        assertEquals("Should find the authToken, find the com.codemonkeys.server.user associated with that authToken and return the groupID of that com.codemonkeys.server.user", expectedUsersGroupID, usersGroupID)
+        assertEquals("Should find the authToken, find the user associated with that authToken and return the groupID of that user", expectedUsersGroupID, usersGroupID)
 
         val invalidGroupID = authorizationDAO.getUserIDFromAuthToken("invalidauthtoken")
         assertNull("Should not find authToken and should return null", invalidGroupID)
