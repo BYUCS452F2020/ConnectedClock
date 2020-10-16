@@ -1,2 +1,3 @@
 rootProject.name = 'ConnectedClockServer'
-
+include ':shared'
+project(':shared').projectDir = new File("../shared")
