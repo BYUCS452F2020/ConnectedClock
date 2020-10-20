@@ -1,4 +1,4 @@
-package com.codemonkeys.connectedclock.app.whereabout
+package com.codemonkeys.connectedclock.app.whereabout.model
 
 import com.codemonkeys.shared.core.requests.AuthorizedRequest
 import com.codemonkeys.shared.core.responses.BaseResponse
