@@ -1,2 +1,4 @@
 include ':app'
 rootProject.name = "ConnectedClock"
+include ':shared'
+project(':shared').projectDir = new File('../shared')
