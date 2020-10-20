@@ -18,6 +18,7 @@ class ZoneViewModel @ViewModelInject constructor(
 
     // Some information must come from our repository because it is not transitory, it should
     // be persisted on the server at some point and should be there next time I open the app.
+    // https://www.raywenderlich.com/10391019-livedata-tutorial-for-android-deep-dive#toc-anchor-002
     val zones: MutableLiveData<MutableList<Zone>> = zoneRepository.getZones()
     val statuses: MutableLiveData<MutableList<Status>> = statusRepository.getStatuses()
 

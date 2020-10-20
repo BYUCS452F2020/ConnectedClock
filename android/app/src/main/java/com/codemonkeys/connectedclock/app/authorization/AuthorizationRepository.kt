@@ -23,6 +23,7 @@ class AuthorizationRepository @Inject constructor() {
         cachedAuthToken = data
 
         // TODO( "Using a hard-coded authToken here until we get login going...")
+        // We should cache this authToken in app Preferences or something similar
         data.value = "cc95e238-1a1d-4238-b19b-0ef1dce406eb"
 
         return data
