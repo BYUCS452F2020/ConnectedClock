@@ -1,7 +1,6 @@
 package com.codemonkeys.connectedclock.app.zone.view
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Point
 import android.location.Criteria
@@ -33,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_zone.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import com.codemonkeys.connectedclock.app.core.view.requestPermissions as rqstPermissions
 
 @AndroidEntryPoint
@@ -47,7 +45,7 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
     private val mapCircles: MutableMap<String, MapCircle> = HashMap()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.actvity_zone_options_menu, menu)
+        menuInflater.inflate(R.menu.activity_zone_options_menu, menu)
         return true
     }
 
