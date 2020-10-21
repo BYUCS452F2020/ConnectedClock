@@ -9,8 +9,14 @@ import kotlin.collections.HashMap
 
 private val postPermissionLambdas = HashMap<Int, Pair<String, (Boolean)->Unit>>()
 
+private fun getUniqueRequestCode(): Int {
+    val uuidHash = UUID.randomUUID().hashCode()
+    val requestCode = uuidHash and 0x0000FFFF // Request codes must only use lower 16 bits, so we mask it.
+    return requestCode
+}
+
 fun requestPermissions(activity: Activity, permission: String, callback: (Boolean) -> Unit = {}) {
-    val requestCode = UUID.randomUUID().hashCode().toShort().toInt()
+    val requestCode = getUniqueRequestCode()
     if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
         ActivityCompat.requestPermissions(activity, arrayOf( permission), requestCode)
         postPermissionLambdas.put(requestCode, Pair(permission, callback))

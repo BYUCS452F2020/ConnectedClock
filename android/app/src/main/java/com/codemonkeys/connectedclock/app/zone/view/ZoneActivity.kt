@@ -41,6 +41,9 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val viewModel by viewModels<ZoneViewModel>()
     private lateinit var googleMap: GoogleMap
+    // Normally, I wouldn't create any data in the UI like this, but here we need to create
+    // the actual circles that appear in the UI. The circles need to handle being dragged around and highlighted, etc.
+    // I also need to have a link between each circle and its associated zone.
     private val mapCircles: MutableMap<String, MapCircle> = HashMap()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,6 +59,7 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
             supportFragmentManager.findFragmentById(R.id.activity_zone_zoneMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        // Here, we observe the LiveData from the ViewModels and update the UI whenever it is changed.
         this.viewModel.zones.observe(this) { this.updateZones(it) }
         this.viewModel.currentZoneID.observe(this) { this.updateCurrentZoneID(it) }
         this.viewModel.statuses.observe(this) { this.updateStatuses(it) }
@@ -145,6 +149,7 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun removeZoneButtonClicked() {
+        // We can call methods on the ViewModel to modify it.
         this.viewModel.removeCurrentZone()
     }
 
@@ -166,7 +171,6 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
             this.mapCircles[currentZoneID]?.let {
                 this.activity_zone_zoneCard.visibility = View.VISIBLE
                 it.setIsSelected(true)
-                // TODO: Set Status!?
             }
         } else {
             this.activity_zone_zoneCard.visibility = View.GONE
@@ -255,14 +259,16 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val manager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val provider = manager.getBestProvider(Criteria(), true)
-            val location = manager.getLastKnownLocation(provider)
-            if (location != null) {
-                googleMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(location.latitude, location.longitude),
-                        16.0f
+            provider?.let {
+                val location = manager.getLastKnownLocation(provider)
+                if (location != null) {
+                    googleMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(location.latitude, location.longitude),
+                            16.0f
+                        )
                     )
-                )
+                }
             }
         }
     }

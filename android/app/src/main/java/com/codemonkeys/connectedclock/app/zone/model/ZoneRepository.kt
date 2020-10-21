@@ -31,6 +31,7 @@ class ZoneRepository @Inject constructor(
 ) {
 
     // We may need to use Android's Room library for SQLlite persistence later, but this works for now...
+    // https://www.raywenderlich.com/10391019-livedata-tutorial-for-android-deep-dive#toc-anchor-002
     private var cachedZones: MutableLiveData<MutableList<Zone>>? = null
 
     // CoroutineScope tells us which threads to run async on (UI/IO/Computation),

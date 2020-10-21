@@ -9,6 +9,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
+// Retrofit is used to specify API endpoints
+// https://guides.codepath.com/android/consuming-apis-with-retrofit#define-the-endpoints
 interface IZoneNetworkAPI {
 
     // https://futurestud.io/tutorials/retrofit-synchronous-and-asynchronous-requests
