@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ConnectedClock</string>
+    <string name="group_name">Group Name</string>
+    <string name="password">password</string>
+    <string name="create_group_button">Create Group</string>
 </resources>
