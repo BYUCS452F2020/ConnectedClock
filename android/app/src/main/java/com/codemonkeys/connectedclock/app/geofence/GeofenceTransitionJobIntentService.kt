@@ -4,15 +4,25 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.JobIntentService
+import com.codemonkeys.connectedclock.app.authorization.AuthorizationRepository
+import com.codemonkeys.shared.whereabout.IWhereaboutService
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 // Tutorials on Geofences:
 // https://www.raywenderlich.com/7372-geofencing-api-tutorial-for-android
 // https://developer.android.com/training/location/geofencing
 @AndroidEntryPoint
 class GeofenceTransitionJobIntentService : JobIntentService() {
+
+    @Inject
+    lateinit var whereaboutService: IWhereaboutService
+
+    @Inject
+    lateinit var authorizationRepository: AuthorizationRepository
+
     override fun onHandleWork(intent: Intent) {
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
         if (geofencingEvent.hasError()) {
@@ -26,15 +36,21 @@ class GeofenceTransitionJobIntentService : JobIntentService() {
     }
 
     private fun handleEvent(event: GeofencingEvent) {
-        val zoneId = if (event.triggeringGeofences.isNotEmpty() &&
+        val zoneID = if (event.triggeringGeofences.isNotEmpty() &&
             event.geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER
         ) {
             event.triggeringGeofences[0].requestId
         } else {
-            ""
+            null
         }
 
-        Log.d("ConnectedClockGeofence", "At zone '$zoneId'")
+        Log.d("ConnectedClockGeofence", "At zone '$zoneID'")
+
+        // TODO: Maybe I should observe this and only call it once we have the authToken??
+        val authToken = authorizationRepository.getAuthToken().value
+        if (authToken != null) {
+            whereaboutService.updateUserWhereabout(authToken, zoneID)
+        }
     }
 
     companion object {

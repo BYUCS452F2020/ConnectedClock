@@ -17,13 +17,13 @@ class StatusTestResources {
             ),
             Status(
                 "12a20cb0-9e82-4d88-98f2-faaa9ff8c675",
-                11.0,
+                270.0,
                 "Shopping",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             ),
             Status(
                 "7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9",
-                60.0,
+                180.0,
                 "Home",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             ),

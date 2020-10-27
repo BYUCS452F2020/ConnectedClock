@@ -45,6 +45,7 @@ void Clock::Update() {
     delay(DELAY_BETWEEN_MOVING_HANDS_MS);
   }
   delete whereabouts;
+
 }
 
 int Clock::StatusIDToClockHandAngle(long statusID) {

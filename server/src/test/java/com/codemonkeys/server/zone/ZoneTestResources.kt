@@ -27,7 +27,7 @@ class ZoneTestResources {
                 "991f5783-0e51-4cd1-9ee3-2f2d72909bfb",
                 40.252979,
                 -111.670495,
-                93.83,
+                536.91,
                 "12a20cb0-9e82-4d88-98f2-faaa9ff8c675"
             ), /* Deseret Industries */
             Zone(
@@ -48,7 +48,7 @@ class ZoneTestResources {
                 "dffb8b27-ee34-41d9-8d54-37a08c7c300f",
                 40.242857,
                 -111.668508,
-                102.46,
+                400.0,
                 "7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9"
             ), /* Apartment */
             Zone(

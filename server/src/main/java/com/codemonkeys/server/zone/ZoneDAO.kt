@@ -53,23 +53,23 @@ class ZoneDAO : BaseDAO() {
         }
     }
 
-    private val GET_ZONES_GROUP_ID_SQL = """
-        SELECT s.groupID
-            FROM Zone z
-                JOIN Status s ON s.statusID = z.statusID
-            WHERE z.zoneID IN ?;
-    """
-
-    fun getZonesGroupID(zoneIDs: List<String>): List<String> {
-        val connection = this.openConnection()
-        try {
-            val preparedStatement = connection.prepareStatement(GET_ZONES_GROUP_ID_SQL)
-            preparedStatement.setObject(1, zoneIDs)
-            val resultSet = preparedStatement.executeQuery()
-            return this.getSimpleQueryResults<String>(resultSet)
-        }
-        finally {
-            connection.close()
-        }
-    }
+//    private val GET_ZONES_GROUP_ID_SQL = """
+//        SELECT s.groupID
+//            FROM Zone z
+//                JOIN Status s ON s.statusID = z.statusID
+//            WHERE z.zoneID IN ?;
+//    """
+//
+//    fun getZonesGroupID(zoneIDs: List<String>): List<String> {
+//        val connection = this.openConnection()
+//        try {
+//            val preparedStatement = connection.prepareStatement(GET_ZONES_GROUP_ID_SQL)
+//            preparedStatement.setObject(1, zoneIDs)
+//            val resultSet = preparedStatement.executeQuery()
+//            return this.getSimpleQueryResults<String>(resultSet)
+//        }
+//        finally {
+//            connection.close()
+//        }
+//    }
 }

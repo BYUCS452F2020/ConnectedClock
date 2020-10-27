@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class ClientZoneService @Inject constructor(
     private val networkAPI: IZoneNetworkAPI
-) : IZoneService, @Inject BaseClientService() {
+) : IZoneService, BaseClientService() {
 
     // We don't want our ClientxxxxxxService to accept a request and return a response.
     // Instead, we want those details to be hidden from whatever calls these methods. The service
