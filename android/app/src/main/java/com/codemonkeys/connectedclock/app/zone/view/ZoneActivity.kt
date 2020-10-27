@@ -6,7 +6,7 @@ import android.graphics.Point
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import com.codemonkeys.connectedclock.R
@@ -32,13 +33,15 @@ import kotlinx.android.synthetic.main.activity_zone.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.cos
 import com.codemonkeys.connectedclock.app.core.view.requestPermissions as rqstPermissions
 
 @AndroidEntryPoint
 class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val viewModel by viewModels<ZoneViewModel>()
-    private lateinit var googleMap: GoogleMap
+    private var googleMap: GoogleMap? = null
+
     // Normally, I wouldn't create any data in the UI like this, but here we need to create
     // the actual circles that appear in the UI. The circles need to handle being dragged around and highlighted, etc.
     // I also need to have a link between each circle and its associated zone.
@@ -152,12 +155,14 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun updateZones(zones: MutableList<Zone>?) {
-        this.mapCircles.values.forEach { it.removeFromMap() }
-        this.mapCircles.clear()
-        zones?.forEach {
-            val centerPosition = LatLng(it.lat ?: 0.0, it.lng ?: 0.0)
-            val circle = MapCircle(it.zoneID, centerPosition, it.radius ?: 0.0)
-            this.mapCircles.put(it.zoneID, circle)
+        googleMap?.let { map ->
+            this.mapCircles.values.forEach { it.removeFromMap() }
+            this.mapCircles.clear()
+            zones?.forEach {
+                val centerPosition = LatLng(it.lat ?: 0.0, it.lng ?: 0.0)
+                val circle = MapCircle(it.zoneID, centerPosition, it.radius ?: 0.0)
+                this.mapCircles.put(it.zoneID, circle)
+            }
         }
     }
 
@@ -187,12 +192,23 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(gMap: GoogleMap) {
         this.googleMap = gMap
 
-        with(this.googleMap) {
-            uiSettings.isRotateGesturesEnabled = false
-            uiSettings.isTiltGesturesEnabled = false
-            uiSettings.isMapToolbarEnabled = false
-            setPadding(12, 12, 12, 12)
+        this.googleMap?.let { map ->
+            with(map) {
+                uiSettings.isRotateGesturesEnabled = false
+                uiSettings.isTiltGesturesEnabled = false
+                uiSettings.isMapToolbarEnabled = false
+                setPadding(12, 12, 12, 12)
 
+            }
+            setupMapListeners(map)
+        }
+        requestRelevantPermissions()
+
+        updateZones(viewModel.zones.value)
+    }
+
+    private fun setupMapListeners(map: GoogleMap) {
+        with(map) {
             setOnMapLongClickListener { addZoneAtPoint(it) }
 
             setOnMapClickListener { viewModel.updateCurrentZoneID(null) }
@@ -214,29 +230,37 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
 
             })
         }
+    }
 
+    private fun requestRelevantPermissions() {
         rqstPermissions(this, android.Manifest.permission.ACCESS_FINE_LOCATION) {
             if (it) {
                 moveToCurrentLocation()
             }
         }
 //        rqstPermissions(this, android.Manifest.permission.WAKE_LOCK)
-//        rqstPermissions(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Required for Geofences
+            rqstPermissions(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
     }
 
     fun addZoneAtPoint(point: LatLng) {
-        val y = activity_zone_zoneMap.requireView().height * 1 / 2
-        val x1 = activity_zone_zoneMap.requireView().width * 1 / 2
-        val x2 = activity_zone_zoneMap.requireView().width * 7 / 8
-        val p1 = this.googleMap.projection.fromScreenLocation(
-            Point(y, x1)
-        )
-        val p2 = this.googleMap.projection.fromScreenLocation(
-            Point(y, x2)
-        )
-        val radius = p1.distanceFrom(p2)
+        googleMap?.let { map ->
 
-        this.viewModel.addZone(point.latitude, point.longitude, radius)
+            val y = activity_zone_zoneMap.requireView().height * 1 / 2
+            val x1 = activity_zone_zoneMap.requireView().width * 1 / 2
+            val x2 = activity_zone_zoneMap.requireView().width * 7 / 8
+            val p1 = map.projection.fromScreenLocation(
+                Point(y, x1)
+            )
+            val p2 = map.projection.fromScreenLocation(
+                Point(y, x2)
+            )
+            val radius = p1.distanceFrom(p2)
+
+            this.viewModel.addZone(point.latitude, point.longitude, radius)
+        }
     }
 
     private fun onMarkerMove(marker: Marker, isMoveStart: Boolean, isMoveEnd: Boolean) {
@@ -248,24 +272,26 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun moveToCurrentLocation() {
-        val fineLocationPermission = ContextCompat.checkSelfPermission(
-            this,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        if (fineLocationPermission == PackageManager.PERMISSION_GRANTED) {
-            googleMap.isMyLocationEnabled = true
+        this.googleMap?.let { map ->
+            val fineLocationPermission = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            if (fineLocationPermission == PackageManager.PERMISSION_GRANTED) {
+                map.isMyLocationEnabled = true
 
-            val manager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val provider = manager.getBestProvider(Criteria(), true)
-            provider?.let {
-                val location = manager.getLastKnownLocation(provider)
-                if (location != null) {
-                    googleMap.moveCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            LatLng(location.latitude, location.longitude),
-                            16.0f
+                val manager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                val provider = manager.getBestProvider(Criteria(), true)
+                provider?.let {
+                    val location = manager.getLastKnownLocation(provider)
+                    if (location != null) {
+                        map.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(location.latitude, location.longitude),
+                                16.0f
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -276,9 +302,9 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
         centerPosition: LatLng,
         radius: Double
     ) {
-        val circle: Circle
-        val centerMarker: Marker
-        val radiusMarker: Marker
+        val circle: Circle?
+        val centerMarker: Marker?
+        val radiusMarker: Marker?
 
         private val SELECTED_STROKE_WIDTH = 20.0f;
         private val UNSELECTED_STROKE_WIDTH = 5.0f;
@@ -288,7 +314,7 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
         private val UNSELECTED_FILL_COLOR = 0x99990000.toInt()
 
         init {
-            this.circle = googleMap.addCircle(
+            this.circle = googleMap?.addCircle(
                 CircleOptions()
                     .center(centerPosition)
                     .radius(radius)
@@ -297,14 +323,14 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
                     .fillColor(UNSELECTED_FILL_COLOR)
                     .clickable(true)
             )
-            this.centerMarker = googleMap.addMarker(
+            this.centerMarker = googleMap?.addMarker(
                 MarkerOptions()
                     .position(centerPosition)
                     .draggable(true)
                     .anchor(0.5f, 0.5f)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_circle))
             )
-            this.radiusMarker = googleMap.addMarker(
+            this.radiusMarker = googleMap?.addMarker(
                 MarkerOptions()
                     .position(centerPosition.getPointAtDistance(radius))
                     .draggable(true)
@@ -314,65 +340,72 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         fun removeFromMap() {
-            this.circle.remove()
-            this.centerMarker.remove()
-            this.radiusMarker.remove()
+            this.circle?.remove()
+            this.centerMarker?.remove()
+            this.radiusMarker?.remove()
         }
 
         fun setIsSelected(isSelected: Boolean) {
-            if (isSelected) {
-                this.circle.strokeWidth = SELECTED_STROKE_WIDTH
-                this.circle.strokeColor = SELECTED_STROKE_COLOR
-                this.circle.fillColor = SELECTED_FILL_COLOR
-            } else {
-                this.circle.strokeWidth = UNSELECTED_STROKE_WIDTH
-                this.circle.strokeColor = UNSELECTED_STROKE_COLOR
-                this.circle.fillColor = UNSELECTED_FILL_COLOR
+            this.circle?.let {
+                if (isSelected) {
+                    it.strokeWidth = SELECTED_STROKE_WIDTH
+                    it.strokeColor = SELECTED_STROKE_COLOR
+                    it.fillColor = SELECTED_FILL_COLOR
+                } else {
+                    it.strokeWidth = UNSELECTED_STROKE_WIDTH
+                    it.strokeColor = UNSELECTED_STROKE_COLOR
+                    it.fillColor = UNSELECTED_FILL_COLOR
+                }
             }
         }
 
 
         fun update(centerPosition: LatLng?, radius: Double?) {
-            centerPosition?.let {
-                this.circle.center = it
+            if (this.circle != null && this.centerMarker != null && this.radiusMarker != null) {
+                centerPosition?.let {
+                    this.circle.center = it
+                }
+                radius?.let {
+                    this.circle.radius = it
+                }
+                this.centerMarker.position = this.circle.center
+                this.radiusMarker.position =
+                    this.centerMarker.position.getPointAtDistance(this.circle.radius)
             }
-            radius?.let {
-                this.circle.radius = it
-            }
-            this.centerMarker.position = this.circle.center
-            this.radiusMarker.position =
-                this.centerMarker.position.getPointAtDistance(this.circle.radius)
         }
 
         fun moveMarker(marker: Marker, isMoveStart: Boolean, isMoveEnd: Boolean): Boolean {
-            val markerBelongsToZone = when (marker) {
-                centerMarker -> {
-                    update(centerMarker.position, null)
-                    if (isMoveEnd) {
-                        viewModel.moveCurrentZone(
-                            centerMarker.position.latitude,
-                            centerMarker.position.longitude
-                        )
+            if (centerMarker != null && radiusMarker != null) {
+                val markerBelongsToZone = when (marker) {
+                    centerMarker -> {
+                        update(centerMarker.position, null)
+                        if (isMoveEnd) {
+                            viewModel.moveCurrentZone(
+                                centerMarker.position.latitude,
+                                centerMarker.position.longitude
+                            )
+                        }
+                        true
                     }
-                    true
-                }
-                radiusMarker -> {
-                    update(null, centerMarker.position.distanceFrom(radiusMarker.position))
-                    if (isMoveEnd) {
-                        viewModel.resizeCurrentZone(
-                            centerMarker.position.distanceFrom(radiusMarker.position)
-                        )
+                    radiusMarker -> {
+                        update(null, centerMarker.position.distanceFrom(radiusMarker.position))
+                        if (isMoveEnd) {
+                            viewModel.resizeCurrentZone(
+                                centerMarker.position.distanceFrom(radiusMarker.position)
+                            )
+                        }
+                        true
                     }
-                    true
+                    else -> {
+                        false
+                    }
                 }
-                else -> {
-                    false
+                if (isMoveStart && markerBelongsToZone) {
+                    viewModel.updateCurrentZoneID(this.circleID)
                 }
+                return markerBelongsToZone
             }
-            if (isMoveStart && markerBelongsToZone) {
-                viewModel.updateCurrentZoneID(this.circleID)
-            }
-            return markerBelongsToZone
+            return false
         }
     }
 }
@@ -386,6 +419,6 @@ private fun LatLng.distanceFrom(other: LatLng): Double {
 private fun LatLng.getPointAtDistance(distance: Double): LatLng {
     val radiusOfEarth = 6371009.0
     val radiusAngle = (Math.toDegrees(distance / radiusOfEarth)
-            / Math.cos(Math.toRadians(latitude)))
+            / cos(Math.toRadians(latitude)))
     return LatLng(latitude, longitude + radiusAngle)
 }
