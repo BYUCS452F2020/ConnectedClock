@@ -10,13 +10,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ClientZoneService(
-    private val retrofit: Retrofit
-) : IZoneService, @Inject BaseClientService() {
-
-    private val networkAPI = retrofit.create<IZoneNetworkAPI>(
-        IZoneNetworkAPI::class.java
-    )
+class ClientZoneService @Inject constructor(
+    private val networkAPI: IZoneNetworkAPI
+) : IZoneService, BaseClientService() {
 
     // We don't want our ClientxxxxxxService to accept a request and return a response.
     // Instead, we want those details to be hidden from whatever calls these methods. The service
