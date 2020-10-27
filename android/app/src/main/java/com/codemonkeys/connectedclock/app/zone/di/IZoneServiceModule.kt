@@ -2,6 +2,7 @@ package com.codemonkeys.connectedclock.app.zone.di
 
 import com.codemonkeys.connectedclock.app.core.network.NetworkClientModule
 import com.codemonkeys.connectedclock.app.zone.model.ClientZoneService
+import com.codemonkeys.connectedclock.app.zone.model.IZoneNetworkAPI
 import com.codemonkeys.shared.zone.IZoneService
 import dagger.Module
 import dagger.Provides
@@ -19,7 +20,7 @@ import retrofit2.Retrofit
 object IZoneServiceModule {
     // Here we provide the concrete class ClientZoneService any time we need a IZoneService interface.
     @Provides
-    fun provideIZoneServiceModule(): IZoneService {
-        return ClientZoneService(NetworkClientModule.provideNetworkClient())
+    fun provideIZoneServiceModule(zoneService: ClientZoneService): IZoneService {
+        return zoneService
     }
 }

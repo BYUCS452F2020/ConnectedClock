@@ -1,6 +1,7 @@
 package com.codemonkeys.connectedclock.app.status.model
 
 import com.codemonkeys.connectedclock.app.core.BaseClientService
+import com.codemonkeys.connectedclock.app.zone.model.IZoneNetworkAPI
 import com.codemonkeys.shared.core.requests.AuthorizedRequest
 import com.codemonkeys.shared.status.IStatusService
 import com.codemonkeys.shared.status.Status
@@ -10,13 +11,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ClientStatusService(
-    private val retrofit: Retrofit
+class ClientStatusService @Inject constructor(
+    private val networkAPI: IStatusNetworkAPI
 ) : IStatusService, @Inject BaseClientService() {
-
-    private val networkAPI = retrofit.create<IStatusNetworkAPI>(
-        IStatusNetworkAPI::class.java
-    )
 
     // We don't want our ClientxxxxxxService to accept a request and return a response.
     // Instead, we want those details to be hidden from whatever calls these methods. The service

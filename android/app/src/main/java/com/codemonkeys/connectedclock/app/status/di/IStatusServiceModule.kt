@@ -18,7 +18,7 @@ import dagger.hilt.android.components.ApplicationComponent
 object IStatusServiceModule {
     // Here we provide the concrete class ClientStatusService any time we need a IStatusService interface.
     @Provides
-    fun provideIStatusServiceModule(): IStatusService {
-        return ClientStatusService(NetworkClientModule.provideNetworkClient())
+    fun provideIStatusServiceModule(statusService: ClientStatusService): IStatusService {
+        return statusService
     }
 }
