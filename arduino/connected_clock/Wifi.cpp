@@ -88,7 +88,7 @@ String Wifi::SendNetworkRequest(String server, String requestType, String reques
   }
   else
   {
-
+    client.stop();
     Serial.println(F("Server connect failed"));
   }
   
@@ -160,15 +160,15 @@ String Wifi::GetResponse()
       }
       String body = String(bodyReadBuffer);
       delete bodyReadBuffer;
-      client.stop();
       Serial.println(F("RSPNSE BDY"));
       Serial.println(body);
+      client.stop();
       return body;
     }
   }
   else {
-    Serial.println(F("Response Timeout!"));
     client.stop();
+    Serial.println(F("Response Timeout!"));
   }
 
   return F("");

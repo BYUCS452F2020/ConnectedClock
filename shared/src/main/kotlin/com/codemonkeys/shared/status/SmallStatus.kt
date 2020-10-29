@@ -8,6 +8,6 @@ class SmallStatus(status: Status) {
 
     init {
         sid = status.statusID.hashCode()
-        cha = status.clockHandAngle.toInt()
+        cha = status.clockHandAngle
     }
 }

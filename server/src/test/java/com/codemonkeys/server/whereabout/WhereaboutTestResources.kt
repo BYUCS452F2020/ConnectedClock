@@ -9,12 +9,14 @@ class WhereaboutTestResources {
                 "3ea0f56f-7864-4d49-a5ed-5f741a7969c8",
                 "test1",
                 0,
+                180,
                 "7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9"
             ),
             Whereabout(
                 "4c43ddce-64db-4c89-9797-909dcbd0a425",
                 "test2",
                 1,
+                0,
                 null
             )
         )
@@ -28,6 +30,7 @@ class WhereaboutTestResources {
                 "f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d",
                 "test3",
                 0,
+                101,
                 "ed9ceea8-b059-4e00-b35e-83be6e63c497"
             )
         )

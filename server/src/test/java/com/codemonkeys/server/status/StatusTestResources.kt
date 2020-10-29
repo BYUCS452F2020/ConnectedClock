@@ -11,31 +11,31 @@ class StatusTestResources {
         val GROUP_1_STATUSES = listOf(
             Status(
                 "04e3b648-c3dd-41da-a430-1dacde995b7d",
-                23.2,
+                23,
                 "Work",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             ),
             Status(
                 "12a20cb0-9e82-4d88-98f2-faaa9ff8c675",
-                270.0,
+                270,
                 "Shopping",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             ),
             Status(
                 "7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9",
-                180.0,
+                180,
                 "Home",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             ),
             Status(
                 "d32b0786-c6f1-4c70-a31f-a9efed1ef1f6",
-                75.0,
+                75,
                 "Away",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             ),
             Status(
                 "ec488303-1152-4d8d-af55-db9b323be17e",
-                90.5,
+                90,
                 "School",
                 "98729fce-0809-43fe-b953-f48b14b07616"
             )
@@ -47,19 +47,19 @@ class StatusTestResources {
         val GROUP_2_STATUSES = listOf(
             Status(
                 "32f85320-92e0-4382-a5ae-d71b562422c5",
-                12.7,
+                12,
                 "Mortal Peril",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "92a3db1e-99b6-45d1-92e6-2c47720e620e",
-                42.9,
+                42,
                 "Home",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "ed9ceea8-b059-4e00-b35e-83be6e63c497",
-                101.0,
+                101,
                 "School",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             )
@@ -71,25 +71,25 @@ class StatusTestResources {
         val GROUP_2_UPDATED_STATUSES = listOf(
             Status(
                 "92a3db1e-99b6-45d1-92e6-2c47720e620e",
-                44.4,
+                44,
                 "Homies",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "32f85320-92e0-4382-a5ae-d71b562422c5",
-                12.7,
+                12,
                 "Mortal Peril",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "95d309b7-039a-4647-8ba6-ff6dd6bb1d99",
-                55.5,
+                55,
                 "Visiting Family",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "970c1d21-f97b-4b35-b715-e397845d6e8f",
-                66.6,
+                66,
                 "Woods",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             )
@@ -98,25 +98,25 @@ class StatusTestResources {
         val GROUP_2_INVALID_STATUSES = listOf(
             Status(
                 "92a3db1e-99b6-45d1-92e6-2c47720e620e",
-                44.4,
+                44,
                 "Homies",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "32f85320-92e0-4382-a5ae-d71b562422c5",
-                12.7,
+                12,
                 "Mortal Peril",
                 "invalidGroupID"
             ),
             Status(
                 "95d309b7-039a-4647-8ba6-ff6dd6bb1d99",
-                55.5,
+                55,
                 "Visiting Family",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             ),
             Status(
                 "970c1d21-f97b-4b35-b715-e397845d6e8f",
-                66.6,
+                66,
                 "Woods",
                 "2bc8f348-fce4-4df6-9795-deff8e721c7a"
             )

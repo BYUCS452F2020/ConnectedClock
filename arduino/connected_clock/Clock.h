@@ -3,14 +3,12 @@
 
 #include "Wifi.h"
 #include "Whereabout.h"
-#include "Status.h"
 #include "ClockHands.h"
 
 class Clock {
 private:
   Wifi* wifi;
   ClockHands* clockHands;
-  Status* statuses;
   unsigned char statusCount;
   String authToken;
   const unsigned char RX_PIN = 2;

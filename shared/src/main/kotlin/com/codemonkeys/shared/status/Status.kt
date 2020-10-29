@@ -10,6 +10,6 @@ data class Status(
     // your object must have a default constructor with no parameters. By adding default values to these
     // field parameters, we can have a constructor with no params.
     @ColumnAnnotation("statusID") var statusID: String = "",
-    @ColumnAnnotation("clockHandAngle") var clockHandAngle: Double = 0.0,
+    @ColumnAnnotation("clockHandAngle") var clockHandAngle: Int = 0,
     @ColumnAnnotation("statusName") var statusName: String = "",
     @ColumnAnnotation("groupID") var groupID: String = "")

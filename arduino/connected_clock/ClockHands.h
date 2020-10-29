@@ -18,7 +18,7 @@ private:
   const int MAX_SERVO_VALUE = 165; // For some reason, the max value my servos accept is 165, but that is almost a 180 degree rotation???
   const float CLOCK_FACE_TO_SERVO_RATIO = (float)MAX_SERVO_VALUE / FULL_CIRCLE;
   const int TRANSITION_DELAY_MS = 50;
-  const float TIME_FOR_FULL_CIRCLE_MS = 15000;
+  const float TIME_FOR_FULL_CIRCLE_MS = 2000;//15000;
   const float ROTATION_SPEED_DEGREE_PER_UPDATE = (FULL_CIRCLE / TIME_FOR_FULL_CIRCLE_MS) * TRANSITION_DELAY_MS;
         //  360 degrees        30 millisec
         //  -----------  x    ------------   = 0.72 degrees per update

@@ -8,13 +8,13 @@ INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("eec3b172-0c9
 
 
 /* Status Table Test Data */  
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9", 180.0, "Home", "98729fce-0809-43fe-b953-f48b14b07616");
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("d32b0786-c6f1-4c70-a31f-a9efed1ef1f6", 75.0, "Away", "98729fce-0809-43fe-b953-f48b14b07616");
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("ec488303-1152-4d8d-af55-db9b323be17e", 90.5, "School", "98729fce-0809-43fe-b953-f48b14b07616");
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("04e3b648-c3dd-41da-a430-1dacde995b7d", 23.2, "Work", "98729fce-0809-43fe-b953-f48b14b07616");
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("12a20cb0-9e82-4d88-98f2-faaa9ff8c675", 270.0, "Shopping", "98729fce-0809-43fe-b953-f48b14b07616");
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("92a3db1e-99b6-45d1-92e6-2c47720e620e", 42.9, "Home", "2bc8f348-fce4-4df6-9795-deff8e721c7a");
-INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("32f85320-92e0-4382-a5ae-d71b562422c5", 12.7, "Mortal Peril", "2bc8f348-fce4-4df6-9795-deff8e721c7a");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9", 180, "Home", "98729fce-0809-43fe-b953-f48b14b07616");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("d32b0786-c6f1-4c70-a31f-a9efed1ef1f6", 75, "Away", "98729fce-0809-43fe-b953-f48b14b07616");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("ec488303-1152-4d8d-af55-db9b323be17e", 90, "School", "98729fce-0809-43fe-b953-f48b14b07616");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("04e3b648-c3dd-41da-a430-1dacde995b7d", 23, "Work", "98729fce-0809-43fe-b953-f48b14b07616");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("12a20cb0-9e82-4d88-98f2-faaa9ff8c675", 270, "Shopping", "98729fce-0809-43fe-b953-f48b14b07616");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("92a3db1e-99b6-45d1-92e6-2c47720e620e", 42, "Home", "2bc8f348-fce4-4df6-9795-deff8e721c7a");
+INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("32f85320-92e0-4382-a5ae-d71b562422c5", 12, "Mortal Peril", "2bc8f348-fce4-4df6-9795-deff8e721c7a");
 INSERT INTO Status (statusID, clockHandAngle, statusName, groupID) VALUES ("ed9ceea8-b059-4e00-b35e-83be6e63c497", 101, "School", "2bc8f348-fce4-4df6-9795-deff8e721c7a");
 
 

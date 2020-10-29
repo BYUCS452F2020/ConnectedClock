@@ -25,7 +25,7 @@ class GeofenceManager @Inject constructor(
 
     private val SEC_IN_MIN = 60
     private val MS_IN_SEC = 1000
-    private val RESPONSIVENESS_MS = 5 * MS_IN_SEC
+    private val RESPONSIVENESS_MS = 1 * MS_IN_SEC
     private val pendingIntent: PendingIntent by lazy {
         val intent = Intent(context, GeofenceBroadcastReceiver::class.java)
         PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -58,7 +58,7 @@ class GeofenceManager @Inject constructor(
             geofenceClient
                 .addGeofences(request, pendingIntent)
                 .addOnSuccessListener {
-                    Log.d("ConnectedClockGeofence", "Successfully added ${fences.size} geofences")
+                    Log.d("ConnectedClockGeofence", "Successfully added ${fences.size} geofences!!!!!!!")
                 }.addOnFailureListener {
                     Log.e(
                         "ConnectedClockGeofence",
