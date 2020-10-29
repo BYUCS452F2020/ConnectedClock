@@ -1,11 +1,6 @@
 package com.codemonkeys.shared.whereabout
 
 class SmallWhereabout(whereabout: Whereabout) {
-    val sid: Int
-    val chi: Int
-
-    init {
-        sid = whereabout.currentStatusID.hashCode()
-        chi = whereabout.clockHandIndex
-    }
+    val cha: Int = whereabout.clockHandAngle.toInt()
+    val chi: Int = whereabout.clockHandIndex
 }

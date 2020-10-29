@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "Whereabout.h"
-#include "Status.h"
 
 class JsonConverter {
 private:
@@ -13,7 +12,6 @@ private:
 public:
   
   static Whereabout* JsonToWhereabouts(String input, unsigned char& whereaboutCount);
-  static Status* JsonToStatuses(String input, unsigned char& statusCount);
   static String JsonToAuthToken(String input);
   static String GroupNameGroupPasswordToJson(String groupName, String groupPassword);
   static String AuthTokenToJson(String authToken);

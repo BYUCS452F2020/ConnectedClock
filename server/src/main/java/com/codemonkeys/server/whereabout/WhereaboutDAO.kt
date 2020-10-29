@@ -5,10 +5,11 @@ import com.codemonkeys.shared.whereabout.Whereabout
 
 class WhereaboutDAO: BaseDAO() {
     private val GET_WHEREABOUTS_SQL = """
-        SELECT userID, username, clockHandIndex, z.statusID AS statusID
+        SELECT userID, username, clockHandIndex, z.statusID AS statusID, IFNULL(s.clockHandAngle, 0) AS clockHandAngle
             FROM User u
                 LEFT JOIN Zone z ON u.currentZoneID = z.zoneID
-        WHERE groupID = ?;
+                LEFT JOIN Status s ON z.statusID = s.statusID
+        WHERE u.groupID = ?;
     """
     fun getWhereabouts(groupID: String): List<Whereabout> {
         val connection = this.openConnection()

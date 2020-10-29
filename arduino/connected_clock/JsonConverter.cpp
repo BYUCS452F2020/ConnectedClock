@@ -8,7 +8,6 @@ Whereabout* JsonConverter::JsonToWhereabouts(String input, unsigned char& wherea
     Serial.println(error.c_str());
   }
   JsonObject jsonObject = doc.as<JsonObject>();
-//  StaticJsonDocument<JSON_BUFFER_SIZE> doc = JsonConverter::GetJsonDoc(input);
 
   JsonArray jsonWhereabouts = jsonObject[F("w")];
   whereaboutCount = jsonWhereabouts.size();
@@ -16,48 +15,15 @@ Whereabout* JsonConverter::JsonToWhereabouts(String input, unsigned char& wherea
    Whereabout* whereabouts = new Whereabout[whereaboutCount];
    int i = 0;
     for (JsonObject whereaboutJson : jsonWhereabouts) {
-      whereabouts[i].CurrentStatusID = (long)whereaboutJson[F("sid")];
+      whereabouts[i].ClockHandAngle = whereaboutJson[F("cha")];
       whereabouts[i].ClockHandIndex = (unsigned char)whereaboutJson[F("chi")];
-      Serial.println(whereabouts[i].CurrentStatusID);
+      Serial.println(whereabouts[i].ClockHandAngle);
       Serial.println(whereabouts[i].ClockHandIndex);
       i++;
     }
     
     doc.clear();
     return whereabouts;
-  }
-  else
-  {
-    doc.clear();
-    return nullptr;
-  }
-}
-
-
-Status* JsonConverter::JsonToStatuses(String input, unsigned char& statusCount) {
-  StaticJsonDocument<JSON_BUFFER_SIZE> doc;
-  Serial.println("inpt");
-  Serial.println(input);
-  DeserializationError error = deserializeJson(doc, input);
-  if (error) {
-    Serial.print(F("parseerror "));
-    Serial.println(error.c_str());
-  }
-  JsonObject jsonObject = doc.as<JsonObject>();
-  JsonArray jsonStatuses = jsonObject[F("s")];
-  statusCount = jsonStatuses.size();
-
-  if (statusCount > 0) {
-    Status* statuses = new Status[statusCount];
-    int i = 0;
-    for (JsonObject statusJson : jsonStatuses) {
-      statuses[i].StatusID = statusJson[F("sid")];
-      statuses[i].ClockHandAngle = statusJson[F("cha")];
-      i++;
-    }
-    doc.clear();
-  
-    return statuses;
   }
   else
   {

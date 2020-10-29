@@ -50,6 +50,6 @@ test {
         // includeTestsMatching "ClassName.MethodName"
         // includeTestsMatching "ClassName"
 
-        includeTestsMatching "com.codemonkeys.server.whereabout.*"
+//        includeTestsMatching "com.codemonkeys.server.whereabout.*"
     }
 }

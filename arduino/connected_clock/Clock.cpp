@@ -20,10 +20,6 @@ void Clock::InitServerConnection() {
   //  this->authToken = JsonConverter::JsonToAuthToken(responseBody);
   this->authToken = Secrets::GetAuthToken();
   //  delete responseBody;
-
-  String authTokenJson = JsonConverter::AuthTokenToJson(this->authToken);
-  String statusBody = this->wifi->SendNetworkRequest(Secrets::GetServerIPAddress(), F("POST"), F("/GetSmallStatuses/"), authTokenJson);
-  this->statuses = JsonConverter::JsonToStatuses(statusBody, this->statusCount);
 }
 
 void Clock::Update() {
@@ -35,24 +31,12 @@ void Clock::Update() {
 
   unsigned char whereaboutCount = 0;
   Whereabout* whereabouts = JsonConverter::JsonToWhereabouts(responseBody, whereaboutCount);
-  for (int i = 0; i < 2; i++) {
-    Serial.println(whereabouts[i].ClockHandIndex);
-  }
 
   for (unsigned char i = 0; i < whereaboutCount; i++) {
-    int clockHandAngle = this->StatusIDToClockHandAngle(whereabouts[i].CurrentStatusID);
-    this->clockHands->TransitionHandTo(whereabouts[i].ClockHandIndex, clockHandAngle);
+    Serial.println(whereabouts[i].ClockHandIndex);
+    this->clockHands->TransitionHandTo(whereabouts[i].ClockHandIndex, whereabouts[i].ClockHandAngle);
     delay(DELAY_BETWEEN_MOVING_HANDS_MS);
   }
   delete whereabouts;
 
-}
-
-int Clock::StatusIDToClockHandAngle(long statusID) {
-  for (unsigned char i = 0; i < this->statusCount; i++) {
-    if (this->statuses[i].StatusID == statusID) {
-      return this->statuses[i].ClockHandAngle;
-    }
-  }
-  return 0;
 }

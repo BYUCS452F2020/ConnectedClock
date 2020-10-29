@@ -21,7 +21,7 @@ CREATE TABLE ClockGroup (
 */
 CREATE TABLE Status (
 	statusID CHAR(36) NOT NULL PRIMARY KEY,
-    clockHandAngle REAL,
+    clockHandAngle INT,
     statusName VARCHAR(100),
     groupID CHAR(36),
     FOREIGN KEY (groupID) REFERENCES ClockGroup(groupID) ON DELETE CASCADE
