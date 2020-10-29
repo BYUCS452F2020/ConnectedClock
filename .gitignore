@@ -40,6 +40,7 @@ build/
 !/server/**/src/test/**
 firebase-secrets.json
 secrets.properties
+create_demo_data.sql
 
 # STS
 .apt_generated
