@@ -11,7 +11,7 @@ class ServerClockGroupService : IClockGroupService {
 
     override fun createGroup(authToken: String, groupName: String, groupPassword: String){
 
-        val clockGroupDao = ClockGroupDao()
+        val clockGroupDao = ClockGroupSqlDAO()
         // generate a unique group id for the group, and create clockGroup Object
         val groupID = UUID.randomUUID().toString()
         // create a ClockGroup Object
@@ -28,7 +28,7 @@ class ServerClockGroupService : IClockGroupService {
     }
 
     override fun getGroup(authToken: String, groupPassword: String): ClockGroup {
-        val clockGroupDao = ClockGroupDao()
+        val clockGroupDao = ClockGroupSqlDAO()
         val userID = authorizationService.getUserIDFromAuthToken(authToken)
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         val clockGroup = clockGroupDao.getClockGroup(groupID)
@@ -39,7 +39,7 @@ class ServerClockGroupService : IClockGroupService {
     }
 
     override fun addMemberToGroup (authToken: String, userNameToAdd: String, password: String) {
-        val clockGroupDao = ClockGroupDao()
+        val clockGroupDao = ClockGroupSqlDAO()
         // get the current User ID
         val userID = authorizationService.getUserIDFromAuthToken(authToken)
         // get the groupID
@@ -58,14 +58,14 @@ class ServerClockGroupService : IClockGroupService {
 
     // more of you remove yourself from the group
     override fun deleteMemberFromGroup (authToken: String) {
-        val clockGroupDao = ClockGroupDao()
+        val clockGroupDao = ClockGroupSqlDAO()
         // get the current User ID
         val userID = authorizationService.getUserIDFromAuthToken(authToken)
         clockGroupDao.updateGroupInUser("", userID)
     }
 
     override fun deleteGroup(authToken: String, password: String) {
-        val clockGroupDao = ClockGroupDao()
+        val clockGroupDao = ClockGroupSqlDAO()
         val userID = authorizationService.getUserIDFromAuthToken(authToken)
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         val storedPassWord = clockGroupDao.getClockGroup(groupID).groupPassword
@@ -78,7 +78,7 @@ class ServerClockGroupService : IClockGroupService {
     }
 
     override fun loginGroup(groupName: String, groupPassword: String): String {
-        val clockGroupDao = ClockGroupDao()
+        val clockGroupDao = ClockGroupSqlDAO()
         val newAuthToken = UUID.randomUUID().toString()
         val groupId = clockGroupDao.getGroupIDViaGroupName(groupName)
         if (groupId == ""){

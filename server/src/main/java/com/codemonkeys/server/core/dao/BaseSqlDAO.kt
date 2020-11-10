@@ -8,7 +8,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 // https://www.mysqltutorial.org/mysql-jdbc-tutorial/
-open class BaseDAO {
+open class BaseSqlDAO {
     // https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-rds.html
     protected fun openConnection(): Connection {
         val url = System.getenv("RDS_DB_URL")

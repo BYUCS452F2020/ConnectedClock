@@ -9,7 +9,7 @@ import org.junit.Test
 
 
 class GroupDAOTests: BaseTest() {
-    var clockGroupDao = ClockGroupDao()
+    var clockGroupDao = ClockGroupSqlDAO()
     // tests for getClockGroup function
     @Test
     fun getGroup_Success_Test(){

@@ -1,6 +1,7 @@
 package com.codemonkeys.server.user
 
-import com.codemonkeys.shared.user.IUserService
+import com.codemonkeys.server.core.dao.BaseDynamoDAO
+import com.codemonkeys.shared.user.User
 import com.codemonkeys.shared.user.requests.CreateUserRequest
 import com.codemonkeys.shared.user.requests.LoginUserRequest
 import com.codemonkeys.shared.user.requests.LogoutUserRequest
@@ -10,24 +11,24 @@ import com.codemonkeys.shared.user.responses.LoginUserResponse
 import com.codemonkeys.shared.user.responses.LogoutUserResponse
 import com.codemonkeys.shared.user.responses.UpdateUserResponse
 
-class ServerUserService : IUserService {
+class UserDynamoDAO : BaseDynamoDAO(), IUserDAO {
     override fun createUser(request: CreateUserRequest): CreateUserResponse {
-        val userDAO = UserSqlDAO()
-        return userDAO.createUser(request)
+        TODO("Not yet implemented")
+    }
+
+    override fun getUser(userID: String): User? {
+        TODO("Not yet implemented")
     }
 
     override fun loginUser(request: LoginUserRequest): LoginUserResponse {
-        val userDAO = UserSqlDAO()
-        return userDAO.loginUser(request)
+        TODO("Not yet implemented")
     }
 
     override fun logoutUser(request: LogoutUserRequest): LogoutUserResponse {
-        val userDAO = UserSqlDAO()
-        return userDAO.logoutUser(request)
+        TODO("Not yet implemented")
     }
 
     override fun updateUser(request: UpdateUserRequest): UpdateUserResponse {
-        val userDAO = UserSqlDAO()
-        return userDAO.updateUser(request)
+        TODO("Not yet implemented")
     }
 }

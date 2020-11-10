@@ -1,8 +1,6 @@
 package com.codemonkeys.server.whereabout
 
 import com.codemonkeys.server.authorization.AuthorizationService
-import com.codemonkeys.server.core.NotAuthorizedException
-import com.codemonkeys.server.zone.ZoneDAO
 import com.codemonkeys.shared.whereabout.IWhereaboutService
 import com.codemonkeys.shared.whereabout.Whereabout
 
@@ -12,7 +10,7 @@ class WhereaboutService : IWhereaboutService {
         val authService = AuthorizationService()
         val groupID = authService.getGroupIDFromAuthToken(authToken)
 
-        val whereaboutDAO = WhereaboutDAO()
+        val whereaboutDAO = WhereaboutSqlDAO()
         return whereaboutDAO.getWhereabouts(groupID)
     }
 
@@ -30,7 +28,7 @@ class WhereaboutService : IWhereaboutService {
 //            }
 //        }
 
-        val whereaboutDAO = WhereaboutDAO()
+        val whereaboutDAO = WhereaboutSqlDAO()
         whereaboutDAO.updateUserWhereabout(userID, currentZoneID)
     }
 }

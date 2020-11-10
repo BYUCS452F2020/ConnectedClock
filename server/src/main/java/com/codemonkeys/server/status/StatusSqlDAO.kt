@@ -1,9 +1,9 @@
 package com.codemonkeys.server.status
 
-import com.codemonkeys.server.core.dao.BaseDAO
+import com.codemonkeys.server.core.dao.BaseSqlDAO
 import com.codemonkeys.shared.status.Status
 
-class StatusDAO : BaseDAO() {
+class StatusSqlDAO : BaseSqlDAO(), IStatusDAO {
     // We can include string literals by using triple quotes. It makes our SQL statements easy to read.
     // https://www.journaldev.com/17318/kotlin-string#raw-strings-8211-multiline-string
     private val GET_STATUSES_SQL =
@@ -15,7 +15,7 @@ class StatusDAO : BaseDAO() {
         """
 
     // https://www.mysqltutorial.org/mysql-jdbc-tutorial/
-    fun getStatuses(groupID: String): List<Status> {
+    override fun getStatuses(groupID: String): List<Status> {
         val connection = this.openConnection()
         try {
             val statement = connection.prepareStatement(GET_STATUSES_SQL)
@@ -35,7 +35,7 @@ class StatusDAO : BaseDAO() {
             FROM Status
             WHERE groupID = ?;
     """
-    fun updateStatuses(groupID: String, updatedStatuses: List<Status>){
+    override fun updateStatuses(groupID: String, updatedStatuses: List<Status>){
         val connection = this.openConnection()
         try {
             val deleteStatement = connection.prepareStatement(DELETE_GROUP_STATUSES_SQL)

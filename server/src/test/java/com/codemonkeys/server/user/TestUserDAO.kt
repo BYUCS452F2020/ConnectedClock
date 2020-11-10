@@ -13,7 +13,7 @@ class TestUserDAO : BaseTest() {
 
     @Test
     fun testCreateUser() {
-        val userDAO = UserDAO()
+        val userDAO = UserSqlDAO()
         val request =
             CreateUserRequest(UserTestResources.GROUP_1_NEW_USER_1)
         val response = userDAO.createUser(request)
@@ -38,7 +38,7 @@ class TestUserDAO : BaseTest() {
 
     @Test
     fun testUpdateUser() {
-        val userDAO = UserDAO()
+        val userDAO = UserSqlDAO()
         val request = UpdateUserRequest(
             AuthorizationTestResources.GROUP_1_USER_AUTHTOKEN,
             UserTestResources.GROUP_1_USER_1_PASSWORD,
@@ -62,7 +62,7 @@ class TestUserDAO : BaseTest() {
 
     @Test
     fun testLoginUser() {
-        val userDAO = UserDAO()
+        val userDAO = UserSqlDAO()
         val request = LoginUserRequest(
             UserTestResources.GROUP_1_USER_1_USERNAME,
             UserTestResources.GROUP_1_USER_1_PASSWORD
@@ -96,7 +96,7 @@ class TestUserDAO : BaseTest() {
 
     @Test
     fun testLogoutUser() {
-        val userDAO = UserDAO()
+        val userDAO = UserSqlDAO()
         val request =
             LogoutUserRequest(AuthorizationTestResources.GROUP_1_USER_AUTHTOKEN)
         val response = userDAO.logoutUser(request)

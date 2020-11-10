@@ -4,7 +4,7 @@ import com.codemonkeys.server.BaseTest
 import com.codemonkeys.server.clockGroup.GroupTestResources
 import org.junit.Test
 import org.junit.Assert.*
-import com.codemonkeys.server.user.UserDAO
+import com.codemonkeys.server.user.UserSqlDAO
 import com.codemonkeys.server.user.UserTestResources
 import com.codemonkeys.shared.whereabout.Whereabout
 
@@ -12,7 +12,7 @@ class TestWhereaboutDAO: BaseTest() {
 
     @Test
     fun testGetWhereabouts() {
-        val whereaboutDAO = WhereaboutDAO()
+        val whereaboutDAO = WhereaboutSqlDAO()
         val group1Whereabouts = whereaboutDAO.getWhereabouts(GroupTestResources.GROUP_1_ID)
         assertEquals("Should return the whereabouts for all users in this group", WhereaboutTestResources.GROUP_1_WHEREABOUTS, group1Whereabouts)
 
@@ -25,8 +25,8 @@ class TestWhereaboutDAO: BaseTest() {
 
     @Test
     fun testUpdateUserWhereabout() {
-        val whereaboutDAO = WhereaboutDAO()
-        val userDAO = UserDAO()
+        val whereaboutDAO = WhereaboutSqlDAO()
+        val userDAO = UserSqlDAO()
         whereaboutDAO.updateUserWhereabout(UserTestResources.GROUP_1_USER_1_ID, WhereaboutTestResources.GROUP_1_ZONE_3_ID)
         val user1 = userDAO.getUser(UserTestResources.GROUP_1_USER_1_ID)
         assertEquals("User's current com.codemonkeys.server.zone should be changed", WhereaboutTestResources.GROUP_1_ZONE_3_ID, user1?.currentZoneID)

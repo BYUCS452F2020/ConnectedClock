@@ -7,7 +7,7 @@ import org.junit.Assert.*
 class TestAuthorizationDAO: BaseTest() {
     @Test
     fun testAuthorizeUserID() {
-        val authorizationDAO = AuthorizationDAO()
+        val authorizationDAO = AuthorizationSqlDAO()
         val userID = authorizationDAO.getUserIDFromAuthToken("e00f1c88-1d5b-4d32-be07-1018f39a26b2")
         val expectedUserID = "3ea0f56f-7864-4d49-a5ed-5f741a7969c8"
         assertEquals("Should find the authToken and return correct userID", expectedUserID, userID)
@@ -21,7 +21,7 @@ class TestAuthorizationDAO: BaseTest() {
 
     @Test
     fun testAuthorizeGroupID() {
-        val authorizationDAO = AuthorizationDAO()
+        val authorizationDAO = AuthorizationSqlDAO()
         // Group's AuthToken
         val groupID = authorizationDAO.getGroupIDFromAuthToken("7af562ed-46bd-429b-8bcd-2d85e76d9a10")
         val expectedGroupID = "2bc8f348-fce4-4df6-9795-deff8e721c7a"

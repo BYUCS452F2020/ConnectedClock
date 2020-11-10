@@ -9,7 +9,7 @@ import org.junit.Test
 
 class GroupServiceTests: BaseTest() {
     val groupService = ServerClockGroupService()
-    val clockGroupDao = ClockGroupDao()
+    val clockGroupDao = ClockGroupSqlDAO()
     val authorizationService = AuthorizationService()
 
     // tests for getGroup function

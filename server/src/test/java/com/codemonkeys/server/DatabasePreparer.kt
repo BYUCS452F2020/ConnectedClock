@@ -1,8 +1,8 @@
 package com.codemonkeys.server
 
-import com.codemonkeys.server.core.dao.BaseDAO
+import com.codemonkeys.server.core.dao.BaseSqlDAO
 
-class DatabasePreparer: BaseDAO() {
+class DatabasePreparer: BaseSqlDAO() {
     // https://stackoverflow.com/a/42740416/6634972
     fun prepareDatabase() {
         val createDatabaseSQL = DatabasePreparer::class.java.getResource("/DatabaseSQL/create_database.sql").readText()

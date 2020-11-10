@@ -1,11 +1,11 @@
 package com.codemonkeys.server.clockGroup
-import com.codemonkeys.server.core.dao.BaseDAO
+import com.codemonkeys.server.core.dao.BaseSqlDAO
 import com.codemonkeys.shared.clockGroup.ClockGroup
 
-class ClockGroupDao : BaseDAO() {
+class ClockGroupSqlDAO : BaseSqlDAO(), IClockGroupDAO {
 
     // function that insert a single Group info in the Group table
-    fun createNewGroup(singleGroup: ClockGroup){
+    override fun createNewGroup(singleGroup: ClockGroup){
         val connection = openConnection()
         try {
             super.insertObject(ClockGroup::class.java, connection, "ClockGroup", singleGroup)
@@ -22,7 +22,7 @@ class ClockGroupDao : BaseDAO() {
             SET groupID=?
             WHERE userID=?
         """
-    fun updateGroupInUser(groupID: String, userID: String) {
+    override fun updateGroupInUser(groupID: String, userID: String) {
         val connection = openConnection()
         try{
             val updateStatement = connection.prepareStatement(UPDATE_USER_SQL)
@@ -42,7 +42,7 @@ class ClockGroupDao : BaseDAO() {
         SELECT * FROM ClockGroup
             WHERE groupID=?
         """
-    fun getClockGroup(groupID: String): ClockGroup {
+    override fun getClockGroup(groupID: String): ClockGroup {
         val connection = openConnection()
         try{
             val getStatement = connection.prepareStatement(GET_CLOCK_GROUP_SQL)
@@ -73,7 +73,7 @@ class ClockGroupDao : BaseDAO() {
             FROM User
             WHERE userID=?;
     """
-    fun getGroupIDViaUser(userID: String): String{
+    override fun getGroupIDViaUser(userID: String): String{
         val connection = this.openConnection()
         try {
             val preparedStatement = connection.prepareStatement(GET_GROUP_BY_USER_SQL)
@@ -95,7 +95,7 @@ class ClockGroupDao : BaseDAO() {
             FROM User
             WHERE userName=?;
     """
-    fun getUserIDViaUserName(userName: String): String{
+    override fun getUserIDViaUserName(userName: String): String{
         val connection = this.openConnection()
         try {
             val preparedStatement = connection.prepareStatement(GET_USERID_BY_USERNAME_SQL)
@@ -115,7 +115,7 @@ class ClockGroupDao : BaseDAO() {
         DELETE FROM ClockGroup
         WHERE ClockGroup.groupID=?;
     """
-    fun deleteGroup(groupID: String) {
+    override fun deleteGroup(groupID: String) {
         val connection = this.openConnection()
         try {
             val deleteStatement = connection.prepareStatement(DELETE_GROUP_SQL)
@@ -133,7 +133,7 @@ class ClockGroupDao : BaseDAO() {
             FROM ClockGroup
             WHERE groupName=?;
     """
-    fun getGroupIDViaGroupName(groupName: String): String{
+    override fun getGroupIDViaGroupName(groupName: String): String{
         val connection = this.openConnection()
         try {
             val preparedStatement = connection.prepareStatement(GET_GROUPID_BY_GROUPNAME_SQL)
@@ -155,7 +155,7 @@ class ClockGroupDao : BaseDAO() {
         INSERT INTO AuthToken (authToken, userID, groupID)
         VALUES (?, ?, ?);
         """
-    fun setAuthTokenTable(authToken: String, groupID: String) {
+    override fun setAuthTokenTable(authToken: String, groupID: String) {
         val connection = this.openConnection()
         try {
             val updateStatement = connection.prepareStatement(SET_AUTHTOKEN_SQL)

@@ -13,7 +13,7 @@ class TestUpdateStatusesHandler : BaseTest() {
 
     @Test
     fun testUpdateStatusesHandler() {
-        val statusDAO = StatusDAO()
+        val statusDAO = StatusSqlDAO()
         val updateStatusesHandler = UpdateStatusesHandler()
 
         val invalidGroupIDResponse = updateStatusesHandler.handleRequest(StatusTestResources.GROUP_2_INVALID_STATUSES_REQUEST, null)
