@@ -1,9 +1,9 @@
 package com.codemonkeys.server.zone
 
-import com.codemonkeys.server.core.dao.BaseDAO
+import com.codemonkeys.server.core.dao.BaseSqlDAO
 import com.codemonkeys.shared.zone.Zone
 
-class ZoneDAO : BaseDAO() {
+class ZoneSqlDAO : BaseSqlDAO(), IZoneDAO {
 
     private var GET_ZONES_SQL = """
         SELECT *
@@ -13,7 +13,7 @@ class ZoneDAO : BaseDAO() {
             ORDER BY zoneID;
     """
 
-    fun getZones(groupID: String): List<Zone> {
+    override fun getZones(groupID: String): List<Zone> {
         val connection = openConnection()
         try {
             val statement = connection.prepareStatement(GET_ZONES_SQL)
@@ -34,7 +34,7 @@ class ZoneDAO : BaseDAO() {
             WHERE s.groupID = ?;
     """
 
-    fun updateZones(groupID: String, updatedZones: List<Zone>) {
+    override fun updateZones(groupID: String, updatedZones: List<Zone>) {
         val connection = this.openConnection()
 
         try {
@@ -52,24 +52,4 @@ class ZoneDAO : BaseDAO() {
             this.closeConnection(connection)
         }
     }
-
-//    private val GET_ZONES_GROUP_ID_SQL = """
-//        SELECT s.groupID
-//            FROM Zone z
-//                JOIN Status s ON s.statusID = z.statusID
-//            WHERE z.zoneID IN ?;
-//    """
-//
-//    fun getZonesGroupID(zoneIDs: List<String>): List<String> {
-//        val connection = this.openConnection()
-//        try {
-//            val preparedStatement = connection.prepareStatement(GET_ZONES_GROUP_ID_SQL)
-//            preparedStatement.setObject(1, zoneIDs)
-//            val resultSet = preparedStatement.executeQuery()
-//            return this.getSimpleQueryResults<String>(resultSet)
-//        }
-//        finally {
-//            connection.close()
-//        }
-//    }
 }

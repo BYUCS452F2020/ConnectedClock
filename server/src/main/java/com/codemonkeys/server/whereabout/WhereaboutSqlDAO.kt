@@ -1,9 +1,9 @@
 package com.codemonkeys.server.whereabout
 
-import com.codemonkeys.server.core.dao.BaseDAO
+import com.codemonkeys.server.core.dao.BaseSqlDAO
 import com.codemonkeys.shared.whereabout.Whereabout
 
-class WhereaboutDAO: BaseDAO() {
+class WhereaboutSqlDAO: BaseSqlDAO(), IWhereaboutDAO {
     private val GET_WHEREABOUTS_SQL = """
         SELECT userID, username, clockHandIndex, z.statusID AS statusID, IFNULL(s.clockHandAngle, 0) AS clockHandAngle
             FROM User u
@@ -11,7 +11,7 @@ class WhereaboutDAO: BaseDAO() {
                 LEFT JOIN Status s ON z.statusID = s.statusID
         WHERE u.groupID = ?;
     """
-    fun getWhereabouts(groupID: String): List<Whereabout> {
+    override fun getWhereabouts(groupID: String): List<Whereabout> {
         val connection = this.openConnection()
         try {
             val preparedStatement = connection.prepareStatement(GET_WHEREABOUTS_SQL)
@@ -29,7 +29,7 @@ class WhereaboutDAO: BaseDAO() {
             SET currentZoneID = ?
             WHERE userID = ?;
     """
-    fun updateUserWhereabout(userID: String, currentZoneID: String?) {
+    override fun updateUserWhereabout(userID: String, currentZoneID: String?) {
         val connection = this.openConnection()
         try {
             val preparedStatement = connection.prepareStatement(SET_WHEREABOUT_SQL)

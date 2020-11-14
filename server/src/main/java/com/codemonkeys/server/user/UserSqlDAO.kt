@@ -1,7 +1,7 @@
 package com.codemonkeys.server.user
 
-import com.codemonkeys.server.authorization.AuthorizationDAO
-import com.codemonkeys.server.core.dao.BaseDAO
+import com.codemonkeys.server.authorization.AuthorizationSqlDAO
+import com.codemonkeys.server.core.dao.BaseSqlDAO
 import com.codemonkeys.shared.user.User
 import com.codemonkeys.shared.user.requests.CreateUserRequest
 import com.codemonkeys.shared.user.requests.LoginUserRequest
@@ -13,9 +13,9 @@ import com.codemonkeys.shared.user.responses.LogoutUserResponse
 import com.codemonkeys.shared.user.responses.UpdateUserResponse
 import java.util.UUID
 
-class UserDAO : BaseDAO() {
+class UserSqlDAO : BaseSqlDAO(), IUserDAO {
 
-    fun createUser(request: CreateUserRequest): CreateUserResponse {
+    override fun createUser(request: CreateUserRequest): CreateUserResponse {
         // Insert user into the database
         val connection = this.openConnection()
         try {
@@ -34,7 +34,7 @@ class UserDAO : BaseDAO() {
 
         // Insert authtoken for user into the database
         val authToken = UUID.randomUUID().toString()
-        val authorizationDAO = AuthorizationDAO()
+        val authorizationDAO = AuthorizationSqlDAO()
         val success = authorizationDAO.insertAuthToken(authToken, request.user.userID, null)
 
         // Return a response with the token
@@ -54,7 +54,7 @@ class UserDAO : BaseDAO() {
             WHERE userID = ?;
     """
 
-    fun getUser(userID: String): User? {
+    override fun getUser(userID: String): User? {
         val connection = openConnection()
         try {
             val statement = connection.prepareStatement(GET_USER_BY_USERID)
@@ -78,7 +78,7 @@ class UserDAO : BaseDAO() {
                 Where userName = ? and password = ?;
     """
 
-    fun loginUser(request: LoginUserRequest): LoginUserResponse {
+    override fun loginUser(request: LoginUserRequest): LoginUserResponse {
         val connection = openConnection()
 
         val statement = connection.prepareStatement(GET_USER_BY_USERNAME_AND_PASSWORD_SQL)
@@ -91,7 +91,7 @@ class UserDAO : BaseDAO() {
             if (resultSet != null) {
                 val user = users.first()
                 val authToken = UUID.randomUUID().toString()
-                val authorizationDAO = AuthorizationDAO()
+                val authorizationDAO = AuthorizationSqlDAO()
                 val success = authorizationDAO.insertAuthToken(authToken, user.userID, user.groupID)
 
                 return if (success) {
@@ -118,8 +118,8 @@ class UserDAO : BaseDAO() {
         }
     }
 
-    fun logoutUser(request: LogoutUserRequest): LogoutUserResponse {
-        val authorizationDAO = AuthorizationDAO()
+    override fun logoutUser(request: LogoutUserRequest): LogoutUserResponse {
+        val authorizationDAO = AuthorizationSqlDAO()
         val success = authorizationDAO.deleteAuthToken(request.authToken)
 
         return if (success) {
@@ -135,8 +135,8 @@ class UserDAO : BaseDAO() {
             Where userID = ?;
     """
 
-    fun updateUser(request: UpdateUserRequest): UpdateUserResponse {
-        val authorizationDAO = AuthorizationDAO()
+    override fun updateUser(request: UpdateUserRequest): UpdateUserResponse {
+        val authorizationDAO = AuthorizationSqlDAO()
         val userID = authorizationDAO.getUserIDFromAuthToken(request.authToken)
             ?: return UpdateUserResponse("Invalid credentials")
 

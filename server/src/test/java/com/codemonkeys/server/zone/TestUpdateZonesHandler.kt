@@ -13,7 +13,7 @@ class TestUpdateZonesHandler : BaseTest() {
 
     @Test
     fun testUpdateZones() {
-        val zoneDAO = ZoneDAO()
+        val zoneDAO = ZoneSqlDAO()
         val updateZonesHandler = UpdateZonesHandler()
 
         val invalidGroupIDResponse =

@@ -13,7 +13,7 @@ class ServerStatusService : IStatusService {
         val authService = AuthorizationService()
         val groupID = authService.getGroupIDFromAuthToken(authToken)
 
-        val statusDAO = StatusDAO()
+        val statusDAO = StatusSqlDAO()
         return statusDAO.getStatuses(groupID)
     }
 
@@ -27,7 +27,7 @@ class ServerStatusService : IStatusService {
                 throw NotAuthorizedException()
         }
 
-        val statusDAO = StatusDAO()
+        val statusDAO = StatusSqlDAO()
         statusDAO.updateStatuses(groupID, updatedStatuses)
     }
 }

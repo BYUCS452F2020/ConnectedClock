@@ -11,7 +11,7 @@ class ServerZoneService : IZoneService {
         val authService = AuthorizationService()
         val groupID = authService.getGroupIDFromAuthToken(authToken)
 
-        val zoneDAO = ZoneDAO()
+        val zoneDAO = ZoneSqlDAO()
         return zoneDAO.getZones(groupID)
     }
 
@@ -28,7 +28,7 @@ class ServerZoneService : IZoneService {
             }
         }
 
-        val zoneDAO = ZoneDAO()
+        val zoneDAO = ZoneSqlDAO()
         zoneDAO.updateZones(groupID, updatedZones)
     }
 }
