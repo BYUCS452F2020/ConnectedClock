@@ -7,6 +7,7 @@ import com.codemonkeys.shared.status.Status
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -69,6 +70,20 @@ class StatusRepository @Inject constructor(
         }
 
         return data
+    }
+
+    fun addStatueToCache(statusName: String, clockHandAngle: Int){
+        var statusToAdd = Status()
+        statusToAdd.statusName = statusName
+        statusToAdd.clockHandAngle = clockHandAngle
+        statusToAdd.groupID = "testingID" //group id of the user, need to use UserRepo's, method to get group id
+        statusToAdd.statusID = UUID.randomUUID().toString();
+
+        cachedStatuses?.value?.add(statusToAdd)
+    }
+
+    fun removeStatueFromCache(position: Int){
+        cachedStatuses?.value?.removeAt(position)
     }
 
     // Update the server with the status values we currently have in the repository

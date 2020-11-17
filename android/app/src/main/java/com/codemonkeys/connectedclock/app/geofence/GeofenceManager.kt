@@ -68,7 +68,7 @@ class GeofenceManager @Inject constructor(
         }
         catch(e: SecurityException)
         {
-            Log.e("ConnectedClockGeofence", e.message)
+            Log.e("ConnectedClockGeofence", e.message?:"")
         }
     }
 
