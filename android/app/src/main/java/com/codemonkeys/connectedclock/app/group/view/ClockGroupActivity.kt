@@ -2,14 +2,15 @@ package com.codemonkeys.connectedclock.app.group.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.widget.ActionMenuView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.group.viewmodel.ClockGroupViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class ClockGroupActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<ClockGroupViewModel>()
@@ -24,11 +25,6 @@ class ClockGroupActivity : AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.actvity_zone_options_menu, menu)
-        return true
     }
 
     override fun onStart() {
@@ -50,6 +46,8 @@ class ClockGroupActivity : AppCompatActivity() {
                 errorToast.show()
             }
             else{
+                val toast = Toast.makeText(applicationContext, "Creating Group", Toast.LENGTH_SHORT)
+                toast.show()
                 viewModel.createGroup(groupName, password)
             }
         }

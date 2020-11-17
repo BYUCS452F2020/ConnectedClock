@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:title="@string/setting"
+    tools:context=".app.settings.view.SettingActivity">
+
+    <item
+        android:id="@+id/activity_setting.menu.saveMenuItem"
+        android:title="Save"
+        app:showAsAction="always" />
+
+</menu>

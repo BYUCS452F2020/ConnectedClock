@@ -36,7 +36,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.cos
 import com.codemonkeys.connectedclock.app.core.view.requestPermissions as rqstPermissions
 
-@AndroidEntryPoint
 class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val viewModel by viewModels<ZoneViewModel>()

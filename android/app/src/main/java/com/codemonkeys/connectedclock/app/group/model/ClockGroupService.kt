@@ -23,8 +23,8 @@ class ClockGroupService (private val retrofit: Retrofit) : IClockGroupService, @
 
     override fun createGroup(authToken: String, groupName: String, groupPassword: String) {
         val request = CreateGroupRequest(authToken, groupName, groupPassword)
-        // the function executeApiCall() is injected from BaseClientService class
-        val response = this.executeApiCall(networkAPI.createGroup(request))
+        // should try to handle error, maybe
+        this.executeApiCall(networkAPI.createGroup(request))
     }
 
     override fun deleteGroup(authToken: String, password: String) {

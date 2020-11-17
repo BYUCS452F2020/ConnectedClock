@@ -7,4 +7,20 @@
     <string name="group_name">Group Name</string>
     <string name="password">password</string>
     <string name="create_group_button">Create Group</string>
+    <string name="setting">Setting</string>
+    <string name="status">Statuses</string>
+    <string name="add_status">Add Status</string>
+    <string name="clock_hand_index">User\'s clock hand index</string>
+    <string name="change_password">Change Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="status_name">Status Name</string>
+    <string name="clock_hand_angle">Clock Hand Angle</string>
+    <string-array name="user_hand_index">
+        <item>index 1</item>
+        <item>index 2</item>
+        <item>index 3</item>
+        <item>index 4</item>
+        <item>index 5</item>
+    </string-array>
 </resources>
