@@ -16,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver
-            android:name=".app.geofence.GeofenceBroadcastReceiver"
+        <receiver android:name=".app.geofence.GeofenceBroadcastReceiver"
             android:enabled="true"
             android:exported="true" />
 
@@ -44,13 +43,18 @@
         <activity
             android:name=".app.authorization.view.LoginActivity"
             android:label="@string/title_activity_login">
-
         </activity>
 
         <activity
             android:name=".app.authorization.view.RegisterActivity"
             android:label="RegisterActivty">
-
+        </activity>
+          
+        <activity android:name=".app.group.view.ClockGroupActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
     </application>
