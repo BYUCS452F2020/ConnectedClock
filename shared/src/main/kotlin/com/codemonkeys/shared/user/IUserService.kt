@@ -1,20 +1,20 @@
 package com.codemonkeys.shared.user
 
-import com.codemonkeys.shared.user.requests.CreateUserRequest
-import com.codemonkeys.shared.user.requests.LoginUserRequest
-import com.codemonkeys.shared.user.requests.LogoutUserRequest
-import com.codemonkeys.shared.user.requests.UpdateUserRequest
 import com.codemonkeys.shared.user.responses.CreateUserResponse
 import com.codemonkeys.shared.user.responses.LoginUserResponse
 import com.codemonkeys.shared.user.responses.LogoutUserResponse
 import com.codemonkeys.shared.user.responses.UpdateUserResponse
 
 interface IUserService {
-    fun createUser(request: CreateUserRequest): CreateUserResponse
+    fun createUser(username: String, password: String, groupID: String, clockHand: Int): CreateUserResponse
 
-    fun loginUser(request: LoginUserRequest): LoginUserResponse
+    fun loginUser(username: String, password: String): LoginUserResponse
 
-    fun logoutUser(request: LogoutUserRequest): LogoutUserResponse
+    fun logoutUser(authToken: String): LogoutUserResponse
 
-    fun updateUser(request: UpdateUserRequest): UpdateUserResponse
+    fun updateUser(
+        authToken: String,
+        currentPassword: String,
+        newPassword: String
+    ): UpdateUserResponse
 }

@@ -2,10 +2,6 @@ package com.codemonkeys.connectedclock.app.authorization
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,5 +23,13 @@ class AuthorizationRepository @Inject constructor() {
         data.value = "866a0dc9-4b42-436c-99ad-51537382e7d2"
 
         return data
+    }
+
+    fun setAuthToken(authToken: String?) {
+        if (cachedAuthToken == null) {
+            cachedAuthToken = MutableLiveData(authToken)
+        } else {
+            cachedAuthToken!!.postValue(authToken)
+        }
     }
 }

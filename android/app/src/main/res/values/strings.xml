@@ -4,6 +4,15 @@
     <string name="geofence_not_available"> Geofence service is not available now. Go to Settings>Location>Mode and choose High accuracy. </string>
     <string name="geofence_too_many_geofences"> Your app has registered too many geofences. </string>
     <string name="geofence_too_many_pending_intents"> You have provided too many PendingIntents to the addGeofences() call. </string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
     <string name="group_name">Group Name</string>
     <string name="password">password</string>
     <string name="create_group_button">Create Group</string>
