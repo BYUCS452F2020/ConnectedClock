@@ -26,10 +26,6 @@ class AuthorizationRepository @Inject constructor() {
     }
 
     fun setAuthToken(authToken: String?) {
-        if (cachedAuthToken == null) {
-            cachedAuthToken = MutableLiveData(authToken)
-        } else {
-            cachedAuthToken!!.postValue(authToken)
-        }
+        cachedAuthToken?.postValue(authToken)
     }
 }

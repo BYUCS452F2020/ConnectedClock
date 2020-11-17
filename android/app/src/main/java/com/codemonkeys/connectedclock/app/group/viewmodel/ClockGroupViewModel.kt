@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.codemonkeys.connectedclock.app.group.model.ClockGroupRepository
 
 class ClockGroupViewModel @ViewModelInject constructor(
-    private val clockGroupRepository: ClockGroupRepository,
+    private val clockGroupRepository: ClockGroupRepository
 ) : ViewModel() {
 
     fun createGroup(groupName : String, password: String){
