@@ -1,14 +1,17 @@
 package com.codemonkeys.connectedclock.app.group.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.group.viewmodel.ClockGroupViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class ClockGroupActivity : AppCompatActivity() {
@@ -23,7 +26,6 @@ class ClockGroupActivity : AppCompatActivity() {
         //set actionbar title
         actionbar!!.title = "Register Group"
         //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -41,15 +43,34 @@ class ClockGroupActivity : AppCompatActivity() {
 
             if (groupName.isNullOrEmpty() || password.isNullOrEmpty()) {
                 val errorToast = Toast.makeText(this,
-                                                   "Group Name or Password can't be empty",
-                                                         Toast.LENGTH_LONG)
+                        "Group Name or Password can't be empty",
+                        Toast.LENGTH_LONG)
                 errorToast.show()
             }
             else{
                 val toast = Toast.makeText(applicationContext, "Creating Group", Toast.LENGTH_SHORT)
                 toast.show()
+                // todo: need to add network error handling
                 viewModel.createGroup(groupName, password)
+                // finish the activity and send back the result
+                val intent = Intent()
+                intent.putExtra("groupName", groupName)
+                intent.putExtra("password", password)
+                setResult(RESULT_OK, intent)
+                finish()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            // when the back button is clicked
+            android.R.id.home -> {
+                this.finish();
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

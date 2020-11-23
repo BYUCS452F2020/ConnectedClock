@@ -28,6 +28,6 @@ class ClientStatusService @Inject constructor(
 
     override fun updateStatuses(authToken: String, updatedStatuses: List<Status>) {
         val request = UpdateStatusesRequest(authToken, updatedStatuses)
-        val response = this.executeApiCall(networkAPI.updateStatuses(request))
+        this.executeApiCall(networkAPI.updateStatuses(request))
     }
 }
