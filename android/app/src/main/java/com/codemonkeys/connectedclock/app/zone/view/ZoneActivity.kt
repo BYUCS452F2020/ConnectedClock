@@ -1,6 +1,7 @@
 package com.codemonkeys.connectedclock.app.zone.view
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Point
 import android.location.Criteria
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.core.view.handleRequestedPermission
+import com.codemonkeys.connectedclock.app.settings.view.SettingActivity
 import com.codemonkeys.connectedclock.app.zone.viewmodel.ZoneViewModel
 import com.codemonkeys.shared.status.Status
 import com.codemonkeys.shared.zone.Zone
@@ -73,9 +75,10 @@ class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.activity_zone_options_menu_settingsMenuItem -> {
-//                val intent = Intent(this, SettingsActivity::class.java)
-//                startActivity(intent)
-                Toast.makeText(this, "Not implemented yet!", Toast.LENGTH_SHORT).show()
+                // start the settings activity
+                Toast.makeText(this, "Starting setting activity", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
             }
             R.id.activity_zone_options_menu_saveMenuItem -> {
                 val c = this

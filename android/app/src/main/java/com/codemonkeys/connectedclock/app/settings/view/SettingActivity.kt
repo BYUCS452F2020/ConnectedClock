@@ -2,6 +2,7 @@ package com.codemonkeys.connectedclock.app.settings.view
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -14,6 +15,9 @@ import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.settings.viewmodel.SettingViewModel
 import com.codemonkeys.shared.status.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 //@AndroidEntryPoint
 class SettingActivity : AppCompatActivity(), AddStatusFragment.AddStatusDialogListener,
@@ -86,6 +90,27 @@ class SettingActivity : AppCompatActivity(), AddStatusFragment.AddStatusDialogLi
         val toast = Toast.makeText(applicationContext, "Selected " + selectedItem, Toast.LENGTH_SHORT)
         toast.show()
         this.viewModel.setUserHandIndex(selectedItem)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // when save get clicked save the status to the AWS
+        when (item.itemId) {
+            R.id.activity_setting_menu_saveMenuItem -> {
+                val c = this
+                val coroutineScope = CoroutineScope(Dispatchers.Main)
+                coroutineScope.launch {
+                    viewModel.saveStatus()
+                    Toast.makeText(c, "Saved Statuses", Toast.LENGTH_LONG).show()
+                }
+            }
+            android.R.id.home -> {
+                // this activity finished and back to the upper activity
+                this.finish();
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
