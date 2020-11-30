@@ -8,7 +8,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 // https://www.mysqltutorial.org/mysql-jdbc-tutorial/
-open class BaseSqlDAO {
+open class BaseSqlDAO : BaseDAO() {
     // https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/java-rds.html
     protected fun openConnection(): Connection {
         val url = System.getenv("RDS_DB_URL")
@@ -21,15 +21,6 @@ open class BaseSqlDAO {
 
     protected fun closeConnection(connection: Connection) {
         connection.close()
-    }
-
-    private fun <T> getColumnNamesAndFields(clazz: Class<T>): List<Pair<String, Field>> {
-        val fields = clazz.declaredFields
-        return fields.mapNotNull { field ->
-            field.getAnnotation(ColumnAnnotation::class.java)?.let { annotation ->
-                annotation.columnName to field
-            }
-        }
     }
 
     // https://stackoverflow.com/a/46359673/6634972 Automatically mapping from ResultSet to Java Object

@@ -1,12 +1,12 @@
 package com.codemonkeys.server.zone
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.clockGroup.GroupTestResources
 import com.codemonkeys.shared.zone.Zone
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestZoneDAO : BaseTest() {
+class TestZoneDAO : BaseDynamoTest() {
 
     @Test
     fun testGetZones() {
