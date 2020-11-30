@@ -8,7 +8,7 @@ import com.codemonkeys.server.user.UserSqlDAO
 import com.codemonkeys.server.user.UserTestResources
 import com.codemonkeys.shared.whereabout.Whereabout
 
-class TestWhereaboutDAO: BaseDynamoTest() {
+class TestWhereaboutSqlDAO: BaseDynamoTest() {
 
     @Test
     fun testGetWhereabouts() {
