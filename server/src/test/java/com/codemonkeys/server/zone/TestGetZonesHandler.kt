@@ -1,12 +1,12 @@
 package com.codemonkeys.server.zone
 
 import com.codemonkeys.server.authorization.AuthorizationTestResources
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.zone.handlers.GetZonesHandler
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestGetZonesHandler : BaseTest() {
+class TestGetZonesHandler : BaseDynamoTest() {
 
     @Test
     fun testGetZonesHandler() {

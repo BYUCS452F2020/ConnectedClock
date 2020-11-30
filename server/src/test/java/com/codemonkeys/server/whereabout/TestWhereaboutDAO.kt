@@ -1,6 +1,6 @@
 package com.codemonkeys.server.whereabout
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.clockGroup.GroupTestResources
 import org.junit.Test
 import org.junit.Assert.*
@@ -8,7 +8,7 @@ import com.codemonkeys.server.user.UserSqlDAO
 import com.codemonkeys.server.user.UserTestResources
 import com.codemonkeys.shared.whereabout.Whereabout
 
-class TestWhereaboutDAO: BaseTest() {
+class TestWhereaboutDAO: BaseDynamoTest() {
 
     @Test
     fun testGetWhereabouts() {

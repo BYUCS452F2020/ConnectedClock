@@ -1,9 +1,8 @@
 /* clockGroup Table Test Data */
 -- this is a null group means a person does not have a group
 INSERT INTO ClockGroup (groupID) VALUES ("");
-INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("98729fce-0809-43fe-b953-f48b14b07616", "test group", "pass");
-INSERT INTO ClockGroup (groupID) VALUES ("2bc8f348-fce4-4df6-9795-deff8e721c7a");
-INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("eec3b172-0c9e-11eb-adc1-0242ac120002", "Fun Group", "funpassword");
+INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("98729fce-0809-43fe-b953-f48b14b07616", "Group1", "group1password");
+INSERT INTO ClockGroup (groupID, groupName, groupPassword) VALUES ("2bc8f348-fce4-4df6-9795-deff8e721c7a", "Group2", "group2password");
 
 
 
@@ -41,9 +40,9 @@ INSERT INTO User (userID, groupID, userName, password, clockHandIndex, currentZo
 
 
 /* AuthToken Table Test Data */
-INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("e00f1c88-1d5b-4d32-be07-1018f39a26b2", "3ea0f56f-7864-4d49-a5ed-5f741a7969c8", null);
+INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("e00f1c88-1d5b-4d32-be07-1018f39a26b2", "3ea0f56f-7864-4d49-a5ed-5f741a7969c8", "98729fce-0809-43fe-b953-f48b14b07616");
 INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("7af562ed-46bd-429b-8bcd-2d85e76d9a10", null, "2bc8f348-fce4-4df6-9795-deff8e721c7a");
-INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("cc95e238-1a1d-4238-b19b-0ef1dce406eb", "3ea0f56f-7864-4d49-a5ed-5f741a7969c8", null);
+INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("cc95e238-1a1d-4238-b19b-0ef1dce406eb", "3ea0f56f-7864-4d49-a5ed-5f741a7969c8", "98729fce-0809-43fe-b953-f48b14b07616");
 INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("663feea8-e1e0-4cf3-89ff-ed4905ec4c7c", null, "98729fce-0809-43fe-b953-f48b14b07616");
-INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("dce470b2-0e48-4bf1-9274-0af847dab64b", "f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d", null);
-INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("ddecd217-a782-4674-8e60-9c2c015bfb7b", "4c43ddce-64db-4c89-9797-909dcbd0a425", null);
+INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("dce470b2-0e48-4bf1-9274-0af847dab64b", "f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d", "2bc8f348-fce4-4df6-9795-deff8e721c7a");
+INSERT INTO AuthToken (authToken, userID, groupID) VALUES ("ddecd217-a782-4674-8e60-9c2c015bfb7b", "4c43ddce-64db-4c89-9797-909dcbd0a425", "98729fce-0809-43fe-b953-f48b14b07616");

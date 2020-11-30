@@ -6,11 +6,11 @@ import com.codemonkeys.shared.zone.Zone
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestZoneSqlDAO : BaseDynamoTest() {
+class TestZoneDynamoDAO : BaseDynamoTest() {
 
     @Test
     fun testGetZones() {
-        val zoneDAO = ZoneSqlDAO()
+        val zoneDAO = ZoneDynamoDAO()
 
         val group1Zones = zoneDAO.getZones(GroupTestResources.GROUP_1_ID)
         assertEquals("Should get zones from just this group", ZoneTestResources.GROUP_1_ZONES, group1Zones)
@@ -26,8 +26,7 @@ class TestZoneSqlDAO : BaseDynamoTest() {
 
     @Test
     fun testUpdateZones() {
-        val zoneDAO = ZoneSqlDAO()
-
+        val zoneDAO = ZoneDynamoDAO()
         zoneDAO.updateZones(GroupTestResources.GROUP_2_ID, ZoneTestResources.GROUP_2_UPDATED_ZONES)
         val group2UpdatedZones = zoneDAO.getZones(GroupTestResources.GROUP_2_ID)
         assertEquals("The zones for group 2 should be updated", ZoneTestResources.GROUP_2_UPDATED_ZONES.sortedBy { it.zoneID }, group2UpdatedZones.sortedBy { it.zoneID })

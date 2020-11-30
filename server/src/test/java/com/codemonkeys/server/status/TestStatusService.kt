@@ -1,13 +1,13 @@
 package com.codemonkeys.server.status
 
 import com.codemonkeys.server.authorization.AuthorizationTestResources
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.core.NotAuthorizedException
 import com.codemonkeys.shared.status.Status
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestStatusService : BaseTest() {
+class TestStatusService : BaseDynamoTest() {
     @Test
     fun testGetStatuses() {
         val statusService = ServerStatusService()

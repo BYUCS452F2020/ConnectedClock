@@ -4,10 +4,10 @@ import org.junit.Assert
 import org.junit.Before
 
 
-open class BaseSqlTest {
+open class BaseDynamoTest {
     @Before
     fun setupDatabase() {
-        val databasePreparer = SqlDatabasePreparer()
+        val databasePreparer = DynamoDatabasePreparer()
         databasePreparer.prepareDatabase()
     }
 

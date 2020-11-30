@@ -1,7 +1,7 @@
 package com.codemonkeys.server.zone
 
 import com.codemonkeys.server.authorization.AuthorizationTestResources
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.shared.core.responses.BaseResponse
 import com.codemonkeys.server.clockGroup.GroupTestResources
 import com.codemonkeys.server.zone.handlers.UpdateZonesHandler
@@ -9,7 +9,7 @@ import com.codemonkeys.shared.zone.requests.UpdateZonesRequest
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestUpdateZonesHandler : BaseTest() {
+class TestUpdateZonesHandler : BaseDynamoTest() {
 
     @Test
     fun testUpdateZones() {

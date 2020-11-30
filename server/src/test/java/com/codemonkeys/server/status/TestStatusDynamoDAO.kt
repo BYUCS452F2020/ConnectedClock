@@ -6,10 +6,10 @@ import com.codemonkeys.shared.status.Status
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestStatusSqlDAO: BaseDynamoTest() {
+class TestStatusDynamoDAO: BaseDynamoTest() {
     @Test
     fun testGetStatuses() {
-        val statusDAO = StatusSqlDAO()
+        val statusDAO = StatusDynamoDAO()
         val group2Statuses = statusDAO.getStatuses(GroupTestResources.GROUP_2_ID)
         assertEquals("Should only return statuses belonging to group", StatusTestResources.GROUP_2_STATUSES, group2Statuses)
 
@@ -20,7 +20,7 @@ class TestStatusSqlDAO: BaseDynamoTest() {
 
     @Test
     fun testUpdateStatuses() {
-        val statusDAO = StatusSqlDAO()
+        val statusDAO = StatusDynamoDAO()
         statusDAO.updateStatuses(GroupTestResources.GROUP_2_ID, StatusTestResources.GROUP_2_UPDATED_STATUSES)
         val group2UpdatedStatuses = statusDAO.getStatuses(GroupTestResources.GROUP_2_ID)
         assertEquals("The statuses we get back for this group should be the same as we put in. No more, no less.", StatusTestResources.GROUP_2_UPDATED_STATUSES.sortedBy { it.statusID }, group2UpdatedStatuses)
@@ -33,3 +33,4 @@ class TestStatusSqlDAO: BaseDynamoTest() {
         assertEquals("All the statuses for this group should've been deleted.", listOf<Status>(), emptyStatuses)
     }
 }
+
