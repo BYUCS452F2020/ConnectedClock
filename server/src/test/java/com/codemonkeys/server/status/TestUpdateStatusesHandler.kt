@@ -1,7 +1,7 @@
 package com.codemonkeys.server.status
 
 import com.codemonkeys.server.authorization.AuthorizationTestResources
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.shared.core.responses.BaseResponse
 import com.codemonkeys.server.clockGroup.GroupTestResources
 import com.codemonkeys.server.status.handlers.UpdateStatusesHandler
@@ -9,7 +9,7 @@ import com.codemonkeys.shared.status.requests.UpdateStatusesRequest
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestUpdateStatusesHandler : BaseTest() {
+class TestUpdateStatusesHandler : BaseDynamoTest() {
 
     @Test
     fun testUpdateStatusesHandler() {

@@ -1,10 +1,10 @@
 package com.codemonkeys.server.authorization
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestAuthorizationDAO: BaseTest() {
+class TestAuthorizationDAO: BaseDynamoTest() {
     @Test
     fun testAuthorizeUserID() {
         val authorizationDAO = AuthorizationSqlDAO()

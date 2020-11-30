@@ -1,11 +1,11 @@
 package com.codemonkeys.server.authorization
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.core.NotAuthorizedException
 import org.junit.Assert
 import org.junit.Test
 
-class TestAuthorizationService : BaseTest() {
+class TestAuthorizationService : BaseDynamoTest() {
     @Test
     fun testAuthorizeGroupID() {
         val authService = AuthorizationService()

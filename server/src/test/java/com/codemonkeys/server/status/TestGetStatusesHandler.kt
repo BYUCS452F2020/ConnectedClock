@@ -1,12 +1,12 @@
 package com.codemonkeys.server.status
 
 import com.codemonkeys.server.authorization.AuthorizationTestResources
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.status.handlers.GetStatusesHandler
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestGetStatusesHandler : BaseTest() {
+class TestGetStatusesHandler : BaseDynamoTest() {
     @Test
     fun testGetStatusesHandler() {
         val getStatusesHandler = GetStatusesHandler()

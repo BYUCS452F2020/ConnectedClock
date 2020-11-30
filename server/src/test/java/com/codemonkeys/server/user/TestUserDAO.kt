@@ -1,6 +1,6 @@
 package com.codemonkeys.server.user
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.authorization.AuthorizationTestResources
 import org.junit.Assert.*
 import org.junit.Test
@@ -9,7 +9,7 @@ import com.codemonkeys.shared.user.requests.LoginUserRequest
 import com.codemonkeys.shared.user.requests.LogoutUserRequest
 import com.codemonkeys.shared.user.requests.UpdateUserRequest
 
-class TestUserDAO : BaseTest() {
+class TestUserDAO : BaseDynamoTest() {
 
     @Test
     fun testCreateUser() {

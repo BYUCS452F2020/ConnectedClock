@@ -1,28 +1,29 @@
 package com.codemonkeys.server.clockGroup
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.authorization.AuthorizationService
 import com.codemonkeys.server.core.NotAuthorizedException
+import com.codemonkeys.server.user.UserTestResources
 import com.codemonkeys.shared.clockGroup.ClockGroup
 import org.junit.Assert
 import org.junit.Test
 
 
-class GroupDAOTests: BaseTest() {
+class GroupDAOTests: BaseDynamoTest() {
     var clockGroupDao = ClockGroupSqlDAO()
     // tests for getClockGroup function
     @Test
     fun getGroup_Success_Test(){
-        val groupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
+        val groupID = GroupTestResources.GROUP_1_ID
         val clockGroup = clockGroupDao.getClockGroup(groupID)
-        Assert.assertEquals(groupID, clockGroup.groupID)
-        Assert.assertEquals("Fun Group", clockGroup.groupName)
-        Assert.assertEquals("funpassword", clockGroup.groupPassword)
+        Assert.assertEquals(GroupTestResources.GROUP_1_ID, clockGroup.groupID)
+        Assert.assertEquals(GroupTestResources.GROUP_1_NAME, clockGroup.groupName)
+        Assert.assertEquals(GroupTestResources.GROUP_1_PASSWORD, clockGroup.groupPassword)
     }
 
     @Test
     fun getGroup_GroupNotExist_Test(){
-        val groupID = "notExistID"
+        val groupID = GroupTestResources.INVALID_GROUP_ID
         val clockGroup = clockGroupDao.getClockGroup(groupID)
         Assert.assertEquals(groupID, clockGroup.groupID)
         Assert.assertEquals("", clockGroup.groupName)
@@ -32,14 +33,14 @@ class GroupDAOTests: BaseTest() {
     // tests for getGroupIDViaUser
     @Test
     fun getGroupIDViaUser_Success_Test(){
-        val userID = "3ea0f56f-7864-4d49-a5ed-5f741a7969c8"
+        val userID = UserTestResources.GROUP_1_USER_1_ID
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
-        Assert.assertEquals( "98729fce-0809-43fe-b953-f48b14b07616", groupID)
+        Assert.assertEquals( GroupTestResources.GROUP_1_ID, groupID)
     }
 
     @Test
     fun getGroupIDViaUser_Fail_NotExist_Test(){
-        val userID = "notexiststring"
+        val userID = UserTestResources.INVALID_USER_ID
         val groupID = clockGroupDao.getGroupIDViaUser(userID)
         Assert.assertEquals( "", groupID)
     }
@@ -47,14 +48,14 @@ class GroupDAOTests: BaseTest() {
     // tests for getUserIDViaUserName
     @Test
     fun getUserIDViaUserName_Success_Test(){
-        val userName = "test1"
+        val userName = UserTestResources.GROUP_1_USER_1_USERNAME
         val userID = clockGroupDao.getUserIDViaUserName(userName)
-        Assert.assertEquals( "3ea0f56f-7864-4d49-a5ed-5f741a7969c8", userID)
+        Assert.assertEquals( UserTestResources.GROUP_2_USER_1_ID, userID)
     }
 
     @Test
     fun getUserIDViaUserName_Fail_notExit_Test(){
-        val userName = "testNotExist"
+        val userName = UserTestResources.INVALID_USER_ID
         val userID = clockGroupDao.getUserIDViaUserName(userName)
         Assert.assertEquals( "", userID)
     }
@@ -80,9 +81,9 @@ class GroupDAOTests: BaseTest() {
     // tests for updateGroupInUser
     @Test
     fun updateGroupInUser_Success_Test(){
-        val oldGroupID = "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+        val oldGroupID = GroupTestResources.GROUP_2_ID
         val newGroupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
-        val userID = "f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d"
+        val userID = UserTestResources.GROUP_2_USER_1_ID
         val result = clockGroupDao.getGroupIDViaUser(userID)
         Assert.assertEquals(oldGroupID, result)
         clockGroupDao.updateGroupInUser(newGroupID, userID)
@@ -93,11 +94,11 @@ class GroupDAOTests: BaseTest() {
     // tests for deleteGroup
     @Test
     fun deleteGroup_Success_Test(){
-        val groupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
+        val groupID = GroupTestResources.GROUP_1_ID
         val result = clockGroupDao.getClockGroup(groupID)
         Assert.assertEquals(groupID, result.groupID)
-        Assert.assertEquals("Fun Group", result.groupName)
-        Assert.assertEquals("funpassword", result.groupPassword)
+        Assert.assertEquals(GroupTestResources.GROUP_1_NAME, result.groupName)
+        Assert.assertEquals(GroupTestResources.GROUP_1_PASSWORD, result.groupPassword)
 
         clockGroupDao.deleteGroup(groupID)
         val emptyResult = clockGroupDao.getClockGroup(groupID)
@@ -109,14 +110,14 @@ class GroupDAOTests: BaseTest() {
     // tests for getGroupIDViaGroupName function
     @Test
     fun getGroupIDViaGroupName_Success_Test(){
-        val groupName = "test group"
+        val groupName = GroupTestResources.GROUP_1_NAME
         val groupID = clockGroupDao.getGroupIDViaGroupName(groupName)
-        Assert.assertEquals("98729fce-0809-43fe-b953-f48b14b07616", groupID)
+        Assert.assertEquals(GroupTestResources.GROUP_1_ID, groupID)
     }
 
     @Test
     fun getGroupIDViaGroupName_Fail_InvalidGroupName_Test(){
-        val groupName = "wrong group name"
+        val groupName = GroupTestResources.INVALID_GROUP_ID
         val groupID = clockGroupDao.getGroupIDViaGroupName(groupName)
         Assert.assertEquals("", groupID)
     }

@@ -1,13 +1,13 @@
 package com.codemonkeys.server.clockGroup
 
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.authorization.AuthorizationService
 import com.codemonkeys.server.core.NotAuthorizedException
 import org.junit.Assert
 import org.junit.Test
 
 
-class GroupServiceTests: BaseTest() {
+class GroupServiceTests: BaseDynamoTest() {
     val groupService = ServerClockGroupService()
     val clockGroupDao = ClockGroupSqlDAO()
     val authorizationService = AuthorizationService()

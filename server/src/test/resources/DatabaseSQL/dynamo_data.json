@@ -1,0 +1,248 @@
+{
+  "Items": [
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "GROUP",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616",
+      "groupName": "Group1",
+      "groupPassword": "group1password"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "GROUP",
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "groupName": "Group2",
+      "groupPassword": "group2password"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "STATUS-7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9",
+      "statusID": "7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9",
+      "clockHandAngle": 180,
+      "statusName": "Home",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "STATUS-d32b0786-c6f1-4c70-a31f-a9efed1ef1f6",
+      "statusID": "d32b0786-c6f1-4c70-a31f-a9efed1ef1f6",
+      "clockHandAngle": 75,
+      "statusName": "Away",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "STATUS-ec488303-1152-4d8d-af55-db9b323be17e",
+      "statusID": "ec488303-1152-4d8d-af55-db9b323be17e",
+      "clockHandAngle": 90,
+      "statusName": "School",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "STATUS-04e3b648-c3dd-41da-a430-1dacde995b7d",
+      "statusID": "04e3b648-c3dd-41da-a430-1dacde995b7d",
+      "clockHandAngle": 23,
+      "statusName": "Work",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "STATUS-12a20cb0-9e82-4d88-98f2-faaa9ff8c675",
+      "statusID": "12a20cb0-9e82-4d88-98f2-faaa9ff8c675",
+      "clockHandAngle": 270,
+      "statusName": "Shopping",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "STATUS-92a3db1e-99b6-45d1-92e6-2c47720e620e",
+      "statusID": "92a3db1e-99b6-45d1-92e6-2c47720e620e",
+      "clockHandAngle": 42,
+      "statusName": "Home",
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "STATUS-32f85320-92e0-4382-a5ae-d71b562422c5",
+      "statusID": "32f85320-92e0-4382-a5ae-d71b562422c5",
+      "clockHandAngle": 12,
+      "statusName": "Mortal Peril",
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "STATUS-ed9ceea8-b059-4e00-b35e-83be6e63c497",
+      "statusID": "ed9ceea8-b059-4e00-b35e-83be6e63c497",
+      "clockHandAngle": 101,
+      "statusName": "School",
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-1b92628d-a46e-400f-bfd8-c40af4b9eaa9",
+      "zoneID": "1b92628d-a46e-400f-bfd8-c40af4b9eaa9",
+      "lat": 40.252036,
+      "lng": -111.649204,
+      "radius": 524.52,
+      "statusID": "ec488303-1152-4d8d-af55-db9b323be17e"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-e3d835fa-1d1f-4c23-8f70-85dc6d39b68c",
+      "zoneID": "e3d835fa-1d1f-4c23-8f70-85dc6d39b68c",
+      "lat": 40.272636,
+      "lng": -111.710176,
+      "radius": 172.27,
+      "statusID": "12a20cb0-9e82-4d88-98f2-faaa9ff8c675"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-991f5783-0e51-4cd1-9ee3-2f2d72909bfb",
+      "zoneID": "991f5783-0e51-4cd1-9ee3-2f2d72909bfb",
+      "lat": 40.252979,
+      "lng": -111.670495,
+      "radius": 536.91,
+      "statusID": "12a20cb0-9e82-4d88-98f2-faaa9ff8c675"
+    },
+
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-0174a780-c11a-460f-bbb4-66a135eddd97",
+      "zoneID": "0174a780-c11a-460f-bbb4-66a135eddd97",
+      "lat": 40.238631,
+      "lng": -111.661309,
+      "radius": 90.15,
+      "statusID": "12a20cb0-9e82-4d88-98f2-faaa9ff8c675"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-b821c605-182d-472c-a0df-cf0d838d77b9",
+      "zoneID": "b821c605-182d-472c-a0df-cf0d838d77b9",
+      "lat": 40.234978,
+      "lng": -111.668599,
+      "radius": 46.82,
+      "statusID": "04e3b648-c3dd-41da-a430-1dacde995b7d"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "ZONE-021706f8-8a4f-4408-9180-ef7e4457bf96",
+      "zoneID": "021706f8-8a4f-4408-9180-ef7e4457bf96",
+      "lat": 40.247222,
+      "lng": -111.665663,
+      "radius": 317.29,
+      "statusID": "32f85320-92e0-4382-a5ae-d71b562422c5"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-dffb8b27-ee34-41d9-8d54-37a08c7c300f",
+      "zoneID": "dffb8b27-ee34-41d9-8d54-37a08c7c300f",
+      "lat": 40.242857,
+      "lng": -111.668508,
+      "radius": 400.0,
+      "statusID": "7be3c43c-9f4b-4f6d-bbeb-e639e8331ab9"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "ZONE-a7a71489-0506-4589-965f-ad8f32a7fc12",
+      "zoneID": "a7a71489-0506-4589-965f-ad8f32a7fc12",
+      "lat": 40.261547,
+      "lng": -111.660352,
+      "radius": 185.72,
+      "statusID": "92a3db1e-99b6-45d1-92e6-2c47720e620e"
+    },
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "ZONE-679a3f92-131b-4fdb-be27-590cb5210bac",
+      "zoneID": "679a3f92-131b-4fdb-be27-590cb5210bac",
+      "lat": 40.234351,
+      "lng": -111.647619,
+      "radius": 118.45,
+      "statusID": "ed9ceea8-b059-4e00-b35e-83be6e63c497"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "ZONE-d00edf46-a5af-4dbc-a63d-ed6d6c2b2914",
+      "zoneID": "d00edf46-a5af-4dbc-a63d-ed6d6c2b2914",
+      "lat": 40.275056,
+      "lng": -111.680827,
+      "radius": 224.96,
+      "statusID": "12a20cb0-9e82-4d88-98f2-faaa9ff8c675"
+    },
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "USER-3ea0f56f-7864-4d49-a5ed-5f741a7969c8",
+      "userID": "3ea0f56f-7864-4d49-a5ed-5f741a7969c8",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616",
+      "userName": "test1",
+      "password": "pass1",
+      "clockHandIndex": 0,
+      "currentZoneID": "dffb8b27-ee34-41d9-8d54-37a08c7c300f"
+    },
+
+    {
+      "PK": "GROUP-98729fce-0809-43fe-b953-f48b14b07616",
+      "SK": "USER-4c43ddce-64db-4c89-9797-909dcbd0a425",
+      "userID": "4c43ddce-64db-4c89-9797-909dcbd0a425",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616",
+      "userName": "test2",
+      "password": "pass2",
+      "clockHandIndex": 1,
+      "currentZoneID": null
+    },
+
+    {
+      "PK": "GROUP-2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "SK": "USER-f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d",
+      "userID": "f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d",
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a",
+      "userName": "test3",
+      "password": "pass3",
+      "clockHandIndex": 0,
+      "currentZoneID": "679a3f92-131b-4fdb-be27-590cb5210bac"
+    },
+    {
+      "PK": "TOKEN-e00f1c88-1d5b-4d32-be07-1018f39a26b2",
+      "SK": "TOKEN",
+      "authToken": "e00f1c88-1d5b-4d32-be07-1018f39a26b2",
+      "userID": "3ea0f56f-7864-4d49-a5ed-5f741a7969c8",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "TOKEN-7af562ed-46bd-429b-8bcd-2d85e76d9a10",
+      "SK": "TOKEN",
+      "authToken": "7af562ed-46bd-429b-8bcd-2d85e76d9a10",
+      "userID": null,
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+    },
+    {
+      "PK": "TOKEN-cc95e238-1a1d-4238-b19b-0ef1dce406eb",
+      "SK": "TOKEN",
+      "authToken": "cc95e238-1a1d-4238-b19b-0ef1dce406eb",
+      "userID": "3ea0f56f-7864-4d49-a5ed-5f741a7969c8",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+
+    {
+      "PK": "TOKEN-663feea8-e1e0-4cf3-89ff-ed4905ec4c7c",
+      "SK": "TOKEN",
+      "authToken": "663feea8-e1e0-4cf3-89ff-ed4905ec4c7c",
+      "userID": null,
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    },
+    {
+      "PK": "TOKEN-dce470b2-0e48-4bf1-9274-0af847dab64b",
+      "SK": "TOKEN",
+      "authToken": "dce470b2-0e48-4bf1-9274-0af847dab64b",
+      "userID": "f3b55f05-c33a-4ab2-9aa7-29ad8f6efa3d",
+      "groupID": "2bc8f348-fce4-4df6-9795-deff8e721c7a"
+    },
+    {
+      "PK": "TOKEN-ddecd217-a782-4674-8e60-9c2c015bfb7b",
+      "SK": "TOKEN",
+      "authToken": "ddecd217-a782-4674-8e60-9c2c015bfb7b",
+      "userID": "4c43ddce-64db-4c89-9797-909dcbd0a425",
+      "groupID": "98729fce-0809-43fe-b953-f48b14b07616"
+    }
+  ]
+}

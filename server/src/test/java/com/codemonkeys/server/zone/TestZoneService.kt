@@ -1,13 +1,13 @@
 package com.codemonkeys.server.zone
 
 import com.codemonkeys.server.authorization.AuthorizationTestResources
-import com.codemonkeys.server.BaseTest
+import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.core.NotAuthorizedException
 import com.codemonkeys.shared.zone.Zone
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestZoneService : BaseTest() {
+class TestZoneService : BaseDynamoTest() {
 
     @Test
     fun testGetZones() {
