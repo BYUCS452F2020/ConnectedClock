@@ -49,6 +49,26 @@ open class BaseDynamoDAO : BaseDAO() {
         return resultList
     }
 
+    protected fun <T> getItemResult(clazz: Class<T>, item: Item): T {
+        val columnNamesAndFields = getColumnNamesAndFields(clazz)
+        val resultObject = clazz.getConstructor().newInstance()
+        for ((columnName, field) in columnNamesAndFields) {
+            val columnValue = item.get(columnName)
+            val convertedColumnValue =
+                when {
+                    columnValue == null -> null
+                    field.type == Int::class.java -> (columnValue as BigDecimal).toInt()
+                    field.type == java.lang.Double::class.java -> (columnValue as BigDecimal).toDouble()
+                    field.type == String::class.java -> columnValue as String
+                    else -> columnValue
+                }
+            field.isAccessible = true
+            field.set(resultObject, convertedColumnValue)
+        }
+
+        return resultObject
+    }
+
     private fun <T> mapObjectToDynamoItem(clazz: Class<T>, itemToConvert: T, pk: String, sk: String): Item {
         val columnNamesAndFields = getColumnNamesAndFields(clazz)
         val convertedItem = Item()

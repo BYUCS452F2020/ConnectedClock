@@ -9,7 +9,7 @@ import org.junit.Assert
 import org.junit.Test
 
 
-class GroupDAOTests: BaseDynamoTest() {
+class GroupSqlDAOTests: BaseDynamoTest() {
     var clockGroupDao = ClockGroupSqlDAO()
     // tests for getClockGroup function
     @Test
