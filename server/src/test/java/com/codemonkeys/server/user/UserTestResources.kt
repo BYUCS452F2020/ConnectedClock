@@ -19,7 +19,7 @@ class UserTestResources {
             "newUserName",
             "newUserPassword",
             2,
-            null
+            ZoneTestResources.GROUP_1_ZONES[0].zoneID
         )
 
         val GROUP_1_NEW_USER_2 = User(
@@ -37,7 +37,7 @@ class UserTestResources {
             "newUserName2",
             "newUserPassword",
             2,
-            null
+            ZoneTestResources.GROUP_1_ZONES[0].zoneID
         )
 
         val INVALID_USER_ID = "invalidUserID"

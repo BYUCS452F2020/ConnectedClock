@@ -9,6 +9,6 @@ class UpdateUserHandler: BaseHandler<UpdateUserRequest>() {
 
     override fun handle(request: UpdateUserRequest): BaseResponse {
         val userService = ServerUserService()
-        return userService.updateUser(request)
+        return userService.updateUser(request.authToken, request.currentPassword, request.newPassword)
     }
 }

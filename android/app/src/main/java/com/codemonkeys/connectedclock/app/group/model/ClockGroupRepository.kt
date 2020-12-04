@@ -1,9 +1,11 @@
 package com.codemonkeys.connectedclock.app.group.model
 
+import androidx.lifecycle.MutableLiveData
 import com.codemonkeys.connectedclock.app.authorization.AuthorizationRepository
 import com.codemonkeys.shared.clockGroup.ClockGroup
 import com.codemonkeys.shared.clockGroup.IClockGroupService
 import com.codemonkeys.shared.zone.IZoneService
+import com.codemonkeys.shared.zone.Zone
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,5 +33,9 @@ class ClockGroupRepository @Inject constructor(
         val authToken = authorizationRepository.getAuthToken().value ?: ""
         clockGroupService.createGroup(authToken, groupName, password)
 
+    }
+
+    fun getGroup(): ClockGroup? {
+        return currentGroup;
     }
 }

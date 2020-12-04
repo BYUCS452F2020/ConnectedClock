@@ -6,7 +6,7 @@ import com.codemonkeys.shared.user.responses.LogoutUserResponse
 import com.codemonkeys.shared.user.responses.UpdateUserResponse
 
 interface IUserService {
-    fun createUser(username: String, password: String, groupID: String, clockHand: Int): CreateUserResponse
+    fun createUser(user: User): CreateUserResponse
 
     fun loginUser(username: String, password: String): LoginUserResponse
 

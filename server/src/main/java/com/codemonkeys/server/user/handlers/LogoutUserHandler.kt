@@ -9,6 +9,6 @@ class LogoutUserHandler: BaseHandler<LogoutUserRequest>() {
 
     override fun handle(request: LogoutUserRequest): BaseResponse {
         val userService = ServerUserService()
-        return userService.logoutUser(request)
+        return userService.logoutUser(request.authToken)
     }
 }
