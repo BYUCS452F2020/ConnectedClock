@@ -1,13 +1,13 @@
-package com.codemonkeys.connectedclock.app.zone.model
+package com.codemonkeys.connectedclock.app.user.model
 
 import com.codemonkeys.connectedclock.app.authorization.AuthorizationRepository
+import com.codemonkeys.connectedclock.app.core.network.ServerException
 import com.codemonkeys.connectedclock.app.group.model.ClockGroupRepository
 import com.codemonkeys.shared.clockGroup.ClockGroup
 import com.codemonkeys.shared.user.IUserService
 import com.codemonkeys.shared.user.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,44 +25,52 @@ class UserRepository @Inject constructor(
     }
 
     fun loginUser(username: String, password: String): Boolean {
-        val response = userService.loginUser(username, password)
-        if (response.didErrorOccur) {
-            print(response.errorMessage)
-        } else {
+        return try {
+            val response = userService.loginUser(username, password)
             response.authToken?.let { authorizationRepository.setAuthToken(it) }
+            true
+        } catch (e: ServerException) {
+            print(e.message)
+            false
         }
-        return response.didErrorOccur
     }
 
     fun registerUser(username: String, password: String, groupID: String, clockHand: Int): Boolean {
-        val response = userService.createUser(
-            User(
-                UUID.randomUUID().toString(), groupID, username,
-            password, clockHand,null)
-        )
-        if (response.didErrorOccur) {
-            print(response.errorMessage)
-        } else {
+        return try {
+            val response = userService.createUser(
+                User(
+                    UUID.randomUUID().toString(), groupID, username,
+                    password, clockHand,null)
+            )
             response.authToken?.let { authorizationRepository.setAuthToken(it) }
+            true
         }
-        return response.didErrorOccur
+        catch (e: ServerException) {
+            print(e.message)
+            false
+        }
     }
 
     fun logoutUser(authToken: String): Boolean {
-        val response = userService.logoutUser(authToken)
-        if (response.didErrorOccur) {
-            print(response.errorMessage)
-        } else {
+        return try {
+            val response = userService.logoutUser(authToken)
             authorizationRepository.setAuthToken(null)
+            true
         }
-        return response.didErrorOccur
+        catch (e: ServerException) {
+            print(e.message)
+            false
+        }
     }
 
     fun updateUser(authToken: String, currentPassword: String, newPassword: String): Boolean {
-        val response = userService.updateUser(authToken, currentPassword, newPassword)
-        if (response.didErrorOccur) {
-            print(response.errorMessage)
+        return try {
+            val response = userService.updateUser(authToken, currentPassword, newPassword)
+            true
         }
-        return response.didErrorOccur
+        catch (e: ServerException) {
+            print(e.message)
+            false
+        }
     }
 }

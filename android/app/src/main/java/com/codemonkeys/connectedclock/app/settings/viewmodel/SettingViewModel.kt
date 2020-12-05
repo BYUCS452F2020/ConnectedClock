@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.codemonkeys.connectedclock.app.authorization.AuthorizationRepository
 import com.codemonkeys.connectedclock.app.group.model.ClockGroupRepository
 import com.codemonkeys.connectedclock.app.status.model.StatusRepository
-import com.codemonkeys.connectedclock.app.zone.model.UserRepository
+import com.codemonkeys.connectedclock.app.user.model.UserRepository
 import com.codemonkeys.shared.status.Status
 
 class SettingViewModel @ViewModelInject constructor(
