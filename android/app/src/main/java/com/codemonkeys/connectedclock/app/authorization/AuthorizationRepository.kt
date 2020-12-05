@@ -20,7 +20,7 @@ class AuthorizationRepository @Inject constructor() {
 
         // TODO( "Using a hard-coded authToken here until we get login going...")
         // We should cache this authToken in app Preferences or something similar
-        data.value = "866a0dc9-4b42-436c-99ad-51537382e7d2"
+        data.value = ""
 
         return data
     }
