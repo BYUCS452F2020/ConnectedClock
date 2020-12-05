@@ -26,10 +26,8 @@ class ClientUserService(
         IUserNetworkAPI::class.java
     )
 
-    override fun createUser(username: String, password: String, groupID: String, clockHand: Int): CreateUserResponse {
-        User()
-        val request = CreateUserRequest(User(UUID.randomUUID().toString(), groupID, username,
-            password, clockHand,null))
+    override fun createUser(user: User): CreateUserResponse {
+        val request = CreateUserRequest(user)
         return this.executeApiCall(networkAPI.createUser(request))
     }
 

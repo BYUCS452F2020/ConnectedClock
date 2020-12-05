@@ -9,6 +9,6 @@ class CreateUserHandler: BaseHandler<CreateUserRequest>() {
 
     override fun handle(request: CreateUserRequest): BaseResponse {
         val userService = ServerUserService()
-        return userService.createUser(request)
+        return userService.createUser(request.user)
     }
 }

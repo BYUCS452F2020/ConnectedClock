@@ -9,6 +9,6 @@ class LoginUserHandler: BaseHandler<LoginUserRequest>() {
 
     override fun handle(request: LoginUserRequest): BaseResponse {
         val userService = ServerUserService()
-        return userService.loginUser(request)
+        return userService.loginUser(request.userName, request.password)
     }
 }
