@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.group.viewmodel.ClockGroupViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -36,28 +39,33 @@ class ClockGroupActivity : AppCompatActivity() {
         val groupNameEdit = findViewById<EditText>(R.id.groupNameTextView)
         val groupPasswordEdit = findViewById<EditText>(R.id.passwordTextView)
 
-        createGroupButton.setOnClickListener{
+        createGroupButton.setOnClickListener {
             // if groupName is null
-            val groupName : String = groupNameEdit.text.toString()
-            val password : String = groupPasswordEdit.text.toString()
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+            coroutineScope.launch {
+                val groupName: String = groupNameEdit.text.toString()
+                val password: String = groupPasswordEdit.text.toString()
 
-            if (groupName.isNullOrEmpty() || password.isNullOrEmpty()) {
-                val errorToast = Toast.makeText(this,
+                if (groupName.isNullOrEmpty() || password.isNullOrEmpty()) {
+                    val errorToast = Toast.makeText(
+                        this@ClockGroupActivity,
                         "Group Name or Password can't be empty",
-                        Toast.LENGTH_LONG)
-                errorToast.show()
-            }
-            else{
-                val toast = Toast.makeText(applicationContext, "Creating Group", Toast.LENGTH_SHORT)
-                toast.show()
-                // todo: need to add network error handling
-                viewModel.createGroup(groupName, password)
-                // finish the activity and send back the result
-                val intent = Intent()
-                intent.putExtra("groupName", groupName)
-                intent.putExtra("password", password)
-                setResult(RESULT_OK, intent)
-                finish()
+                        Toast.LENGTH_LONG
+                    )
+                    errorToast.show()
+                } else {
+                    val toast =
+                        Toast.makeText(applicationContext, "Creating Group", Toast.LENGTH_SHORT)
+                    toast.show()
+                    // todo: need to add network error handling
+                    viewModel.createGroup(groupName, password)
+                    // finish the activity and send back the result
+                    val intent = Intent()
+                    intent.putExtra("groupName", groupName)
+                    intent.putExtra("password", password)
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
             }
         }
     }
