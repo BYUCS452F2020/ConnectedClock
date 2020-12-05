@@ -26,10 +26,10 @@ class UserDynamoDAO : BaseDynamoDAO(), IUserDAO {
 
             table.putItem(
                 Item()
-                    .withPrimaryKey("PK", request.user.groupID)
-                    .withString("SK", "USER-$request.user.userID")
+                    .withPrimaryKey("PK", "GROUP-${request.user.groupID}")
+                    .withString("SK", "USER-${request.user.userID}")
                     .withString("userName", request.user.userName)
-                    .withString("passWord", request.user.password)
+                    .withString("password", request.user.password)
                     .withInt("clockHandIndex", request.user.clockHandIndex)
                     .withString("currentZoneID", request.user.currentZoneID)
             )
@@ -39,7 +39,7 @@ class UserDynamoDAO : BaseDynamoDAO(), IUserDAO {
             table.putItem(
                 Item()
                     .withPrimaryKey("PK", "TOKEN-$token")
-                    .withString("SK", "Token")
+                    .withString("SK", "TOKEN")
                     .withString("userID", request.user.userID)
                     .withString("groupID", request.user.groupID)
                     .withString("authToken", token)
@@ -100,7 +100,7 @@ class UserDynamoDAO : BaseDynamoDAO(), IUserDAO {
                 table.putItem(
                     Item()
                         .withPrimaryKey("PK", "TOKEN-$token")
-                        .withString("SK", "Token")
+                        .withString("SK", "TOKEN")
                         .withString("userID", user.userID)
                         .withString("groupID", user.groupID)
                         .withString("authToken", token)
@@ -121,7 +121,7 @@ class UserDynamoDAO : BaseDynamoDAO(), IUserDAO {
             val spec = DeleteItemSpec()
                 .withPrimaryKey(
                     KeyAttribute("PK","TOKEN-${request.authToken}"),
-                    KeyAttribute("SK", "Token")
+                    KeyAttribute("SK", "TOKEN")
                     )
 
             return try {

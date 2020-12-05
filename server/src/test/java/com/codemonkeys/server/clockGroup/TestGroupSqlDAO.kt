@@ -3,6 +3,7 @@ package com.codemonkeys.server.clockGroup
 import com.codemonkeys.server.BaseDynamoTest
 import com.codemonkeys.server.BaseSqlTest
 import com.codemonkeys.server.authorization.AuthorizationService
+import com.codemonkeys.server.authorization.AuthorizationTestResources
 import com.codemonkeys.server.core.NotAuthorizedException
 import com.codemonkeys.server.user.UserTestResources
 import com.codemonkeys.shared.clockGroup.ClockGroup
@@ -51,7 +52,7 @@ class TestGroupSqlDAO: BaseSqlTest() {
     fun getUserIDViaUserName_Success_Test(){
         val userName = UserTestResources.GROUP_1_USER_1_USERNAME
         val userID = clockGroupDao.getUserIDViaUserName(userName)
-        Assert.assertEquals( UserTestResources.GROUP_2_USER_1_ID, userID)
+        Assert.assertEquals( UserTestResources.GROUP_1_USER_1_ID, userID)
     }
 
     @Test
@@ -128,10 +129,9 @@ class TestGroupSqlDAO: BaseSqlTest() {
     fun setAuthTokenTable_Success_Test(){
         val authService = AuthorizationService()
         val authToken = "newly generated auth token"
-        val groupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
-        clockGroupDao.setAuthTokenTable(authToken, groupID)
+        clockGroupDao.setAuthTokenTable(authToken, GroupTestResources.GROUP_1_ID)
         val result = authService.getGroupIDFromAuthToken(authToken)
-        Assert.assertEquals(groupID, result)
+        Assert.assertEquals(GroupTestResources.GROUP_1_ID, result)
         assertThrowsException("Thrown 'NotAuthorizedException' because userID is ont stored in", NotAuthorizedException::class.java
         ) {
             authService.getUserIDFromAuthToken(authToken)
