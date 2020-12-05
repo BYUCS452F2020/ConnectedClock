@@ -25,7 +25,7 @@ class DynamoDatabasePreparer : BaseDynamoDAO() {
                 it.batchWriteItem(items)
             }
         }
-
+        Thread.sleep(10000)
     }
 
     private fun getTestItems(): List<TableWriteItems> {
@@ -45,7 +45,7 @@ class DynamoDatabasePreparer : BaseDynamoDAO() {
                     itemNode[fieldName].isInt -> item.withInt(fieldName, itemNode[fieldName].intValue())
                     itemNode[fieldName].isDouble -> item.withDouble(fieldName, itemNode[fieldName].doubleValue())
                     itemNode[fieldName].isTextual -> item.withString(fieldName, itemNode[fieldName].textValue())
-                    itemNode[fieldName].isNull -> item.withNull(fieldName)
+                    itemNode[fieldName].isNull -> {} // item.withNull(fieldName)
                     else -> item.withString(fieldName, itemNode[fieldName].textValue())
                 }
             }

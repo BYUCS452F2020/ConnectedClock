@@ -53,16 +53,20 @@ class UserDynamoDAO : BaseDynamoDAO(), IUserDAO {
     override fun getUser(userID: String): User? {
         this.useDynamoConnection {
             val table = it.getTable(TABLE_NAME)
+            val index = table.getIndex("SK-index")
 
             val spec = QuerySpec()
-                .withKeyConditionExpression("SK = :sk")
+                .withKeyConditionExpression("SK = :userID")
                 .withValueMap(
                     ValueMap()
-                        .withString(":sk", "USER-$userID")
+                        .withString(":userID", "USER-${userID}")
                 )
 
-            val results = table.query(spec)
-            return this.getQueryResults(User::class.java, results)[0]
+            val results = index.query(spec)
+            val users = this.getQueryResults(User::class.java, results)
+            if (users.isNotEmpty()) {
+                return users[0];
+            }
         }
         return null;
     }

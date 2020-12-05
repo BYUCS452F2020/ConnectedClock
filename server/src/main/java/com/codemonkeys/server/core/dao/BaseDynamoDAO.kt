@@ -41,8 +41,10 @@ open class BaseDynamoDAO : BaseDAO() {
                         else -> columnValue
                     }
 
-                field.isAccessible = true
-                field.set(resultObject, convertedColumnValue)
+                if (convertedColumnValue != null) {
+                    field.isAccessible = true
+                    field.set(resultObject, convertedColumnValue)
+                }
             }
             resultList.add(resultObject)
         }
