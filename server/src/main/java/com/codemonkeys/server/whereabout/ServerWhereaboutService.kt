@@ -5,19 +5,19 @@ import com.codemonkeys.shared.whereabout.IWhereaboutService
 import com.codemonkeys.shared.whereabout.Whereabout
 
 class WhereaboutService : IWhereaboutService {
+    private val authorizationService = AuthorizationService()
+    private val whereaboutDAO = WhereaboutSqlDAO()
 
     override fun getWhereabouts(authToken: String): List<Whereabout> {
-        val authService = AuthorizationService()
-        val groupID = authService.getGroupIDFromAuthToken(authToken)
+        val groupID = authorizationService.getGroupIDFromAuthToken(authToken)
 
-        val whereaboutDAO = WhereaboutSqlDAO()
         return whereaboutDAO.getWhereabouts(groupID)
     }
 
     override fun updateUserWhereabout(authToken: String, currentZoneID: String?) {
         val authService = AuthorizationService()
-        val userID = authService.getUserIDFromAuthToken(authToken)
-        val groupID = authService.getUserIDFromAuthToken(authToken)
+        val userID = authorizationService.getUserIDFromAuthToken(authToken)
+        val groupID = authorizationService.getUserIDFromAuthToken(authToken)
 
         // We don't want to allow the user to report being in a zone that is in a different group
 //        currentZoneID?.let {
@@ -28,7 +28,6 @@ class WhereaboutService : IWhereaboutService {
 //            }
 //        }
 
-        val whereaboutDAO = WhereaboutSqlDAO()
         whereaboutDAO.updateUserWhereabout(userID, currentZoneID)
     }
 }
