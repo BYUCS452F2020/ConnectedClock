@@ -51,7 +51,7 @@ class WhereaboutDynamoDAO : BaseDynamoDAO(), IWhereaboutDAO {
             val results = table.query(userSpec)
             val users = this.getQueryResults(User::class.java, results)
 
-            getWhereabouts(users, zones, statuses)
+            return getWhereabouts(users, zones, statuses)
         }
         return emptyList()
     }

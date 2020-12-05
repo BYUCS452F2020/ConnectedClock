@@ -1,12 +1,13 @@
 package com.codemonkeys.server.status
 
 import com.codemonkeys.server.BaseDynamoTest
+import com.codemonkeys.server.BaseSqlTest
 import com.codemonkeys.server.clockGroup.GroupTestResources
 import com.codemonkeys.shared.status.Status
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestStatusSqlDAO: BaseDynamoTest() {
+class TestStatusSqlDAO: BaseSqlTest() {
     @Test
     fun testGetStatuses() {
         val statusDAO = StatusSqlDAO()

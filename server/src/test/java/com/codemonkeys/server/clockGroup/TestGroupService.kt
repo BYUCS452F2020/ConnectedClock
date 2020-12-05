@@ -1,13 +1,14 @@
 package com.codemonkeys.server.clockGroup
 
 import com.codemonkeys.server.BaseDynamoTest
+import com.codemonkeys.server.BaseSqlTest
 import com.codemonkeys.server.authorization.AuthorizationService
 import com.codemonkeys.server.core.NotAuthorizedException
 import org.junit.Assert
 import org.junit.Test
 
 
-class GroupServiceTests: BaseDynamoTest() {
+class TestGroupService: BaseSqlTest() {
     val groupService = ServerClockGroupService()
     val clockGroupDao = ClockGroupSqlDAO()
     val authorizationService = AuthorizationService()
@@ -142,9 +143,7 @@ class GroupServiceTests: BaseDynamoTest() {
     @Test
     fun loginGroup_Success_Test(){
         val authService = AuthorizationService()
-        val password = "pass"
-        val groupName = "test group"
-        val authToken = groupService.loginGroup(groupName, password)
+        val authToken = groupService.loginGroup(GroupTestResources.GROUP_1_NAME, GroupTestResources.GROUP_1_PASSWORD)
         val groupID = authService.getGroupIDFromAuthToken(authToken)
         Assert.assertNotNull(groupID)
         Assert.assertNotEquals("", groupID)

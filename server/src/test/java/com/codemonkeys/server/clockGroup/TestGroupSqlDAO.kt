@@ -1,6 +1,7 @@
 package com.codemonkeys.server.clockGroup
 
 import com.codemonkeys.server.BaseDynamoTest
+import com.codemonkeys.server.BaseSqlTest
 import com.codemonkeys.server.authorization.AuthorizationService
 import com.codemonkeys.server.core.NotAuthorizedException
 import com.codemonkeys.server.user.UserTestResources
@@ -9,7 +10,7 @@ import org.junit.Assert
 import org.junit.Test
 
 
-class GroupDAOTests: BaseDynamoTest() {
+class TestGroupSqlDAO: BaseSqlTest() {
     var clockGroupDao = ClockGroupSqlDAO()
     // tests for getClockGroup function
     @Test

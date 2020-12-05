@@ -1,6 +1,7 @@
 package com.codemonkeys.server.user
 
 import com.codemonkeys.server.BaseDynamoTest
+import com.codemonkeys.server.BaseSqlTest
 import com.codemonkeys.server.authorization.AuthorizationTestResources
 import org.junit.Assert.*
 import org.junit.Test
@@ -9,7 +10,7 @@ import com.codemonkeys.shared.user.requests.LoginUserRequest
 import com.codemonkeys.shared.user.requests.LogoutUserRequest
 import com.codemonkeys.shared.user.requests.UpdateUserRequest
 
-class TestUserService : BaseDynamoTest() {
+class TestUserService : BaseSqlTest() {
     @Test
     fun testCreateUser() {
         val userService = ServerUserService()
