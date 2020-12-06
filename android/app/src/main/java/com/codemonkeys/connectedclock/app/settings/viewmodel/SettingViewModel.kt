@@ -8,6 +8,8 @@ import com.codemonkeys.connectedclock.app.group.model.ClockGroupRepository
 import com.codemonkeys.connectedclock.app.status.model.StatusRepository
 import com.codemonkeys.connectedclock.app.user.model.UserRepository
 import com.codemonkeys.shared.status.Status
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SettingViewModel @ViewModelInject constructor(
     private val statusRepository: StatusRepository,
@@ -28,14 +30,18 @@ class SettingViewModel @ViewModelInject constructor(
         return statusRepository.getStatuses()
     }
 
-    fun logOutUser() {
+    suspend fun logOutUser() {
+        withContext(Dispatchers.IO) {
         val authToken = auth.getAuthToken().toString()
         user.logoutUser(authToken)
+        }
     }
 
     suspend fun saveStatus() {
-        // update the status to the AWS server
-        statusRepository.updateStatuses()
+        withContext(Dispatchers.IO) {
+            // update the status to the AWS server
+            statusRepository.updateStatuses()
+        }
     }
 
     fun setUserHandIndex(itemIndexVal: String) {

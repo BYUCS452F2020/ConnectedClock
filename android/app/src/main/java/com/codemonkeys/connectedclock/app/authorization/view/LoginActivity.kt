@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.authorization.viewmodel.LoginViewModel
+import com.codemonkeys.connectedclock.app.zone.view.ZoneActivity
 import com.codemonkeys.connectedclock.app.zone.viewmodel.ZoneViewModel
 import com.codemonkeys.shared.user.requests.LoginUserRequest
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,9 +42,18 @@ class LoginActivity : AppCompatActivity() {
             val coroutineScope = CoroutineScope(Dispatchers.Main)
             val c = this
             coroutineScope.launch {
-                val success = viewModel.loginUser(username, password)
-                if(!success) {
-                    Toast.makeText(c, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                try {
+                    val success = viewModel.loginUser(username, password)
+                    if (success) {
+                        val intent = Intent(this@LoginActivity, ZoneActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else {
+                        Toast.makeText(c, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                catch (e: Exception) {
+                    Toast.makeText(c, "Exception occurred: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
         }

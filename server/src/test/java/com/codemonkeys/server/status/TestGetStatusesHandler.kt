@@ -7,7 +7,8 @@ import com.codemonkeys.server.status.handlers.GetStatusesHandler
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestGetStatusesHandler : BaseSqlTest() {
+// class TestGetStatusesHandler : BaseSqlTest() {
+class TestGetStatusesHandler : BaseDynamoTest() {
     @Test
     fun testGetStatusesHandler() {
         val getStatusesHandler = GetStatusesHandler()

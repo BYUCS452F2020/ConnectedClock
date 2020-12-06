@@ -1,7 +1,7 @@
 package com.codemonkeys.shared.clockGroup
 
 interface IClockGroupService {
-    fun createGroup(authToken: String, groupName: String, groupPassword: String)
+    fun createGroup(groupName: String, groupPassword: String)
 
     fun getGroup(authToken: String, groupPassword: String): ClockGroup
 

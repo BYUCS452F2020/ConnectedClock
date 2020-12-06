@@ -28,7 +28,7 @@ class AuthorizationSqlDAO : BaseSqlDAO(), IAuthorizationDAO {
             VALUES(?, ?, ?);
     """
 
-    override fun insertAuthToken(authToken:String, userID: String, groupID: String?): Boolean {
+    override fun insertAuthToken(authToken:String, userID: String?, groupID: String?): Boolean {
         val connection = this.openConnection()
 
         val statement = connection.prepareStatement(INSERT_AUTHTOKEN_SQL)

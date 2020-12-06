@@ -80,18 +80,18 @@ class TestGroupSqlDAO: BaseSqlTest() {
         Assert.assertEquals( "secret", result.groupPassword)
     }
 
-    // tests for updateGroupInUser
-    @Test
-    fun updateGroupInUser_Success_Test(){
-        val oldGroupID = GroupTestResources.GROUP_2_ID
-        val newGroupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
-        val userID = UserTestResources.GROUP_2_USER_1_ID
-        val result = clockGroupDao.getGroupIDViaUser(userID)
-        Assert.assertEquals(oldGroupID, result)
-        clockGroupDao.updateGroupInUser(newGroupID, userID)
-        val new_result = clockGroupDao.getGroupIDViaUser(userID)
-        Assert.assertEquals(newGroupID, new_result)
-    }
+//    // tests for updateGroupInUser
+//    @Test
+//    fun updateGroupInUser_Success_Test(){
+//        val oldGroupID = GroupTestResources.GROUP_2_ID
+//        val newGroupID = "eec3b172-0c9e-11eb-adc1-0242ac120002"
+//        val userID = UserTestResources.GROUP_2_USER_1_ID
+//        val result = clockGroupDao.getGroupIDViaUser(userID)
+//        Assert.assertEquals(oldGroupID, result)
+//        clockGroupDao.updateGroupInUser(newGroupID, userID)
+//        val new_result = clockGroupDao.getGroupIDViaUser(userID)
+//        Assert.assertEquals(newGroupID, new_result)
+//    }
 
     // tests for deleteGroup
     @Test
@@ -124,17 +124,17 @@ class TestGroupSqlDAO: BaseSqlTest() {
         Assert.assertEquals("", groupID)
     }
 
-    // tests for setAuthTokenTable function
-    @Test
-    fun setAuthTokenTable_Success_Test(){
-        val authService = AuthorizationService()
-        val authToken = "newly generated auth token"
-        clockGroupDao.setAuthTokenTable(authToken, GroupTestResources.GROUP_1_ID)
-        val result = authService.getGroupIDFromAuthToken(authToken)
-        Assert.assertEquals(GroupTestResources.GROUP_1_ID, result)
-        assertThrowsException("Thrown 'NotAuthorizedException' because userID is ont stored in", NotAuthorizedException::class.java
-        ) {
-            authService.getUserIDFromAuthToken(authToken)
-        }
-    }
+//    // tests for setAuthTokenTable function
+//    @Test
+//    fun setAuthTokenTable_Success_Test(){
+//        val authService = AuthorizationService()
+//        val authToken = "newly generated auth token"
+//        clockGroupDao.setAuthTokenTable(authToken, GroupTestResources.GROUP_1_ID)
+//        val result = authService.getGroupIDFromAuthToken(authToken)
+//        Assert.assertEquals(GroupTestResources.GROUP_1_ID, result)
+//        assertThrowsException("Thrown 'NotAuthorizedException' because userID is ont stored in", NotAuthorizedException::class.java
+//        ) {
+//            authService.getUserIDFromAuthToken(authToken)
+//        }
+//    }
 }

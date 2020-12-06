@@ -21,8 +21,8 @@ class ClockGroupService (private val retrofit: Retrofit) : IClockGroupService, @
         TODO("Not yet implemented")
     }
 
-    override fun createGroup(authToken: String, groupName: String, groupPassword: String) {
-        val request = CreateGroupRequest(authToken, groupName, groupPassword)
+    override fun createGroup(groupName: String, groupPassword: String) {
+        val request = CreateGroupRequest(groupName, groupPassword)
         // should try to handle error, maybe
         this.executeApiCall(networkAPI.createGroup(request))
     }

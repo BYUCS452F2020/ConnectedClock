@@ -53,6 +53,8 @@ test {
         // includeTestsMatching "ClassName.MethodName"
         // includeTestsMatching "ClassName"
 
-        includeTestsMatching "com.codemonkeys.server.whereabout.TestWhereaboutDynamoDAO"
+//        includeTestsMatching "com.codemonkeys.server.user.TestUserHandlers"
+//        includeTestsMatching "com.codemonkeys.server.clockGroup.TestGroupSqlDAO"
+        includeTestsMatching "com.codemonkeys.server.clockGroup.TestGroupService"
     }
 }

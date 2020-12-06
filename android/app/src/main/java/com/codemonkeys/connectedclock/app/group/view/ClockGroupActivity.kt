@@ -1,5 +1,6 @@
 package com.codemonkeys.connectedclock.app.group.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -58,13 +59,19 @@ class ClockGroupActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, "Creating Group", Toast.LENGTH_SHORT)
                     toast.show()
                     // todo: need to add network error handling
-                    viewModel.createGroup(groupName, password)
-                    // finish the activity and send back the result
-                    val intent = Intent()
-                    intent.putExtra("groupName", groupName)
-                    intent.putExtra("password", password)
-                    setResult(RESULT_OK, intent)
-                    finish()
+                    try {
+                        viewModel.createGroup(groupName, password)
+                        // finish the activity and send back the result
+                        val intent = Intent()
+//                    intent.putExtra("groupName", groupName)
+//                    intent.putExtra("password", password)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
+                    catch (e: Exception)
+                    {
+                        Toast.makeText(applicationContext, "Error Creating Group: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
@@ -74,6 +81,8 @@ class ClockGroupActivity : AppCompatActivity() {
         when (item.itemId) {
             // when the back button is clicked
             android.R.id.home -> {
+                val intent = Intent()
+                setResult(Activity.RESULT_CANCELED, intent)
                 this.finish();
                 return true;
             }

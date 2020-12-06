@@ -1,5 +1,6 @@
 package com.codemonkeys.connectedclock.app.authorization.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.codemonkeys.connectedclock.R
 import com.codemonkeys.connectedclock.app.authorization.viewmodel.LoginViewModel
 import com.codemonkeys.connectedclock.app.authorization.viewmodel.RegisterViewModel
 import com.codemonkeys.connectedclock.app.group.view.ClockGroupActivity
+import com.codemonkeys.connectedclock.app.zone.view.ZoneActivity
 import com.codemonkeys.connectedclock.app.zone.viewmodel.ZoneViewModel
 import com.codemonkeys.shared.user.requests.LoginUserRequest
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +52,11 @@ class RegisterActivity : AppCompatActivity() {
                 val c = this
                 coroutineScope.launch {
                     val success = viewModel.registerUser(username, password, group.groupID, clockHand.toInt())
-                    if(!success) {
+                    if (success) {
+                        val intent = Intent(this@RegisterActivity, ZoneActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else {
                         Toast.makeText(c, "Error creating user", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -61,12 +67,17 @@ class RegisterActivity : AppCompatActivity() {
 
         groupButton.setOnClickListener {
             val intent = Intent(this, ClockGroupActivity::class.java)
-            startActivity(intent)
+
+            startActivityForResult(intent, 1234)
         }
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 1234) {
+//            if (resultCode == Activity.RESULT_OK) {
+//            }
+//        }
     }
 }

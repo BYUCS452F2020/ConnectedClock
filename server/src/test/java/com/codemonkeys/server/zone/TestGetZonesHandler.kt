@@ -7,7 +7,8 @@ import com.codemonkeys.server.zone.handlers.GetZonesHandler
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestGetZonesHandler : BaseSqlTest() {
+// class TestGetZonesHandler : BaseSqlTest() {
+class TestGetZonesHandler : BaseDynamoTest() {
 
     @Test
     fun testGetZonesHandler() {

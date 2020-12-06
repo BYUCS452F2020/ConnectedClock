@@ -8,7 +8,8 @@ import com.codemonkeys.shared.zone.Zone
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestZoneService : BaseSqlTest() {
+//class TestZoneService : BaseSqlTest() {
+class TestZoneService : BaseDynamoTest() {
 
     @Test
     fun testGetZones() {

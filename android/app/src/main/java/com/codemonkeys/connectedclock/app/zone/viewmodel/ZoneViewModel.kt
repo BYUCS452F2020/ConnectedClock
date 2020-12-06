@@ -10,11 +10,17 @@ import com.codemonkeys.shared.zone.Zone
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 class ZoneViewModel @ViewModelInject constructor(
-    val zoneRepository: ZoneRepository,
-    val statusRepository: StatusRepository
+    private val zoneRepository: ZoneRepository,
+    private val statusRepository: StatusRepository
 ) : ViewModel() {
+
+//    @Inject
+//    lateinit var zoneRepository: ZoneRepository
+//    @Inject
+//    lateinit var statusRepository: StatusRepository
 
     // Some information must come from our repository because it is not transitory, it should
     // be persisted on the server at some point and should be there next time I open the app.

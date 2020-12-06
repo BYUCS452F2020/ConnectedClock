@@ -35,12 +35,14 @@ import kotlinx.android.synthetic.main.activity_zone.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.math.cos
 import com.codemonkeys.connectedclock.app.core.view.requestPermissions as rqstPermissions
 
+@AndroidEntryPoint
 class ZoneActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private val viewModel by viewModels<ZoneViewModel>()
+    val viewModel: ZoneViewModel by viewModels()
     private var googleMap: GoogleMap? = null
 
     // Normally, I wouldn't create any data in the UI like this, but here we need to create

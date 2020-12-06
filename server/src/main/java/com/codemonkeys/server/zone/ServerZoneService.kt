@@ -7,20 +7,21 @@ import com.codemonkeys.shared.zone.IZoneService
 import com.codemonkeys.shared.zone.Zone
 
 class ServerZoneService : IZoneService {
-    override fun getZones(authToken: String): List<Zone> {
-        val authService = AuthorizationService()
-        val groupID = authService.getGroupIDFromAuthToken(authToken)
+    private val authorizationService = AuthorizationService()
+    private val statusService = ServerStatusService()
+//    private val zoneDAO = ZoneSqlDAO()
+    private val zoneDAO = ZoneDynamoDAO()
 
-        val zoneDAO = ZoneSqlDAO()
+    override fun getZones(authToken: String): List<Zone> {
+        val groupID = authorizationService.getGroupIDFromAuthToken(authToken)
+
         return zoneDAO.getZones(groupID)
     }
 
     override fun updateZones(authToken: String, updatedZones: List<Zone>) {
-        val authService = AuthorizationService()
-        val groupID = authService.getGroupIDFromAuthToken(authToken)
+        val groupID = authorizationService.getGroupIDFromAuthToken(authToken)
 
         // Ensure the updated zones are only placed in statuses belonging to this group.
-        val statusService = ServerStatusService()
         val statusIDs = statusService.getStatuses(authToken).map { it.statusID }.toSet()
         updatedZones.forEach {
             if (it.statusID !in statusIDs) {
@@ -28,7 +29,6 @@ class ServerZoneService : IZoneService {
             }
         }
 
-        val zoneDAO = ZoneSqlDAO()
         zoneDAO.updateZones(groupID, updatedZones)
     }
 }

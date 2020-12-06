@@ -1,0 +1,216 @@
+{
+  "Items": [
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "GROUP",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b",
+      "groupName": "DemoGroup",
+      "groupPassword": "DemoPass"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-9b9657d3-569c-4a77-84fe-6a585b73eb9d",
+      "statusID": "9b9657d3-569c-4a77-84fe-6a585b73eb9d",
+      "clockHandAngle": 0,
+      "statusName": "Away",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-a3befcac-34c9-49c8-abfc-aa71d11dc014",
+      "statusID": "a3befcac-34c9-49c8-abfc-aa71d11dc014",
+      "clockHandAngle": 55,
+      "statusName": "Home",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-7da58b74-b170-431b-83c1-214d2082b3dc",
+      "statusID": "7da58b74-b170-431b-83c1-214d2082b3dc",
+      "clockHandAngle": 90,
+      "statusName": "Work",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-410cca21-d804-48f0-a367-ccfe42ae6396",
+      "statusID": "410cca21-d804-48f0-a367-ccfe42ae6396",
+      "clockHandAngle": 135,
+      "statusName": "Family",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3",
+      "statusID": "dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3",
+      "clockHandAngle": 195,
+      "statusName": "Store",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-881deced-644c-4d1b-9a91-bb750140f26f",
+      "statusID": "881deced-644c-4d1b-9a91-bb750140f26f",
+      "clockHandAngle": 180,
+      "statusName": "Church",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-4fed5dae-b1c8-4330-9222-2873ed5a2a20",
+      "statusID": "4fed5dae-b1c8-4330-9222-2873ed5a2a20",
+      "clockHandAngle": 280,
+      "statusName": "Mortal Peril",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "STATUS-367acf72-d6a4-465c-9b2b-8dc5394eb5a2",
+      "statusID": "367acf72-d6a4-465c-9b2b-8dc5394eb5a2",
+      "clockHandAngle": 330,
+      "statusName": "School",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-b667c862-4dd8-4e67-92cb-cbdc46080f55",
+      "zoneID": "b667c862-4dd8-4e67-92cb-cbdc46080f55",
+      "lat": 40.2587,
+      "lng": -111.6394,
+      "radius": 307.0987,
+      "statusID": "a3befcac-34c9-49c8-abfc-aa71d11dc014"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-ba2e2e55-1a86-403f-9eb6-0ca5b1a7deea",
+      "zoneID": "ba2e2e55-1a86-403f-9eb6-0ca5b1a7deea",
+      "lat": 40.1000,
+      "lng": -111.6000,
+      "radius": 2143.5000,
+      "statusID": "7da58b74-b170-431b-83c1-214d2082b3dc"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-13b786c6-d5f7-44aa-8d82-900bc5be9e80",
+      "zoneID": "13b786c6-d5f7-44aa-8d82-900bc5be9e80",
+      "lat": 40.3586,
+      "lng": -111.9828,
+      "radius": 4229.5132,
+      "statusID": "410cca21-d804-48f0-a367-ccfe42ae6396"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-f4c8bd34-e820-45f4-bcdd-2b7be8e10ba5",
+      "zoneID": "f4c8bd34-e820-45f4-bcdd-2b7be8e10ba5",
+      "lat": 40.6391,
+      "lng": -112.2988,
+      "radius": 5625.7979,
+      "statusID": "410cca21-d804-48f0-a367-ccfe42ae6396"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-abf26a0f-0625-48cc-b5f0-5f219a52aab7",
+      "zoneID": "abf26a0f-0625-48cc-b5f0-5f219a52aab7",
+      "lat": 40.2529,
+      "lng": -111.6705,
+      "radius": 263.8629,
+      "statusID": "dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-11af2b9e-4743-43d9-b9ae-1da49d8fe9f2",
+      "zoneID": "11af2b9e-4743-43d9-b9ae-1da49d8fe9f2",
+      "lat": 40.2628,
+      "lng": -111.6702,
+      "radius": 312.8957,
+      "statusID": "dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-6893205e-2e16-4471-897e-83f441d33253",
+      "zoneID": "6893205e-2e16-4471-897e-83f441d33253",
+      "lat": 40.2731,
+      "lng": -111.7110,
+      "radius": 541.5758,
+      "statusID": "dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-4efe092f-d6f8-4ed3-98f1-4f62472abeda",
+      "zoneID": "4efe092f-d6f8-4ed3-98f1-4f62472abeda",
+      "lat": 40.2521,
+      "lng": -111.6637,
+      "radius": 344.3971,
+      "statusID": "dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE:-0f99f3fb-a70f-457d-ab69-7aae124f3cf0",
+      "zoneID": "0f99f3fb-a70f-457d-ab69-7aae124f3cf0",
+      "lat": 40.2386,
+      "lng": -111.6613,
+      "radius": 90.1500,
+      "statusID": "dd3a18a3-fef5-4e24-b25d-f86aae0ca2e3"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-37eccbae-d9ff-47ef-8948-765d4705acba",
+      "zoneID": "37eccbae-d9ff-47ef-8948-765d4705acba",
+      "lat": 40.2526,
+      "lng": -111.6417,
+      "radius": 152.7184,
+      "statusID": "881deced-644c-4d1b-9a91-bb750140f26f"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-8e885e96-2ae0-4dbd-83bf-053cb4a04d1d",
+      "zoneID": "8e885e96-2ae0-4dbd-83bf-053cb4a04d1d",
+      "lat": 40.2635,
+      "lng": -111.6401,
+      "radius": 214.3032,
+      "statusID": "881deced-644c-4d1b-9a91-bb750140f26f"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-75d8336f-82f6-431a-9a27-768ec278c012",
+      "zoneID": "75d8336f-82f6-431a-9a27-768ec278c012",
+      "lat": 40.2467,
+      "lng": -111.6656,
+      "radius": 215.3509,
+      "statusID": "4fed5dae-b1c8-4330-9222-2873ed5a2a20"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "ZONE-5d14fd2d-9a09-46a4-9a2b-85f57dcde03a",
+      "zoneID": "5d14fd2d-9a09-46a4-9a2b-85f57dcde03a",
+      "lat": 40.2501,
+      "lng": -111.6496,
+      "radius": 557.8032,
+      "statusID": "367acf72-d6a4-465c-9b2b-8dc5394eb5a2"
+    },
+    {
+      "PK": "GROUP-e1780384-aa55-49fa-856e-b0691ccae87b",
+      "SK": "USER-90ee6ca0-344d-45da-afb7-c8c6b4fe5393",
+      "userID": "90ee6ca0-344d-45da-afb7-c8c6b4fe5393",
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b",
+      "userName": "DemoUser",
+      "password": "password123",
+      "clockHandIndex": 0,
+      "currentZoneID": null
+    },
+    {
+      "PK": "TOKEN-866a0dc9-4b42-436c-99ad-51537382e7d2",
+      "SK": "TOKEN",
+      "authToken": "866a0dc9-4b42-436c-99ad-51537382e7d2",
+      "userID": "90ee6ca0-344d-45da-afb7-c8c6b4fe5393",
+      "groupID": null
+    },
+    {
+      "PK": "TOKEN-7ad96dd3-00be-4a42-91b8-8a42a801a7d3",
+      "SK": "TOKEN",
+      "authToken": "7ad96dd3-00be-4a42-91b8-8a42a801a7d3",
+      "userID": null,
+      "groupID": "e1780384-aa55-49fa-856e-b0691ccae87b"
+    }
+  ]
+}

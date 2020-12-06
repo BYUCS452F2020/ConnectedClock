@@ -8,7 +8,8 @@ import com.codemonkeys.shared.status.Status
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestStatusService : BaseSqlTest() {
+// class TestStatusService : BaseSqlTest() {
+class TestStatusService : BaseDynamoTest() {
     @Test
     fun testGetStatuses() {
         val statusService = ServerStatusService()

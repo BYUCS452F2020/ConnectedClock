@@ -14,6 +14,7 @@ import com.codemonkeys.shared.user.responses.UpdateUserResponse
 import java.util.UUID
 
 class UserSqlDAO : BaseSqlDAO(), IUserDAO {
+    private val authorizationDAO = AuthorizationSqlDAO()
 
     override fun createUser(request: CreateUserRequest): CreateUserResponse {
         // Insert user into the database
@@ -34,7 +35,6 @@ class UserSqlDAO : BaseSqlDAO(), IUserDAO {
 
         // Insert authtoken for user into the database
         val authToken = UUID.randomUUID().toString()
-        val authorizationDAO = AuthorizationSqlDAO()
         val success = authorizationDAO.insertAuthToken(authToken, request.user.userID, null)
 
         // Return a response with the token
@@ -91,7 +91,6 @@ class UserSqlDAO : BaseSqlDAO(), IUserDAO {
             if (resultSet != null) {
                 val user = users.first()
                 val authToken = UUID.randomUUID().toString()
-                val authorizationDAO = AuthorizationSqlDAO()
                 val success = authorizationDAO.insertAuthToken(authToken, user.userID, user.groupID)
 
                 return if (success) {
@@ -119,7 +118,6 @@ class UserSqlDAO : BaseSqlDAO(), IUserDAO {
     }
 
     override fun logoutUser(request: LogoutUserRequest): LogoutUserResponse {
-        val authorizationDAO = AuthorizationSqlDAO()
         val success = authorizationDAO.deleteAuthToken(request.authToken)
 
         return if (success) {
@@ -136,7 +134,6 @@ class UserSqlDAO : BaseSqlDAO(), IUserDAO {
     """
 
     override fun updateUser(request: UpdateUserRequest): UpdateUserResponse {
-        val authorizationDAO = AuthorizationSqlDAO()
         val userID = authorizationDAO.getUserIDFromAuthToken(request.authToken)
             ?: return UpdateUserResponse("Invalid credentials")
 

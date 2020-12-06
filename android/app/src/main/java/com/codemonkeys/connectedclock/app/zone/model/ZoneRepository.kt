@@ -75,7 +75,10 @@ class ZoneRepository @Inject constructor(
         coroutineScope.launch {
             // https://blog.mindorks.com/livedata-setvalue-vs-postvalue-in-android
             if (authToken.isNotEmpty()) {
-                data.postValue(zoneService.getZones(authToken) as MutableList<Zone>)
+                try {
+                    data.postValue(zoneService.getZones(authToken) as MutableList<Zone>)
+                }
+                catch(e: Exception) {}
             }
         }
 

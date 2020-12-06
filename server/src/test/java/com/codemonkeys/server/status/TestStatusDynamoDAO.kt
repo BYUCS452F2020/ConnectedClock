@@ -6,7 +6,8 @@ import com.codemonkeys.shared.status.Status
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestStatusDynamoDAO: BaseDynamoTest() {
+// class TestStatusDynamoDAO: BaseDynamoTest() {
+class TestDynamoTest() {
     @Test
     fun testGetStatuses() {
         val statusDAO = StatusDynamoDAO()

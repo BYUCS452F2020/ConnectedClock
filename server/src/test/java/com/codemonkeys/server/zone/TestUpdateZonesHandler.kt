@@ -10,7 +10,8 @@ import com.codemonkeys.shared.zone.requests.UpdateZonesRequest
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestUpdateZonesHandler : BaseSqlTest() {
+//class TestUpdateZonesHandler : BaseSqlTest() {
+class TestUpdateZonesHandler : BaseDynamoTest() {
 
     @Test
     fun testUpdateZones() {

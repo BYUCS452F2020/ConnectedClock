@@ -11,7 +11,7 @@ import retrofit2.http.POST
  */
 interface IGroupNetworkAPI {
 
-    @POST("createGroup")
+    @POST("CreateGroup")
     fun createGroup(
         @Body request: CreateGroupRequest
     ) : Call<BaseResponse>

@@ -12,26 +12,25 @@ import com.codemonkeys.shared.user.responses.LogoutUserResponse
 import com.codemonkeys.shared.user.responses.UpdateUserResponse
 
 class ServerUserService : IUserService {
+//    private val userDAO = UserSqlDAO()
+    private val userDAO = UserDynamoDAO()
+
     override fun createUser(user: User): CreateUserResponse {
-        val userDAO = UserDynamoDAO()
         val request = CreateUserRequest(user)
         return userDAO.createUser(request)
     }
 
     override fun loginUser(username: String, password: String): LoginUserResponse {
-        val userDAO = UserDynamoDAO()
         val request = LoginUserRequest(username, password)
         return userDAO.loginUser(request)
     }
 
     override fun logoutUser(authToken: String): LogoutUserResponse {
-        val userDAO = UserDynamoDAO()
         val request = LogoutUserRequest(authToken)
         return userDAO.logoutUser(request)
     }
 
     override fun updateUser(authToken: String, currentPassword: String, newPassword: String): UpdateUserResponse {
-        val userDAO = UserDynamoDAO()
         val request = UpdateUserRequest(authToken, currentPassword, newPassword)
         return userDAO.updateUser(request)
     }

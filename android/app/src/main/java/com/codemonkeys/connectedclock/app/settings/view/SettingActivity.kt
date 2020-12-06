@@ -1,5 +1,6 @@
 package com.codemonkeys.connectedclock.app.settings.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codemonkeys.connectedclock.R
+import com.codemonkeys.connectedclock.app.authorization.view.LoginActivity
 import com.codemonkeys.connectedclock.app.settings.viewmodel.SettingViewModel
 import com.codemonkeys.shared.status.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class SettingActivity : AppCompatActivity(), AddStatusFragment.AddStatusDialogListener,
                                                 SettingRecyclerViewClickListener,
                                                 AdapterView.OnItemSelectedListener {
@@ -142,9 +144,14 @@ class SettingActivity : AppCompatActivity(), AddStatusFragment.AddStatusDialogLi
     }
 
     private fun logOutUser(){
-        val toast = Toast.makeText(applicationContext, "Logging Out", Toast.LENGTH_SHORT)
-        toast.show()
-        this.viewModel.logOutUser()
+        val coroutineScope = CoroutineScope(Dispatchers.Main)
+        coroutineScope.launch {
+            val toast = Toast.makeText(applicationContext, "Logging Out", Toast.LENGTH_SHORT)
+            toast.show()
+            viewModel.logOutUser()
+            val intent = Intent(this@SettingActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

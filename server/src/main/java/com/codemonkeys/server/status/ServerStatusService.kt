@@ -6,20 +6,21 @@ import com.codemonkeys.shared.status.IStatusService
 import com.codemonkeys.shared.status.Status
 
 class ServerStatusService : IStatusService {
+    val authorizationService = AuthorizationService()
+//    val statusDAO = StatusSqlDAO()
+    val statusDAO = StatusDynamoDAO()
+
     override fun getStatuses(authToken: String): List<Status> {
         // Any time we use an authToken, we need to either get the user associated with the authToken
         // or the group associated with it.
         // If we aren't authorized, an exception is thrown and our Handler can deal with it.
-        val authService = AuthorizationService()
-        val groupID = authService.getGroupIDFromAuthToken(authToken)
+        val groupID = authorizationService.getGroupIDFromAuthToken(authToken)
 
-        val statusDAO = StatusSqlDAO()
         return statusDAO.getStatuses(groupID)
     }
 
     override fun updateStatuses(authToken: String, updatedStatuses: List<Status>) {
-        val authService = AuthorizationService()
-        val groupID = authService.getGroupIDFromAuthToken(authToken)
+        val groupID = authorizationService.getGroupIDFromAuthToken(authToken)
 
         // You can only update statuses in your own group.
         updatedStatuses.forEach {
@@ -27,7 +28,6 @@ class ServerStatusService : IStatusService {
                 throw NotAuthorizedException()
         }
 
-        val statusDAO = StatusSqlDAO()
         statusDAO.updateStatuses(groupID, updatedStatuses)
     }
 }

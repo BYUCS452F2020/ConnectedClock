@@ -29,7 +29,8 @@ class DynamoDatabasePreparer : BaseDynamoDAO() {
     }
 
     private fun getTestItems(): List<TableWriteItems> {
-        val dynamoTableJson = DynamoDatabasePreparer::class.java.getResource("/DatabaseSQL/dynamo_data.json").readText()
+        val dynamoTableJson = DynamoDatabasePreparer::class.java.getResource("/DatabaseSQL/demo_data.json").readText()
+//        val dynamoTableJson = DynamoDatabasePreparer::class.java.getResource("/DatabaseSQL/dynamo_data.json").readText()
         val mapper = ObjectMapper()
         val tree = mapper.readTree(dynamoTableJson)
 

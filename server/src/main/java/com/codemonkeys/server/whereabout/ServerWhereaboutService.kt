@@ -4,9 +4,10 @@ import com.codemonkeys.server.authorization.AuthorizationService
 import com.codemonkeys.shared.whereabout.IWhereaboutService
 import com.codemonkeys.shared.whereabout.Whereabout
 
-class WhereaboutService : IWhereaboutService {
+class ServerWhereaboutService : IWhereaboutService {
     private val authorizationService = AuthorizationService()
-    private val whereaboutDAO = WhereaboutSqlDAO()
+//    private val whereaboutDAO = WhereaboutSqlDAO()
+    private val whereaboutDAO = WhereaboutDynamoDAO()
 
     override fun getWhereabouts(authToken: String): List<Whereabout> {
         val groupID = authorizationService.getGroupIDFromAuthToken(authToken)

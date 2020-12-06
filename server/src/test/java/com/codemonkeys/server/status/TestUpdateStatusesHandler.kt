@@ -10,7 +10,8 @@ import com.codemonkeys.shared.status.requests.UpdateStatusesRequest
 import org.junit.Test
 import org.junit.Assert.*
 
-class TestUpdateStatusesHandler : BaseSqlTest() {
+// class TestUpdateStatusesHandler : BaseSqlTest() {
+class TestUpdateStatusesHandler : BaseDynamoTest() {
 
     @Test
     fun testUpdateStatusesHandler() {

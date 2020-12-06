@@ -66,7 +66,9 @@ class StatusRepository @Inject constructor(
         val authToken = authorizationRepository.getAuthToken().value ?: ""
 
         coroutineScope.launch {
-            data.postValue(statusService.getStatuses(authToken) as MutableList<Status>)
+            if (authToken.isNotEmpty()) {
+                data.postValue(statusService.getStatuses(authToken) as MutableList<Status>)
+            }
         }
 
         return data

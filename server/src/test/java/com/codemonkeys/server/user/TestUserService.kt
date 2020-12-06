@@ -10,7 +10,8 @@ import com.codemonkeys.shared.user.requests.LoginUserRequest
 import com.codemonkeys.shared.user.requests.LogoutUserRequest
 import com.codemonkeys.shared.user.requests.UpdateUserRequest
 
-class TestUserService : BaseSqlTest() {
+// class TestUserService : BaseSqlTest() {
+class TestUserService : BaseDynamoTest() {
     @Test
     fun testCreateUser() {
         val userService = ServerUserService()
